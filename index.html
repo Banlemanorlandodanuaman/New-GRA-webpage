@@ -1,0 +1,2002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ghana Revenue Authority – Official Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --red:    #CF0A0A;
+      --gold:   #FFD700;
+      --green:  #006B3F;
+      --dark:   #0A0A0A;
+      --light:  #F9F6EE;
+      --gray:   #6B6B6B;
+      --white:  #FFFFFF;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--light);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      background: var(--green);
+      color: #cfffdf;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      padding: 6px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .topbar a { color: var(--gold); text-decoration: none; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--white);
+      border-bottom: 3px solid var(--gold);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px;
+      box-shadow: 0 2px 24px rgba(0,0,0,0.08);
+      height: 72px;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 14px; }
+    .nav-logo {
+      width: 52px; height: 52px;
+      background: var(--green);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      border: 3px solid var(--gold);
+      flex-shrink: 0;
+    }
+    .nav-logo svg { width: 30px; height: 30px; }
+    .nav-title { line-height: 1.1; }
+    .nav-title span { display: block; }
+    .nav-title .abbr {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 900;
+      color: var(--green);
+    }
+    .nav-title .full {
+      font-size: 0.7rem; color: var(--gray);
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a {
+      text-decoration: none; color: var(--dark);
+      font-size: 0.88rem; font-weight: 500;
+      letter-spacing: 0.02em;
+      padding: 4px 0;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .nav-links a:hover { color: var(--green); border-bottom-color: var(--gold); }
+    .nav-cta {
+      background: var(--red); color: var(--white) !important;
+      padding: 9px 20px !important; border-radius: 4px;
+      border-bottom: none !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: #a50808 !important; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 92vh;
+      display: flex; align-items: center;
+      overflow: hidden;
+      background: linear-gradient(160deg, #0d3d2e 0%, #1a2a5e 50%, #6b0a0a 100%);
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(135deg, rgba(0,107,63,0.85) 0%, rgba(30,30,80,0.82) 40%, rgba(207,10,10,0.80) 100%);
+      z-index: 1;
+    }
+    .hero-pattern {
+      position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(45deg, rgba(255,215,0,0.04) 0px, rgba(255,215,0,0.04) 1px, transparent 1px, transparent 40px),
+        repeating-linear-gradient(-45deg, rgba(255,215,0,0.04) 0px, rgba(255,215,0,0.04) 1px, transparent 1px, transparent 40px);
+      z-index: 2;
+    }
+    .hero-content {
+      position: relative; z-index: 3;
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 40px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 60px;
+      width: 100%;
+    }
+    .hero-left { animation: fadeUp 0.9s ease both; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.4);
+      color: var(--gold); font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--gold);
+      display: block;
+    }
+    .hero-sub {
+      color: rgba(255,255,255,0.72);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      max-width: 480px;
+      margin-bottom: 36px;
+    }
+
+    /* ── PORTAL BUTTONS ── */
+    .portal-buttons {
+      display: flex; flex-direction: column; gap: 16px;
+      animation: fadeUp 0.9s 0.2s ease both;
+    }
+    .portal-btn {
+      position: relative;
+      display: flex; align-items: center; gap: 20px;
+      padding: 22px 28px;
+      border-radius: 10px;
+      text-decoration: none;
+      overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s;
+      cursor: pointer;
+      border: none;
+      width: 100%;
+    }
+    .portal-btn:hover { transform: translateY(-3px); }
+    .portal-btn-taxpayer {
+      background: linear-gradient(135deg, var(--green) 0%, #004d2d 100%);
+      box-shadow: 0 8px 32px rgba(0,107,63,0.45);
+    }
+    .portal-btn-taxpayer:hover { box-shadow: 0 14px 40px rgba(0,107,63,0.6); }
+    .portal-btn-gra {
+      background: linear-gradient(135deg, var(--red) 0%, #8a0606 100%);
+      box-shadow: 0 8px 32px rgba(207,10,10,0.45);
+    }
+    .portal-btn-gra:hover { box-shadow: 0 14px 40px rgba(207,10,10,0.6); }
+
+    .portal-btn-shine {
+      position: absolute; inset: 0;
+      background: linear-gradient(105deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0) 60%);
+      transform: translateX(-100%);
+      transition: transform 0.6s;
+    }
+    .portal-btn:hover .portal-btn-shine { transform: translateX(100%); }
+
+    .portal-btn-icon {
+      width: 52px; height: 52px; border-radius: 10px;
+      background: rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.6rem;
+    }
+    .portal-btn-text { text-align: left; }
+    .portal-btn-label {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.18rem; font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.01em;
+    }
+    .portal-btn-desc {
+      display: block;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.7);
+      margin-top: 2px;
+    }
+    .portal-btn-arrow {
+      margin-left: auto;
+      color: rgba(255,255,255,0.5);
+      font-size: 1.4rem;
+      transition: transform 0.25s, color 0.25s;
+    }
+    .portal-btn:hover .portal-btn-arrow { transform: translateX(5px); color: var(--gold); }
+
+    /* ── HERO RIGHT – STATS CARD ── */
+    .hero-right { animation: fadeUp 0.9s 0.15s ease both; }
+    .stats-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,215,0,0.2);
+      border-radius: 16px;
+      padding: 32px;
+      backdrop-filter: blur(12px);
+    }
+    .stats-card-title {
+      font-size: 0.75rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .stat-item {
+      background: rgba(255,255,255,0.06);
+      border-radius: 10px; padding: 18px;
+      border-left: 3px solid;
+    }
+    .stat-item:nth-child(1) { border-color: var(--green); }
+    .stat-item:nth-child(2) { border-color: var(--gold); }
+    .stat-item:nth-child(3) { border-color: var(--red); }
+    .stat-item:nth-child(4) { border-color: #3399ff; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem; font-weight: 900;
+      color: var(--white);
+    }
+    .stat-label { font-size: 0.76rem; color: rgba(255,255,255,0.55); margin-top: 4px; }
+
+    .flag-bar {
+      display: flex; height: 5px; border-radius: 3px; overflow: hidden;
+      margin-top: 28px;
+    }
+    .flag-bar span { flex: 1; }
+    .flag-bar span:nth-child(1) { background: var(--red); }
+    .flag-bar span:nth-child(2) { background: var(--gold); }
+    .flag-bar span:nth-child(3) { background: var(--green); }
+
+    .notice-band {
+      background: rgba(255,215,0,0.12);
+      border: 1px solid rgba(255,215,0,0.25);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-top: 20px;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.7);
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .notice-band strong { color: var(--gold); }
+
+    /* ── SERVICES STRIP ── */
+    .services {
+      background: var(--white);
+      padding: 72px 40px;
+    }
+    .section-header { text-align: center; margin-bottom: 48px; }
+    .section-tag {
+      display: inline-block;
+      font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.14em;
+      color: var(--green); margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 900; color: var(--dark);
+    }
+    .section-title span { color: var(--red); }
+    .section-sub {
+      font-size: 0.95rem; color: var(--gray);
+      max-width: 540px; margin: 12px auto 0;
+      line-height: 1.7;
+    }
+
+    .services-grid {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+    }
+    .service-card {
+      border: 1.5px solid #eee;
+      border-radius: 12px; padding: 28px 24px;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+    .service-card:hover {
+      border-color: var(--gold);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+      transform: translateY(-4px);
+    }
+    .service-icon {
+      width: 52px; height: 52px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; margin-bottom: 16px;
+    }
+    .service-card:nth-child(1) .service-icon { background: #e8f5ee; }
+    .service-card:nth-child(2) .service-icon { background: #fff8e0; }
+    .service-card:nth-child(3) .service-icon { background: #fdeaea; }
+    .service-card:nth-child(4) .service-icon { background: #e8f0fe; }
+    .service-card:nth-child(5) .service-icon { background: #f3e8ff; }
+    .service-card:nth-child(6) .service-icon { background: #fff3e0; }
+    .service-name {
+      font-weight: 700; font-size: 0.95rem;
+      color: var(--dark); margin-bottom: 6px;
+    }
+    .service-desc { font-size: 0.82rem; color: var(--gray); line-height: 1.6; }
+
+    /* ── ANNOUNCEMENT BANNER ── */
+    .announce {
+      background: linear-gradient(135deg, var(--green) 0%, #004d2d 100%);
+      padding: 56px 40px;
+    }
+    .announce-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .announce-left { color: var(--white); }
+    .announce-left h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem; font-weight: 900;
+      margin-bottom: 10px;
+    }
+    .announce-left p { font-size: 0.95rem; color: rgba(255,255,255,0.75); max-width: 480px; line-height: 1.7; }
+    .announce-btn {
+      display: inline-block; padding: 14px 32px;
+      background: var(--gold); color: var(--dark);
+      font-weight: 700; font-size: 0.9rem;
+      border-radius: 6px; text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: background 0.2s, transform 0.2s;
+      white-space: nowrap;
+    }
+    .announce-btn:hover { background: #e6c200; transform: scale(1.04); }
+
+    /* ── NEWS / UPDATES ── */
+    .updates {
+      background: var(--light);
+      padding: 72px 40px;
+    }
+    .updates-inner { max-width: 1200px; margin: 0 auto; }
+    .updates-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 24px; }
+    .update-card {
+      background: var(--white);
+      border-radius: 12px; overflow: hidden;
+      border: 1.5px solid #eee;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .update-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.09); transform: translateY(-3px); }
+    .update-card-top {
+      height: 6px;
+    }
+    .update-card:nth-child(1) .update-card-top { background: var(--green); }
+    .update-card:nth-child(2) .update-card-top { background: var(--red); }
+    .update-card:nth-child(3) .update-card-top { background: var(--gold); }
+    .update-body { padding: 24px; }
+    .update-tag {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 8px; display: block;
+    }
+    .update-card:nth-child(2) .update-tag { color: var(--red); }
+    .update-card:nth-child(3) .update-tag { color: #b38600; }
+    .update-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; font-weight: 700;
+      color: var(--dark); margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    .update-excerpt { font-size: 0.84rem; color: var(--gray); line-height: 1.65; margin-bottom: 16px; }
+    .update-meta { font-size: 0.76rem; color: #aaa; display: flex; align-items: center; gap: 6px; }
+    .update-meta::before { content: '📅'; font-size: 0.7rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      color: rgba(255,255,255,0.6);
+      padding: 56px 40px 28px;
+    }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px; margin-bottom: 40px;
+    }
+    .footer-brand h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 900;
+      color: var(--white); margin-bottom: 12px;
+    }
+    .footer-brand p { font-size: 0.84rem; line-height: 1.7; max-width: 300px; }
+    .footer-flag { display: flex; gap: 3px; margin-top: 16px; }
+    .footer-flag span { width: 20px; height: 8px; border-radius: 2px; }
+    .footer-flag span:nth-child(1) { background: var(--red); }
+    .footer-flag span:nth-child(2) { background: var(--gold); }
+    .footer-flag span:nth-child(3) { background: var(--green); }
+    .footer-col h4 { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+    .footer-col a { display: block; font-size: 0.84rem; color: rgba(255,255,255,0.55); text-decoration: none; margin-bottom: 8px; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--white); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.78rem; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-bottom a { color: var(--gold); text-decoration: none; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: var(--white); border-radius: 16px;
+      padding: 40px; max-width: 420px; width: 90%;
+      position: relative;
+      animation: popIn 0.3s ease;
+    }
+    .modal-close {
+      position: absolute; top: 16px; right: 16px;
+      background: none; border: none; font-size: 1.4rem;
+      cursor: pointer; color: var(--gray);
+      transition: color 0.2s;
+    }
+    .modal-close:hover { color: var(--red); }
+    .modal-logo {
+      width: 56px; height: 56px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; margin-bottom: 18px;
+    }
+    .modal-taxpayer .modal-logo { background: #e8f5ee; }
+    .modal-gra .modal-logo { background: #fdeaea; }
+    .modal h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 900;
+      color: var(--dark); margin-bottom: 6px;
+    }
+    .modal p { font-size: 0.88rem; color: var(--gray); margin-bottom: 24px; line-height: 1.6; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
+    .form-group input {
+      width: 100%; padding: 11px 14px;
+      border: 1.5px solid #ddd; border-radius: 7px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-group input:focus { border-color: var(--green); }
+    .modal-gra .form-group input:focus { border-color: var(--red); }
+    .modal-submit {
+      width: 100%; padding: 13px;
+      border: none; border-radius: 8px;
+      font-family: 'DM Sans', sans-serif; font-weight: 700;
+      font-size: 0.95rem; cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+      color: var(--white);
+      margin-top: 6px;
+    }
+    .modal-taxpayer .modal-submit { background: var(--green); }
+    .modal-gra .modal-submit { background: var(--red); }
+    .modal-submit:hover { opacity: 0.88; transform: scale(1.01); }
+    .coming-soon-badge {
+      background: #fff8e0; border: 1px solid var(--gold);
+      border-radius: 6px; padding: 10px 14px;
+      font-size: 0.8rem; color: #8a6800;
+      text-align: center; margin-top: 14px;
+    }
+
+    /* ── SCROLL TO TOP ── */
+    #scrollTop {
+      position: fixed; bottom: 28px; right: 28px; z-index: 200;
+      background: var(--green); color: var(--white);
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; cursor: pointer; border: none;
+      box-shadow: 0 4px 16px rgba(0,107,63,0.4);
+      opacity: 0; transform: translateY(10px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    #scrollTop.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.92); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero-content { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      .footer-inner { grid-template-columns: 1fr; }
+      .hero-content { padding: 0 24px; }
+      .services, .updates, .announce { padding: 48px 24px; }
+    }
+  
+/* ════════════════════════════════════════════
+   GLOBAL AUTH SYSTEM — Sign In / Profile
+   ════════════════════════════════════════════ */
+.auth-signin-btn{
+  display:flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,#006B3F,#008f53);
+  color:#fff;border:none;border-radius:8px;
+  padding:10px 20px;font-family:'Nunito',sans-serif;
+  font-size:.88rem;font-weight:800;cursor:pointer;
+  letter-spacing:.03em;text-transform:uppercase;
+  box-shadow:0 3px 10px rgba(0,107,63,.35);
+  transition:transform .15s,box-shadow .15s;
+  white-space:nowrap;
+}
+.auth-signin-btn:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(0,107,63,.45);}
+
+/* Profile avatar button */
+.auth-profile-btn{
+  display:none;align-items:center;gap:10px;
+  background:transparent;border:2px solid rgba(0,107,63,.25);
+  border-radius:40px;padding:6px 14px 6px 6px;
+  cursor:pointer;transition:all .2s;
+  font-family:'Nunito',sans-serif;
+  position:relative;
+}
+.auth-profile-btn:hover{background:rgba(0,107,63,.06);border-color:var(--green,#006B3F);}
+.auth-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,#006B3F,#FFD100);
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:.95rem;flex-shrink:0;
+}
+.auth-profile-name{font-size:.84rem;font-weight:800;color:#1a1a1a;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.auth-chevron{font-size:.7rem;color:#666;transition:transform .2s;}
+.auth-profile-btn.open .auth-chevron{transform:rotate(180deg);}
+
+/* ── Profile Dropdown ── */
+.auth-dropdown{
+  display:none;position:fixed;right:20px;top:70px;
+  width:280px;background:#fff;border-radius:14px;
+  box-shadow:0 8px 40px rgba(0,0,0,.16),0 2px 10px rgba(0,0,0,.08);
+  z-index:99999;overflow:hidden;
+  animation:authDropIn .2s ease;
+}
+.auth-dropdown.open{display:block;}
+@keyframes authDropIn{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+.auth-drop-header{
+  background:linear-gradient(135deg,#006B3F 0%,#004d2d 100%);
+  padding:20px;color:#fff;
+}
+.auth-drop-avatar{
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,#FFD100,#f0c000);
+  color:#1a1a1a;display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:1.3rem;margin:0 auto 10px;
+  box-shadow:0 3px 10px rgba(0,0,0,.2);
+}
+.auth-drop-name{font-family:'Merriweather',serif;font-size:1rem;font-weight:900;text-align:center;letter-spacing:-.01em;}
+.auth-drop-role{font-size:.75rem;color:rgba(255,255,255,.75);text-align:center;margin-top:3px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;}
+.auth-drop-tin{font-size:.78rem;color:rgba(255,255,255,.65);text-align:center;margin-top:6px;}
+.auth-drop-body{padding:12px;}
+.auth-drop-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 14px;border-radius:9px;cursor:pointer;
+  font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:700;
+  color:#333;transition:background .15s;margin-bottom:4px;
+  border:none;background:transparent;width:100%;text-align:left;
+}
+.auth-drop-item:hover{background:#f0faf5;}
+.auth-drop-item .dicon{font-size:1.2rem;width:28px;text-align:center;}
+.auth-drop-item.danger{color:var(--red,#C8102E);}
+.auth-drop-item.danger:hover{background:#fdeaea;}
+.auth-drop-divider{border:none;border-top:1px solid #f0f0f0;margin:6px 0;}
+
+/* ── Login Modal ── */
+.auth-modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.55);z-index:99998;
+  align-items:center;justify-content:center;padding:20px;
+  backdrop-filter:blur(4px);
+}
+.auth-modal-overlay.open{display:flex;}
+.auth-modal{
+  background:#fff;border-radius:16px;width:100%;max-width:440px;
+  overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.25);
+  animation:authModalIn .25s ease;
+}
+@keyframes authModalIn{from{opacity:0;transform:scale(.94);}to{opacity:1;transform:scale(1);}}
+.auth-modal-head{
+  background:linear-gradient(135deg,#006B3F 0%,#004d2d 100%);
+  padding:28px;text-align:center;color:#fff;
+}
+.auth-modal-logo{font-size:2.5rem;margin-bottom:6px;}
+.auth-modal-head h2{font-family:'Merriweather',serif;font-size:1.4rem;font-weight:900;letter-spacing:-.01em;}
+.auth-modal-head p{font-size:.82rem;color:rgba(255,255,255,.75);margin-top:4px;font-weight:600;}
+.auth-modal-body{padding:28px;}
+.auth-field{margin-bottom:18px;}
+.auth-field label{display:block;font-size:.82rem;font-weight:800;color:#333;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;}
+.auth-field input{
+  width:100%;padding:13px 16px;border:2px solid #e0e0e0;
+  border-radius:9px;font-family:'Nunito',sans-serif;
+  font-size:.95rem;outline:none;transition:border-color .2s;
+  background:#fafafa;
+}
+.auth-field input:focus{border-color:#006B3F;background:#fff;}
+.auth-error{background:#fdeaea;border:1px solid #f5c6cb;color:#C8102E;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-size:.84rem;font-weight:700;display:none;text-align:center;}
+.auth-submit-btn{
+  width:100%;padding:15px;background:linear-gradient(135deg,#006B3F,#008f53);
+  color:#fff;border:none;border-radius:10px;
+  font-family:'Nunito',sans-serif;font-size:1rem;font-weight:900;
+  cursor:pointer;letter-spacing:.04em;text-transform:uppercase;
+  box-shadow:0 4px 14px rgba(0,107,63,.35);
+  transition:transform .15s,box-shadow .15s;
+}
+.auth-submit-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,107,63,.45);}
+.auth-modal-foot{text-align:center;padding:0 28px 24px;font-size:.8rem;color:#888;}
+.auth-close-x{position:absolute;top:14px;right:18px;background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:50%;width:30px;height:30px;font-size:1.1rem;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.auth-close-x:hover{background:rgba(255,255,255,.35);}
+.auth-modal-head{position:relative;}
+
+/* ── Change Password Modal ── */
+.chpw-modal{max-width:420px;}
+.chpw-modal .auth-modal-head{background:linear-gradient(135deg,#1a2a5e,#2d4a9e);}
+.chpw-success{display:none;text-align:center;padding:10px 0;}
+.chpw-success .cs-icon{font-size:3rem;margin-bottom:10px;}
+.chpw-success p{font-size:.9rem;color:#006B3F;font-weight:700;}
+
+/* ── Invoice Dashboard Modal ── */
+.inv-modal{max-width:860px;width:95vw;}
+.inv-modal-head{background:linear-gradient(135deg,#1a1a1a,#2d2d2d);padding:22px 28px;display:flex;align-items:center;justify-content:space-between;position:relative;}
+.inv-modal-head h2{font-family:'Merriweather',serif;font-size:1.2rem;font-weight:900;color:#fff;letter-spacing:-.01em;}
+.inv-modal-head p{font-size:.78rem;color:rgba(255,255,255,.6);margin-top:3px;font-weight:600;}
+.inv-tab-row{display:flex;gap:0;border-bottom:2px solid #e8e8e8;padding:0 24px;background:#fafafa;}
+.inv-tab{
+  padding:14px 24px;font-family:'Nunito',sans-serif;font-size:.9rem;
+  font-weight:800;border:none;background:transparent;cursor:pointer;
+  color:#888;border-bottom:3px solid transparent;margin-bottom:-2px;
+  transition:color .2s,border-color .2s;letter-spacing:.02em;
+}
+.inv-tab.active{color:#006B3F;border-bottom-color:#006B3F;}
+.inv-body{padding:20px 24px;max-height:60vh;overflow-y:auto;}
+.inv-big-btns{display:flex;gap:16px;margin-bottom:24px;flex-wrap:wrap;}
+.inv-big-btn{
+  flex:1;min-width:200px;border:none;border-radius:12px;
+  padding:22px 20px;cursor:pointer;text-align:left;
+  font-family:'Nunito',sans-serif;transition:transform .15s,box-shadow .15s;
+  display:flex;align-items:center;gap:14px;
+}
+.inv-big-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.15);}
+.inv-big-btn.green{background:linear-gradient(135deg,#006B3F,#008f53);color:#fff;}
+.inv-big-btn.dark{background:linear-gradient(135deg,#1a1a1a,#2d2d2d);color:#fff;}
+.inv-big-btn .ib-icon{font-size:2rem;flex-shrink:0;}
+.inv-big-btn .ib-title{font-size:1rem;font-weight:900;display:block;letter-spacing:-.01em;}
+.inv-big-btn .ib-sub{font-size:.76rem;opacity:.75;display:block;margin-top:2px;font-weight:600;}
+.inv-table-section{display:none;}
+.inv-table-section.show{display:block;}
+.inv-section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.inv-section-head h3{font-family:'Merriweather',serif;font-size:1rem;font-weight:900;letter-spacing:-.01em;}
+.inv-back-btn{background:none;border:1px solid #ddd;border-radius:6px;padding:6px 14px;font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;color:#555;}
+.inv-tbl{width:100%;border-collapse:collapse;}
+.inv-tbl th{background:#f8f9fa;padding:10px 14px;text-align:left;font-size:.76rem;font-weight:900;color:#444;text-transform:uppercase;letter-spacing:.07em;border-bottom:2px solid #e8e8e8;}
+.inv-tbl td{padding:12px 14px;border-bottom:1px solid #f0f0f0;font-size:.84rem;font-weight:600;}
+.inv-tbl tr:hover td{background:#f9fdf9;}
+.inv-badge-paid{background:#d4f5e5;color:#006B3F;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:900;}
+.inv-badge-due{background:#fdeaea;color:#C8102E;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:900;}
+.inv-badge-pending{background:#fff3cd;color:#856404;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:900;}
+.inv-summary-row{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+.inv-sum-card{flex:1;min-width:110px;background:#f8f9fa;border-radius:10px;padding:14px;text-align:center;border:1px solid #e8e8e8;}
+.inv-sum-card .isn{font-family:'Merriweather',serif;font-size:1.4rem;font-weight:900;color:#1a1a1a;}
+.inv-sum-card .isl{font-size:.7rem;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.07em;margin-top:3px;}
+
+.auth-signin-btn,.auth-profile-btn{margin-left:8px;}
+
+/* ══ HOMEPAGE VISUAL UPGRADE ══ */
+:root{--red:#CF0A0A;--gold:#FFD700;--green:#006B3F;--dark:#0A0A0A;--cream:#F9F6EE;--muted:#6B6B6B;}
+body{background:var(--cream);}
+
+/* HERO - bigger bolder */
+.hero-eyebrow{font-size:.82rem!important;font-weight:800!important;letter-spacing:.18em!important;background:rgba(207,10,10,.1);color:var(--red);padding:6px 16px;border-radius:20px;display:inline-block;margin-bottom:18px;}
+.hero-title{font-size:clamp(2.8rem,6vw,4.6rem)!important;line-height:1.05!important;font-weight:900!important;}
+.hero-subtitle{font-size:1.1rem!important;line-height:1.8!important;color:#444!important;max-width:520px;}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px;}
+.cta-primary{background:var(--red);color:#fff;padding:15px 34px!important;border-radius:8px!important;font-size:1rem!important;font-weight:800!important;letter-spacing:.04em!important;box-shadow:0 4px 18px rgba(207,10,10,.35)!important;transition:transform .2s,box-shadow .2s!important;}
+.cta-primary:hover{transform:translateY(-3px)!important;box-shadow:0 8px 24px rgba(207,10,10,.4)!important;}
+.cta-secondary{border:2.5px solid var(--dark)!important;color:var(--dark)!important;padding:13px 30px!important;border-radius:8px!important;font-size:1rem!important;font-weight:800!important;transition:all .2s!important;}
+.cta-secondary:hover{background:var(--dark);color:#fff!important;}
+
+/* PORTAL CARDS - bigger, bolder */
+.portal-card{border-radius:14px!important;padding:28px 24px!important;transition:transform .25s,box-shadow .25s!important;border:2px solid transparent!important;}
+.portal-card:hover{transform:translateY(-6px)!important;box-shadow:0 16px 40px rgba(0,0,0,.14)!important;}
+.portal-card-icon{font-size:2.8rem!important;margin-bottom:14px!important;}
+.portal-card h3{font-size:1.2rem!important;font-weight:900!important;font-family:'Playfair Display',serif!important;margin-bottom:8px!important;}
+.portal-card p{font-size:.9rem!important;line-height:1.65!important;}
+.portal-card-link{font-size:.88rem!important;font-weight:800!important;margin-top:14px!important;display:inline-flex;align-items:center;gap:6px;}
+
+/* STATS ROW */
+.stat-item{padding:28px 20px!important;}
+.stat-number{font-size:2.6rem!important;font-weight:900!important;line-height:1!important;}
+.stat-label{font-size:.82rem!important;font-weight:700!important;letter-spacing:.06em!important;margin-top:6px!important;}
+
+/* NAV */
+.nav-logo-text h1{font-size:1.3rem!important;font-weight:900!important;}
+.nav-links a{font-size:.9rem!important;font-weight:700!important;}
+.nav-cta{font-size:.9rem!important;font-weight:800!important;padding:11px 22px!important;}
+
+/* SECTION HEADINGS */
+.section-heading{font-size:clamp(1.8rem,3.5vw,2.6rem)!important;font-weight:900!important;line-height:1.15!important;}
+.section-subheading{font-size:1rem!important;line-height:1.75!important;color:#555!important;}
+
+/* SERVICE LIST ITEMS */
+.service-item h4{font-size:1rem!important;font-weight:800!important;}
+.service-item p{font-size:.88rem!important;line-height:1.6!important;}
+
+/* FOOTER */
+footer{font-size:.85rem!important;}
+.footer-nav a{font-size:.84rem!important;font-weight:700!important;}
+
+
+/* ══ BOLD GLOBAL UPGRADES ══ */
+:root{
+  --red:#CF0A0A; --gold:#FFD700; --green:#006B3F;
+  --dark:#0A0A0A; --white:#fff; --light:#F9F6EE;
+  --text-secondary:#4a4a4a; --border:#ddd;
+}
+body{font-size:16px; line-height:1.7;}
+h1,h2,h3{letter-spacing:-.02em;}
+strong{font-weight:800;}
+
+/* NAVBAR - bolder */
+.nav-links a{font-size:.95rem!important;font-weight:800!important;letter-spacing:.01em;}
+.nav-cta{font-size:.95rem!important;font-weight:800!important;padding:12px 24px!important;border-radius:8px!important;letter-spacing:.03em!important;}
+
+/* HERO - bigger headline */
+.hero-title{font-size:clamp(2.8rem,6vw,4.4rem)!important;font-weight:900!important;line-height:1.1!important;}
+.hero-subtitle{font-size:1.15rem!important;line-height:1.8!important;max-width:600px;}
+
+/* SERVICE CARDS - bigger, bolder */
+.service-card h3{font-size:1.15rem!important;font-weight:900!important;}
+.service-card p{font-size:.92rem!important;line-height:1.7!important;}
+
+/* SECTION HEADINGS */
+.section-heading{font-size:clamp(1.8rem,3.5vw,2.8rem)!important;font-weight:900!important;}
+.section-sub{font-size:1rem!important;color:var(--text-secondary);}
+
+/* BUTTONS - all bigger */
+.btn-primary,.btn-secondary,.cta-btn{
+  font-size:1rem!important;font-weight:800!important;
+  padding:14px 30px!important;border-radius:9px!important;
+  letter-spacing:.03em!important;
+}
+.portal-link-btn{font-size:.96rem!important;font-weight:800!important;padding:13px 22px!important;}
+
+/* PAGE OVERLAYS (About/Tax Types/Downloads/FAQs) */
+.page-title{font-size:2rem!important;font-weight:900!important;letter-spacing:-.02em!important;}
+.page h3{font-size:1.15rem!important;font-weight:800!important;}
+.page p, .page li{font-size:.95rem!important;line-height:1.8!important;}
+
+/* FLAGS */
+.flag-strip{height:8px!important;}
+
+/* NAV links bigger */
+.nav-links{gap:6px!important;}
+
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <span>🇬🇭 Official Portal of Ghana Revenue Authority &nbsp;|&nbsp; Building the Ghana We Want</span>
+  <span>Helpline: <a href="tel:0800900900">0800 900 900</a> &nbsp;|&nbsp; Mon–Fri, 8am–5pm</span>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo" style="background:transparent;border:none;">
+      <img src="data:image/jpeg;base64,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" alt="GRA Logo" style="width:52px;height:52px;border-radius:50%;border:2px solid #FFD700;"/>
+    </div>
+    <div class="nav-title">
+      <span class="abbr">GRA</span>
+      <span class="full">Ghana Revenue Authority</span>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="#" onclick="event.preventDefault();">Home</a>
+    <a href="#" onclick="event.preventDefault(); openPage('about'); return false;">About</a>
+    <a href="#" onclick="event.preventDefault(); openPage('taxtypes'); return false;">Tax Types</a>
+    <a href="#" onclick="event.preventDefault(); openPage('downloads'); return false;">Downloads</a>
+    <a href="#" onclick="event.preventDefault(); openPage('faqs'); return false;">FAQs</a>
+    <a href="taxpayer_portal.html" class="nav-cta">e-Services</a>
+    <a href="register.html" class="nav-cta" style="background:var(--red);margin-left:4px;">📋 Register</a>
+    <a href="gra_admin.html" class="nav-cta" style="background:#1a2a5e;margin-left:4px;">📊 Dashboard</a>
+    <button class="auth-signin-btn" onclick="authOpenLogin()">🔐 Sign In</button>
+      <button class="auth-profile-btn" onclick="authToggleDropdown()">
+        <div class="auth-avatar">U</div>
+        <span class="auth-profile-name">User</span>
+        <span class="auth-chevron">▾</span>
+      </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-badge">Mobilising Revenue · Building Ghana</div>
+      <h1>Ghana Revenue<em>Authority</em></h1>
+      <p class="hero-sub">
+        The official government agency responsible for domestic tax administration.
+        File returns, verify TINs, track payments, and access all revenue services.
+      </p>
+
+      <div class="portal-buttons">
+        <!-- Taxpayer Portal Button -->
+        <button class="portal-btn portal-btn-taxpayer" onclick="window.location.href='taxpayer_portal.html'">
+          <div class="portal-btn-shine"></div>
+          <div class="portal-btn-icon" style="background:rgba(255,255,255,0.15);padding:4px;">
+            <img src="data:image/jpeg;base64,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" alt="GRA" style="width:40px;height:40px;border-radius:50%;"/>
+          </div>
+          <div class="portal-btn-text">
+            <span class="portal-btn-label">Taxpayer Portal</span>
+            <span class="portal-btn-desc">File returns · Check status · TIN verification</span>
+          </div>
+          <span class="portal-btn-arrow">→</span>
+        </button>
+
+        <!-- GRA Admin Button -->
+        <button class="portal-btn portal-btn-gra" onclick="window.location.href='gra_portal.html'">
+          <div class="portal-btn-shine"></div>
+          <div class="portal-btn-icon" style="background:rgba(255,255,255,0.15);padding:4px;">
+            <img src="data:image/jpeg;base64,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" alt="GRA" style="width:40px;height:40px;border-radius:50%;"/>
+          </div>
+          <div class="portal-btn-text">
+            <span class="portal-btn-label">Ghana Revenue Authority</span>
+            <span class="portal-btn-desc">GRA portal · File &amp; pay taxes · Services</span>
+          </div>
+          <span class="portal-btn-arrow">→</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="stats-card">
+        <div class="stats-card-title">📊 Revenue Dashboard – FY 2024</div>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-num">GH₵ 94B</div>
+            <div class="stat-label">Total Revenue Collected</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">3.2M+</div>
+            <div class="stat-label">Registered Taxpayers</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">97.4%</div>
+            <div class="stat-label">Filing Compliance Rate</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">16</div>
+            <div class="stat-label">Regions Covered</div>
+          </div>
+        </div>
+        <div class="flag-bar">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="notice-band">
+          ⚠️ <span><strong>Deadline Reminder:</strong> Annual Returns for 2024 due <strong>30 April 2025</strong>. File now to avoid penalties.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services">
+  <div class="section-header">
+    <div class="section-tag">Our Services</div>
+    <h2 class="section-title">Everything you need to <span>comply &amp; grow</span></h2>
+    <p class="section-sub">Access GRA's full suite of tax services — online, fast, and transparent.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🔎</div>
+      <div class="service-name">TIN Verification</div>
+      <div class="service-desc">Instantly verify Taxpayer Identification Numbers for individuals and businesses.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📋</div>
+      <div class="service-name">File Tax Returns</div>
+      <div class="service-desc">Submit your annual, quarterly, or monthly tax returns securely online.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">💳</div>
+      <div class="service-name">Tax Payment</div>
+      <div class="service-desc">Pay income tax, VAT, NHIL, and other levies through secure gateways.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📑</div>
+      <div class="service-name">Tax Clearance</div>
+      <div class="service-desc">Request and download your Tax Clearance Certificate in minutes.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏢</div>
+      <div class="service-name">Business Registration</div>
+      <div class="service-desc">Register your business for tax purposes and get your TIN issued quickly.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📦</div>
+      <div class="service-name">Customs &amp; Excise</div>
+      <div class="service-desc">Manage customs declarations, import duties and excise tax obligations.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ANNOUNCEMENT -->
+<section class="announce">
+  <div class="announce-inner">
+    <div class="announce-left">
+      <h2>New SOAP Web Service API Now Active</h2>
+      <p>GRA's SOAP-based data service is live for taxpayer lookup, return status checks, and revenue records. Integrate with your business systems using our PHP SOAP endpoint.</p>
+    </div>
+    <a href="#" class="announce-btn">View API Documentation →</a>
+  </div>
+</section>
+
+<!-- UPDATES -->
+<section class="updates">
+  <div class="updates-inner">
+    <div class="section-header">
+      <div class="section-tag">Latest News</div>
+      <h2 class="section-title">Updates &amp; <span>Announcements</span></h2>
+    </div>
+    <div class="updates-grid">
+      <div class="update-card">
+        <div class="update-card-top"></div>
+        <div class="update-body">
+          <span class="update-tag">Tax Policy</span>
+          <div class="update-title">GRA Introduces E-Levy Compliance Framework for 2025</div>
+          <p class="update-excerpt">New guidelines clarify obligations for mobile money operators and businesses processing electronic transactions above GH₵100 per day.</p>
+          <div class="update-meta">February 18, 2025</div>
+        </div>
+      </div>
+      <div class="update-card">
+        <div class="update-card-top"></div>
+        <div class="update-body">
+          <span class="update-tag">Notice</span>
+          <div class="update-title">Penalty Waiver Programme Extended Until March 31</div>
+          <p class="update-excerpt">Taxpayers with outstanding liabilities can settle arrears without interest penalties under the extended amnesty programme.</p>
+          <div class="update-meta">January 30, 2025</div>
+        </div>
+      </div>
+      <div class="update-card">
+        <div class="update-card-top"></div>
+        <div class="update-body">
+          <span class="update-tag">Technology</span>
+          <div class="update-title">SOAP API Integration Guide for Third-Party Developers</div>
+          <p class="update-excerpt">GRA releases comprehensive documentation for the new SOAP web service, enabling developers to integrate taxpayer data retrieval into existing platforms.</p>
+          <div class="update-meta">January 12, 2025</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <h3>Ghana Revenue Authority</h3>
+      <p>Established to ensure effective domestic revenue mobilisation for national development. We serve all Ghanaians with fairness, integrity and transparency.</p>
+      <div class="footer-flag"><span></span><span></span><span></span></div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a href="#">Register for TIN</a>
+      <a href="#">File Returns</a>
+      <a href="#">Tax Calendar</a>
+      <a href="#">Tax Rates</a>
+      <a href="#">Refund Status</a>
+    </div>
+    <div class="footer-col">
+      <h4>Tax Types</h4>
+      <a href="#">Income Tax</a>
+      <a href="#">VAT / NHIL</a>
+      <a href="#">E-Levy</a>
+      <a href="#">Excise Duty</a>
+      <a href="#">Customs</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="#">Head Office, Accra</a>
+      <a href="tel:0800900900">0800 900 900</a>
+      <a href="/cdn-cgi/l/email-protection#650c0b030a250217044b020a134b020d"><span class="__cf_email__" data-cfemail="234a4d454c634451420d444c550d444b">[email&#160;protected]</span></a>
+      <a href="#">Regional Offices</a>
+      <a href="#">Lodge a Complaint</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Ghana Revenue Authority. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></span>
+    <span>Powered by GRA SOAP Web Service Platform</span>
+  </div>
+</footer>
+
+<!-- MODALS -->
+<!-- Taxpayer Modal -->
+<div class="modal-overlay" id="modal-taxpayer">
+  <div class="modal modal-taxpayer">
+    <button class="modal-close" onclick="closeModal('taxpayer')">✕</button>
+    <div class="modal-logo">👤</div>
+    <h2>Taxpayer Portal</h2>
+    <p>Sign in to file returns, verify your TIN, check payment history and access all taxpayer services.</p>
+    <div class="form-group">
+      <label>TIN / Username</label>
+      <input type="text" id="taxpayer-tin" placeholder="e.g. G0028564774" autocomplete="username" onkeydown="if(event.key==='Enter')loginTaxpayer()" />
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="taxpayer-pass" placeholder="Enter your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')loginTaxpayer()" />
+    </div>
+    <div id="taxpayer-err" style="display:none;background:#fff0f0;color:#c00;border:1px solid #fcc;border-radius:6px;padding:9px 12px;font-size:.85rem;margin-bottom:10px;"></div>
+    <button class="modal-submit" onclick="loginTaxpayer()">🔐 Sign In to Portal</button>
+    <div class="coming-soon-badge" style="margin-top:12px;font-size:.78rem;color:#666;">
+      Demo: TIN <strong>G0028564774</strong> &nbsp;|&nbsp; Password <strong>password123</strong>
+    </div>
+  </div>
+</div>
+
+<!-- GRA Admin Modal -->
+<div class="modal-overlay" id="modal-gra">
+  <div class="modal modal-gra">
+    <button class="modal-close" onclick="closeModal('gra')">✕</button>
+    <div class="modal-logo">🏛️</div>
+    <h2>GRA Staff Login</h2>
+    <p>Authorised Ghana Revenue Authority staff only. Access the admin dashboard, SOAP services and revenue management tools.</p>
+    <div class="form-group">
+      <label>Staff ID / Username</label>
+      <input type="text" id="gra-user" placeholder="e.g. admin" autocomplete="username" onkeydown="if(event.key==='Enter')loginGRA()" />
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="gra-pass" placeholder="Enter password" autocomplete="current-password" onkeydown="if(event.key==='Enter')loginGRA()" />
+    </div>
+    <div id="gra-err" style="display:none;background:#fff0f0;color:#c00;border:1px solid #fcc;border-radius:6px;padding:9px 12px;font-size:.85rem;margin-bottom:10px;"></div>
+    <button class="modal-submit" onclick="loginGRA()">🔐 Access GRA Dashboard</button>
+    <div class="coming-soon-badge" style="margin-top:12px;font-size:.78rem;color:#666;">
+      Admin: <strong>admin</strong> / <strong>gra2026</strong> &nbsp;|&nbsp; GRA Portal: <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4b3b2427322a252f392e3c38727b0b2c262a222765282426">[email&#160;protected]</a></strong> / <strong>password123</strong>
+    </div>
+  </div>
+</div>
+
+<!-- Scroll Top -->
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><!-- ═══ ABOUT PAGE MODAL ═══ -->
+<div id="page-about" style="display:none;position:fixed;inset:0;z-index:9000;background:#fff;overflow-y:auto;">
+  <div style="background:linear-gradient(135deg,#006B3F,#004d2d);color:#fff;padding:24px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;">
+    <div>
+      <div style="font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px;">Ghana Revenue Authority</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;">About GRA</h2>
+    </div>
+    <button onclick="closePage('about')" style="background:rgba(255,255,255,.15);border:none;color:#fff;width:40px;height:40px;border-radius:50%;font-size:1.2rem;cursor:pointer;">✕</button>
+  </div>
+  <div style="max-width:960px;margin:0 auto;padding:40px 32px;">
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:40px;margin-bottom:40px;">
+      <div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:#006B3F;margin-bottom:16px;border-left:4px solid #FFD700;padding-left:14px;">Our History</h3>
+        <p style="font-size:.95rem;line-height:1.8;color:#444;margin-bottom:14px;">The Ghana Revenue Authority (GRA) was established on 1st December 2009 by the Ghana Revenue Authority Act 2009, Act 791. It was formed from the merger of three separate revenue agencies: the Customs, Excise and Preventive Service (CEPS), the Internal Revenue Service (IRS), and the Value Added Tax Service (VATS), along with the Revenue Agencies Governing Board (RAGB).</p>
+        <p style="font-size:.95rem;line-height:1.8;color:#444;margin-bottom:14px;">The merger was initiated to ensure the efficient administration of tax laws, eliminate duplication of functions, reduce costs, and increase domestic revenue mobilisation to support national development.</p>
+        <p style="font-size:.95rem;line-height:1.8;color:#444;">Today, GRA administers and enforces laws relating to revenue collection, including income tax, value added tax (VAT), excise duties, customs and various levies to fund Ghana's national budget and development agenda.</p>
+      </div>
+      <div>
+        <div style="background:#f9f6ee;border:1.5px solid #e0d8c0;border-radius:12px;padding:24px;margin-bottom:18px;">
+          <h4 style="font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:#888;margin-bottom:10px;">Established</h4>
+          <p style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:#006B3F;">2009</p>
+          <p style="font-size:.8rem;color:#666;margin-top:4px;">Under Act 791</p>
+        </div>
+        <div style="background:#f9f6ee;border:1.5px solid #e0d8c0;border-radius:12px;padding:24px;margin-bottom:18px;">
+          <h4 style="font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:#888;margin-bottom:10px;">Taxpayers Registered</h4>
+          <p style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:#006B3F;">3.2M+</p>
+        </div>
+        <div style="background:#f9f6ee;border:1.5px solid #e0d8c0;border-radius:12px;padding:24px;">
+          <h4 style="font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:#888;margin-bottom:10px;">Regions Covered</h4>
+          <p style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:#006B3F;">16</p>
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:40px;">
+      <div style="background:linear-gradient(135deg,#006B3F,#004d2d);color:#fff;border-radius:12px;padding:24px;">
+        <div style="font-size:1.8rem;margin-bottom:10px;">🎯</div>
+        <h3 style="font-size:1rem;font-weight:800;margin-bottom:8px;">Our Vision</h3>
+        <p style="font-size:.84rem;opacity:.85;line-height:1.65;">To be a world-class revenue administration recognised for professionalism, integrity and excellence.</p>
+      </div>
+      <div style="background:linear-gradient(135deg,#b8860b,#8a6300);color:#fff;border-radius:12px;padding:24px;">
+        <div style="font-size:1.8rem;margin-bottom:10px;">📋</div>
+        <h3 style="font-size:1rem;font-weight:800;margin-bottom:8px;">Our Mission</h3>
+        <p style="font-size:.84rem;opacity:.85;line-height:1.65;">To mobilise revenue for national development in a transparent, fair, effective and efficient manner.</p>
+      </div>
+      <div style="background:linear-gradient(135deg,#CF0A0A,#8a0606);color:#fff;border-radius:12px;padding:24px;">
+        <div style="font-size:1.8rem;margin-bottom:10px;">⚖️</div>
+        <h3 style="font-size:1rem;font-weight:800;margin-bottom:8px;">Core Mandate</h3>
+        <p style="font-size:.84rem;opacity:.85;line-height:1.65;">Ensure maximum compliance with tax laws, trade facilitation, and controlled flow of goods across borders.</p>
+      </div>
+    </div>
+    <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;color:#006B3F;margin-bottom:16px;border-left:4px solid #FFD700;padding-left:14px;">Leadership Structure</h3>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+      <div style="border:1.5px solid #e0e0e0;border-radius:10px;padding:20px;text-align:center;">
+        <div style="width:56px;height:56px;background:#e8f5ee;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">👤</div>
+        <div style="font-weight:700;font-size:.88rem;">Commissioner-General</div>
+        <div style="font-size:.76rem;color:#888;margin-top:4px;">Executive Head of GRA</div>
+      </div>
+      <div style="border:1.5px solid #e0e0e0;border-radius:10px;padding:20px;text-align:center;">
+        <div style="width:56px;height:56px;background:#fff8e0;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🏢</div>
+        <div style="font-weight:700;font-size:.88rem;">Domestic Tax Division</div>
+        <div style="font-size:.76rem;color:#888;margin-top:4px;">Income Tax, VAT, PAYE</div>
+      </div>
+      <div style="border:1.5px solid #e0e0e0;border-radius:10px;padding:20px;text-align:center;">
+        <div style="width:56px;height:56px;background:#fdeaea;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🚢</div>
+        <div style="font-weight:700;font-size:.88rem;">Customs Division</div>
+        <div style="font-size:.76rem;color:#888;margin-top:4px;">Import/Export Duties</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TAX TYPES PAGE ═══ -->
+<div id="page-taxtypes" style="display:none;position:fixed;inset:0;z-index:9000;background:#fff;overflow-y:auto;">
+  <div style="background:linear-gradient(135deg,#CF0A0A,#8a0606);color:#fff;padding:24px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;">
+    <div>
+      <div style="font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px;">Ghana Revenue Authority</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;">Types of Taxes in Ghana</h2>
+    </div>
+    <button onclick="closePage('taxtypes')" style="background:rgba(255,255,255,.15);border:none;color:#fff;width:40px;height:40px;border-radius:50%;font-size:1.2rem;cursor:pointer;">✕</button>
+  </div>
+  <div style="max-width:960px;margin:0 auto;padding:40px 32px;">
+    <p style="font-size:.95rem;color:#555;margin-bottom:32px;line-height:1.7;">Ghana has various categories of taxes administered by the Ghana Revenue Authority. Below are the main types of taxes that individuals and businesses are required to pay.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+      <div style="border:1.5px solid #e0e0e0;border-radius:12px;overflow:hidden;">
+        <div style="background:#006B3F;color:#fff;padding:14px 20px;display:flex;align-items:center;gap:10px;"><span style="font-size:1.3rem;">💼</span><h3 style="font-size:.95rem;font-weight:800;">Income Tax</h3></div>
+        <div style="padding:18px 20px;"><p style="font-size:.84rem;color:#555;line-height:1.7;margin-bottom:10px;">Tax levied on income earned by individuals and businesses. Rates are progressive (0%–35%) for individuals.</p><div style="font-size:.8rem;color:#006B3F;font-weight:700;">• Personal Income Tax (PIT)<br/>• Corporate Income Tax (CIT) – 25%<br/>• Small Business Tax</div></div>
+      </div>
+      <div style="border:1.5px solid #e0e0e0;border-radius:12px;overflow:hidden;">
+        <div style="background:#CF0A0A;color:#fff;padding:14px 20px;display:flex;align-items:center;gap:10px;"><span style="font-size:1.3rem;">🛒</span><h3 style="font-size:.95rem;font-weight:800;">Value Added Tax (VAT)</h3></div>
+        <div style="padding:18px 20px;"><p style="font-size:.84rem;color:#555;line-height:1.7;margin-bottom:10px;">Consumption tax on goods and services. Standard rate is 15%. Includes NHIL (2.5%) and GETFund Levy (2.5%).</p><div style="font-size:.8rem;color:#CF0A0A;font-weight:700;">• VAT Standard (15%)<br/>• VAT Flat Rate (3%)<br/>• NHIL &amp; GETFund</div></div>
+      </div>
+      <div style="border:1.5px solid #e0e0e0;border-radius:12px;overflow:hidden;">
+        <div style="background:#b8860b;color:#fff;padding:14px 20px;display:flex;align-items:center;gap:10px;"><span style="font-size:1.3rem;">👥</span><h3 style="font-size:.95rem;font-weight:800;">PAYE (Pay As You Earn)</h3></div>
+        <div style="padding:18px 20px;"><p style="font-size:.84rem;color:#555;line-height:1.7;margin-bottom:10px;">Monthly tax deducted from employee salaries by employers and remitted to GRA. Due by the 15th of each month.</p><div style="font-size:.8rem;color:#b8860b;font-weight:700;">• Monthly employer obligation<br/>• Progressive rate 0%–35%<br/>• Includes employee relief</div></div>
+      </div>
+      <div style="border:1.5px solid #e0e0e0;border-radius:12px;overflow:hidden;">
+        <div style="background:#1a3a6e;color:#fff;padding:14px 20px;display:flex;align-items:center;gap:10px;"><span style="font-size:1.3rem;">✂️</span><h3 style="font-size:.95rem;font-weight:800;">Withholding Tax</h3></div>
+        <div style="padding:18px 20px;"><p style="font-size:.84rem;color:#555;line-height:1.7;margin-bottom:10px;">Tax deducted at source before payment is made to the recipient. Rates vary (3%–20%) depending on the nature of payment.</p><div style="font-size:.8rem;color:#1a3a6e;font-weight:700;">• Rent (8%), Dividends (8%)<br/>• Interest (8%), Royalties (15%)<br/>• Professional fees (20%)</div></div>
+      </div>
+      <div style="border:1.5px solid #e0e0e0;border-radius:12px;overflow:hidden;">
+        <div style="background:#4a1a6e;color:#fff;padding:14px 20px;display:flex;align-items:center;gap:10px;"><span style="font-size:1.3rem;">📱</span><h3 style="font-size:.95rem;font-weight:800;">Electronic Transfer Levy (E-Levy)</h3></div>
+        <div style="padding:18px 20px;"><p style="font-size:.84rem;color:#555;line-height:1.7;margin-bottom:10px;">1% levy on electronic money transfers above GHS 100 per day. Introduced in 2022 to widen the tax net.</p><div style="font-size:.8rem;color:#4a1a6e;font-weight:700;">• Mobile Money transfers<br/>• Bank to mobile transfers<br/>• Merchant payments</div></div>
+      </div>
+      <div style="border:1.5px solid #e0e0e0;border-radius:12px;overflow:hidden;">
+        <div style="background:#2a6e1a;color:#fff;padding:14px 20px;display:flex;align-items:center;gap:10px;"><span style="font-size:1.3rem;">🚢</span><h3 style="font-size:.95rem;font-weight:800;">Customs &amp; Excise Duties</h3></div>
+        <div style="padding:18px 20px;"><p style="font-size:.84rem;color:#555;line-height:1.7;margin-bottom:10px;">Taxes on imported and exported goods. Rates vary based on the Harmonised System (HS) code of goods.</p><div style="font-size:.8rem;color:#2a6e1a;font-weight:700;">• Import Duty (0–35%)<br/>• Export Levy<br/>• Excise Duty on alcohol &amp; tobacco</div></div>
+      </div>
+      <div style="border:1.5px solid #e0e0e0;border-radius:12px;overflow:hidden;">
+        <div style="background:#6e1a1a;color:#fff;padding:14px 20px;display:flex;align-items:center;gap:10px;"><span style="font-size:1.3rem;">🚗</span><h3 style="font-size:.95rem;font-weight:800;">Vehicle Income Tax (VIT)</h3></div>
+        <div style="padding:18px 20px;"><p style="font-size:.84rem;color:#555;line-height:1.7;margin-bottom:10px;">Quarterly tax paid by commercial vehicle operators. Based on vehicle type and capacity.</p><div style="font-size:.8rem;color:#6e1a1a;font-weight:700;">• Taxis: GHS 12/quarter<br/>• Minibuses: GHS 25/quarter<br/>• Trucks: GHS 48/quarter</div></div>
+      </div>
+      <div style="border:1.5px solid #e0e0e0;border-radius:12px;overflow:hidden;">
+        <div style="background:#1a5a6e;color:#fff;padding:14px 20px;display:flex;align-items:center;gap:10px;"><span style="font-size:1.3rem;">🏠</span><h3 style="font-size:.95rem;font-weight:800;">Property Rate &amp; Gift Tax</h3></div>
+        <div style="padding:18px 20px;"><p style="font-size:.84rem;color:#555;line-height:1.7;margin-bottom:10px;">Tax on immovable property and gifts received. Capital Gains Tax (CGT) of 15% applies on disposal of chargeable assets.</p><div style="font-size:.8rem;color:#1a5a6e;font-weight:700;">• Gift Tax (15%)<br/>• Capital Gains (15%)<br/>• Property Transfer Tax</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DOWNLOADS PAGE ═══ -->
+<div id="page-downloads" style="display:none;position:fixed;inset:0;z-index:9000;background:#fff;overflow-y:auto;">
+  <div style="background:linear-gradient(135deg,#b8860b,#7a5800);color:#fff;padding:24px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;">
+    <div>
+      <div style="font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px;">Ghana Revenue Authority</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;">Downloads &amp; Resources</h2>
+    </div>
+    <button onclick="closePage('downloads')" style="background:rgba(255,255,255,.15);border:none;color:#fff;width:40px;height:40px;border-radius:50%;font-size:1.2rem;cursor:pointer;">✕</button>
+  </div>
+  <div style="max-width:960px;margin:0 auto;padding:40px 32px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+
+      <!-- Tax Return Forms -->
+      <div style="border:1.5px solid #e0e0e0;border-radius:12px;overflow:hidden;">
+        <div style="background:#f9f5e0;padding:14px 18px;display:flex;align-items:center;gap:8px;border-bottom:1.5px solid #e0d8c0;">
+          <span style="font-size:1.2rem;">📄</span>
+          <h3 style="font-size:.88rem;font-weight:800;color:#444;">Tax Return Forms</h3>
+        </div>
+        <div style="padding:12px 18px;border-bottom:1px solid #f5f5f5;display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-size:.84rem;font-weight:600;">Individual Income Tax Return Form</div><div style="font-size:.72rem;color:#aaa;margin-top:2px;">PDF · 245 KB</div></div>
+          <button onclick="showDlToast('Individual Income Tax Return Form')" style="background:#006B3F;color:#fff;border:none;padding:6px 14px;border-radius:5px;font-size:.76rem;font-weight:700;cursor:pointer;">⬇ Download</button>
+        </div>
+        <div style="padding:12px 18px;border-bottom:1px solid #f5f5f5;display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-size:.84rem;font-weight:600;">Corporate Income Tax Return Form</div><div style="font-size:.72rem;color:#aaa;margin-top:2px;">PDF · 380 KB</div></div>
+          <button onclick="showDlToast('Corporate Income Tax Return Form')" style="background:#006B3F;color:#fff;border:none;padding:6px 14px;border-radius:5px;font-size:.76rem;font-weight:700;cursor:pointer;">⬇ Download</button>
+        </div>
+        <div style="padding:12px 18px;border-bottom:1px solid #f5f5f5;display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-size:.84rem;font-weight:600;">PAYE Monthly Return Form</div><div style="font-size:.72rem;color:#aaa;margin-top:2px;">PDF · 180 KB</div></div>
+          <button onclick="showDlToast('PAYE Monthly Return Form')" style="background:#006B3F;color:#fff;border:none;padding:6px 14px;border-radius:5px;font-size:.76rem;font-weight:700;cursor:pointer;">⬇ Download</button>
+        </div>
+        <div style="padding:12px 18px;display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-size:.84rem;font-weight:600;">VAT Standard Rate Return Form</div><div style="font-size:.72rem;color:#aaa;margin-top:2px;">PDF · 210 KB</div></div>
+          <button onclick="showDlToast('VAT Standard Rate Return Form')" style="background:#006B3F;color:#fff;border:none;padding:6px 14px;border-radius:5px;font-size:.76rem;font-weight:700;cursor:pointer;">⬇ Download</button>
+        </div>
+      </div>
+
+      <!-- Guides & Manuals -->
+      <div style="border:1.5px solid #e0e0e0;border-radius:12px;overflow:hidden;">
+        <div style="background:#f9f5e0;padding:14px 18px;display:flex;align-items:center;gap:8px;border-bottom:1.5px solid #e0d8c0;">
+          <span style="font-size:1.2rem;">📚</span>
+          <h3 style="font-size:.88rem;font-weight:800;color:#444;">Guides &amp; Manuals</h3>
+        </div>
+        <div style="padding:12px 18px;border-bottom:1px solid #f5f5f5;display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-size:.84rem;font-weight:600;">Taxpayer Registration Guide</div><div style="font-size:.72rem;color:#aaa;margin-top:2px;">PDF · 1.2 MB</div></div>
+          <button onclick="showDlToast('Taxpayer Registration Guide')" style="background:#006B3F;color:#fff;border:none;padding:6px 14px;border-radius:5px;font-size:.76rem;font-weight:700;cursor:pointer;">⬇ Download</button>
+        </div>
+        <div style="padding:12px 18px;border-bottom:1px solid #f5f5f5;display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-size:.84rem;font-weight:600;">e-Filing User Manual</div><div style="font-size:.72rem;color:#aaa;margin-top:2px;">PDF · 2.4 MB</div></div>
+          <button onclick="showDlToast('e-Filing User Manual')" style="background:#006B3F;color:#fff;border:none;padding:6px 14px;border-radius:5px;font-size:.76rem;font-weight:700;cursor:pointer;">⬇ Download</button>
+        </div>
+        <div style="padding:12px 18px;border-bottom:1px solid #f5f5f5;display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-size:.84rem;font-weight:600;">VAT Compliance Guide</div><div style="font-size:.72rem;color:#aaa;margin-top:2px;">PDF · 890 KB</div></div>
+          <button onclick="showDlToast('VAT Compliance Guide')" style="background:#006B3F;color:#fff;border:none;padding:6px 14px;border-radius:5px;font-size:.76rem;font-weight:700;cursor:pointer;">⬇ Download</button>
+        </div>
+        <div style="padding:12px 18px;display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-size:.84rem;font-weight:600;">Transfer Pricing Guidelines</div><div style="font-size:.72rem;color:#aaa;margin-top:2px;">PDF · 1.8 MB</div></div>
+          <button onclick="showDlToast('Transfer Pricing Guidelines')" style="background:#006B3F;color:#fff;border:none;padding:6px 14px;border-radius:5px;font-size:.76rem;font-weight:700;cursor:pointer;">⬇ Download</button>
+        </div>
+      </div>
+
+      <!-- Tax Laws & Regulations -->
+      <div style="border:1.5px solid #e0e0e0;border-radius:12px;overflow:hidden;">
+        <div style="background:#f9f5e0;padding:14px 18px;display:flex;align-items:center;gap:8px;border-bottom:1.5px solid #e0d8c0;">
+          <span style="font-size:1.2rem;">⚖️</span>
+          <h3 style="font-size:.88rem;font-weight:800;color:#444;">Tax Laws &amp; Regulations</h3>
+        </div>
+        <div style="padding:12px 18px;border-bottom:1px solid #f5f5f5;display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-size:.84rem;font-weight:600;">GRA Act 2009 (Act 791)</div><div style="font-size:.72rem;color:#aaa;margin-top:2px;">PDF · 520 KB</div></div>
+          <button onclick="showDlToast('GRA Act 2009')" style="background:#006B3F;color:#fff;border:none;padding:6px 14px;border-radius:5px;font-size:.76rem;font-weight:700;cursor:pointer;">⬇ Download</button>
+        </div>
+        <div style="padding:12px 18px;border-bottom:1px solid #f5f5f5;display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-size:.84rem;font-weight:600;">Income Tax Act 2015 (Act 896)</div><div style="font-size:.72rem;color:#aaa;margin-top:2px;">PDF · 1.4 MB</div></div>
+          <button onclick="showDlToast('Income Tax Act 2015')" style="background:#006B3F;color:#fff;border:none;padding:6px 14px;border-radius:5px;font-size:.76rem;font-weight:700;cursor:pointer;">⬇ Download</button>
+        </div>
+        <div style="padding:12px 18px;border-bottom:1px solid #f5f5f5;display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-size:.84rem;font-weight:600;">VAT Act 2013 (Act 870)</div><div style="font-size:.72rem;color:#aaa;margin-top:2px;">PDF · 680 KB</div></div>
+          <button onclick="showDlToast('VAT Act 2013')" style="background:#006B3F;color:#fff;border:none;padding:6px 14px;border-radius:5px;font-size:.76rem;font-weight:700;cursor:pointer;">⬇ Download</button>
+        </div>
+        <div style="padding:12px 18px;display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-size:.84rem;font-weight:600;">E-Levy Act 2022 (Act 1075)</div><div style="font-size:.72rem;color:#aaa;margin-top:2px;">PDF · 310 KB</div></div>
+          <button onclick="showDlToast('E-Levy Act 2022')" style="background:#006B3F;color:#fff;border:none;padding:6px 14px;border-radius:5px;font-size:.76rem;font-weight:700;cursor:pointer;">⬇ Download</button>
+        </div>
+      </div>
+
+      <!-- Tax Rate Cards -->
+      <div style="border:1.5px solid #e0e0e0;border-radius:12px;overflow:hidden;">
+        <div style="background:#f9f5e0;padding:14px 18px;display:flex;align-items:center;gap:8px;border-bottom:1.5px solid #e0d8c0;">
+          <span style="font-size:1.2rem;">💳</span>
+          <h3 style="font-size:.88rem;font-weight:800;color:#444;">Tax Rate Cards</h3>
+        </div>
+        <div style="padding:12px 18px;border-bottom:1px solid #f5f5f5;display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-size:.84rem;font-weight:600;">2025 Personal Income Tax Rates</div><div style="font-size:.72rem;color:#aaa;margin-top:2px;">PDF · 120 KB</div></div>
+          <button onclick="showDlToast('2025 Personal Income Tax Rates')" style="background:#006B3F;color:#fff;border:none;padding:6px 14px;border-radius:5px;font-size:.76rem;font-weight:700;cursor:pointer;">⬇ Download</button>
+        </div>
+        <div style="padding:12px 18px;border-bottom:1px solid #f5f5f5;display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-size:.84rem;font-weight:600;">2025 Corporate Tax Rates Summary</div><div style="font-size:.72rem;color:#aaa;margin-top:2px;">PDF · 95 KB</div></div>
+          <button onclick="showDlToast('2025 Corporate Tax Rates Summary')" style="background:#006B3F;color:#fff;border:none;padding:6px 14px;border-radius:5px;font-size:.76rem;font-weight:700;cursor:pointer;">⬇ Download</button>
+        </div>
+        <div style="padding:12px 18px;border-bottom:1px solid #f5f5f5;display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-size:.84rem;font-weight:600;">Withholding Tax Rate Card 2025</div><div style="font-size:.72rem;color:#aaa;margin-top:2px;">PDF · 140 KB</div></div>
+          <button onclick="showDlToast('Withholding Tax Rate Card 2025')" style="background:#006B3F;color:#fff;border:none;padding:6px 14px;border-radius:5px;font-size:.76rem;font-weight:700;cursor:pointer;">⬇ Download</button>
+        </div>
+        <div style="padding:12px 18px;display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-size:.84rem;font-weight:600;">VIT Rate Schedule 2025</div><div style="font-size:.72rem;color:#aaa;margin-top:2px;">PDF · 88 KB</div></div>
+          <button onclick="showDlToast('VIT Rate Schedule 2025')" style="background:#006B3F;color:#fff;border:none;padding:6px 14px;border-radius:5px;font-size:.76rem;font-weight:700;cursor:pointer;">⬇ Download</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FAQs PAGE ═══ -->
+<div id="page-faqs" style="display:none;position:fixed;inset:0;z-index:9000;background:#fff;overflow-y:auto;">
+  <div style="background:linear-gradient(135deg,#1a3a6e,#0d2046);color:#fff;padding:24px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;">
+    <div>
+      <div style="font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px;">Ghana Revenue Authority</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;">Frequently Asked Questions</h2>
+    </div>
+    <button onclick="closePage('faqs')" style="background:rgba(255,255,255,.15);border:none;color:#fff;width:40px;height:40px;border-radius:50%;font-size:1.2rem;cursor:pointer;">✕</button>
+  </div>
+  <div style="max-width:860px;margin:0 auto;padding:40px 32px;">
+    <div style="margin-bottom:16px;display:flex;gap:10px;flex-wrap:wrap;">
+      <button onclick="filterFAQ('all')" id="faq-btn-all" style="background:#006B3F;color:#fff;border:none;padding:8px 18px;border-radius:20px;font-size:.8rem;font-weight:700;cursor:pointer;">All</button>
+      <button onclick="filterFAQ('registration')" id="faq-btn-registration" style="background:#f0f0f0;color:#333;border:none;padding:8px 18px;border-radius:20px;font-size:.8rem;font-weight:700;cursor:pointer;">Registration</button>
+      <button onclick="filterFAQ('filing')" id="faq-btn-filing" style="background:#f0f0f0;color:#333;border:none;padding:8px 18px;border-radius:20px;font-size:.8rem;font-weight:700;cursor:pointer;">Filing</button>
+      <button onclick="filterFAQ('payment')" id="faq-btn-payment" style="background:#f0f0f0;color:#333;border:none;padding:8px 18px;border-radius:20px;font-size:.8rem;font-weight:700;cursor:pointer;">Payment</button>
+      <button onclick="filterFAQ('penalty')" id="faq-btn-penalty" style="background:#f0f0f0;color:#333;border:none;padding:8px 18px;border-radius:20px;font-size:.8rem;font-weight:700;cursor:pointer;">Penalties</button>
+    </div>
+    <div id="faq-list">
+      <div class="faq-item" data-cat="registration" style="border:1.5px solid #e0e0e0;border-radius:10px;margin-bottom:12px;overflow:hidden;">
+        <div onclick="toggleFAQ(0)" style="padding:16px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;background:#fafafa;"><span style="font-size:.9rem;font-weight:700;color:#222;">What is a TIN and how do I get one?</span><span id="faq-arrow-0" style="font-size:.9rem;color:#888;flex-shrink:0;margin-left:10px;">▼</span></div>
+        <div id="faq-ans-0" style="display:none;padding:14px 20px;font-size:.86rem;color:#555;line-height:1.75;border-top:1px solid #f0f0f0;background:#fff;">A Taxpayer Identification Number (TIN) is a unique number assigned to every taxpayer. To get one, visit any GRA office or register online at gra.gov.gh. You need your Ghana Card (National ID), proof of address, and for businesses: business registration documents.</div>
+      </div>
+      <div class="faq-item" data-cat="registration" style="border:1.5px solid #e0e0e0;border-radius:10px;margin-bottom:12px;overflow:hidden;">
+        <div onclick="toggleFAQ(1)" style="padding:16px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;background:#fafafa;"><span style="font-size:.9rem;font-weight:700;color:#222;">How do I register my business for VAT?</span><span id="faq-arrow-1" style="font-size:.9rem;color:#888;flex-shrink:0;margin-left:10px;">▼</span></div>
+        <div id="faq-ans-1" style="display:none;padding:14px 20px;font-size:.86rem;color:#555;line-height:1.75;border-top:1px solid #f0f0f0;background:#fff;">You must register for VAT if your annual turnover exceeds GHS 200,000. Visit the nearest GRA office or apply online. You will need your business TIN, business registration certificate, and proof of address.</div>
+      </div>
+      <div class="faq-item" data-cat="filing" style="border:1.5px solid #e0e0e0;border-radius:10px;margin-bottom:12px;overflow:hidden;">
+        <div onclick="toggleFAQ(2)" style="padding:16px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;background:#fafafa;"><span style="font-size:.9rem;font-weight:700;color:#222;">When are PAYE returns due?</span><span id="faq-arrow-2" style="font-size:.9rem;color:#888;flex-shrink:0;margin-left:10px;">▼</span></div>
+        <div id="faq-ans-2" style="display:none;padding:14px 20px;font-size:.86rem;color:#555;line-height:1.75;border-top:1px solid #f0f0f0;background:#fff;">PAYE returns must be filed and payments made by the 15th of the month following the payroll month. For example, January PAYE is due by 15th February.</div>
+      </div>
+      <div class="faq-item" data-cat="filing" style="border:1.5px solid #e0e0e0;border-radius:10px;margin-bottom:12px;overflow:hidden;">
+        <div onclick="toggleFAQ(3)" style="padding:16px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;background:#fafafa;"><span style="font-size:.9rem;font-weight:700;color:#222;">What is the deadline for annual income tax returns?</span><span id="faq-arrow-3" style="font-size:.9rem;color:#888;flex-shrink:0;margin-left:10px;">▼</span></div>
+        <div id="faq-ans-3" style="display:none;padding:14px 20px;font-size:.86rem;color:#555;line-height:1.75;border-top:1px solid #f0f0f0;background:#fff;">Individual income tax returns are due by 30th April each year for the preceding year. Corporate returns are due within 4 months after the end of the accounting year.</div>
+      </div>
+      <div class="faq-item" data-cat="filing" style="border:1.5px solid #e0e0e0;border-radius:10px;margin-bottom:12px;overflow:hidden;">
+        <div onclick="toggleFAQ(4)" style="padding:16px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;background:#fafafa;"><span style="font-size:.9rem;font-weight:700;color:#222;">Can I file my returns online?</span><span id="faq-arrow-4" style="font-size:.9rem;color:#888;flex-shrink:0;margin-left:10px;">▼</span></div>
+        <div id="faq-ans-4" style="display:none;padding:14px 20px;font-size:.86rem;color:#555;line-height:1.75;border-top:1px solid #f0f0f0;background:#fff;">Yes! GRA provides an online e-filing platform at taxpayers.gra.gov.gh. You can file all returns including PAYE, VAT, income tax, and withholding tax online.</div>
+      </div>
+      <div class="faq-item" data-cat="payment" style="border:1.5px solid #e0e0e0;border-radius:10px;margin-bottom:12px;overflow:hidden;">
+        <div onclick="toggleFAQ(5)" style="padding:16px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;background:#fafafa;"><span style="font-size:.9rem;font-weight:700;color:#222;">What payment methods does GRA accept?</span><span id="faq-arrow-5" style="font-size:.9rem;color:#888;flex-shrink:0;margin-left:10px;">▼</span></div>
+        <div id="faq-ans-5" style="display:none;padding:14px 20px;font-size:.86rem;color:#555;line-height:1.75;border-top:1px solid #f0f0f0;background:#fff;">GRA accepts payments via: Mobile Money (MTN, Vodafone, AirtelTigo), bank transfers, GRA Pay Portal, and at any commercial bank or GRA office. Always use your TIN or Invoice Number as payment reference.</div>
+      </div>
+      <div class="faq-item" data-cat="payment" style="border:1.5px solid #e0e0e0;border-radius:10px;margin-bottom:12px;overflow:hidden;">
+        <div onclick="toggleFAQ(6)" style="padding:16px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;background:#fafafa;"><span style="font-size:.9rem;font-weight:700;color:#222;">Can I pay my taxes in installments?</span><span id="faq-arrow-6" style="font-size:.9rem;color:#888;flex-shrink:0;margin-left:10px;">▼</span></div>
+        <div id="faq-ans-6" style="display:none;padding:14px 20px;font-size:.86rem;color:#555;line-height:1.75;border-top:1px solid #f0f0f0;background:#fff;">Yes, GRA allows installment payments for large tax liabilities. You must apply in writing to the Commissioner of your tax office and a payment plan will be agreed upon.</div>
+      </div>
+      <div class="faq-item" data-cat="penalty" style="border:1.5px solid #e0e0e0;border-radius:10px;margin-bottom:12px;overflow:hidden;">
+        <div onclick="toggleFAQ(7)" style="padding:16px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;background:#fafafa;"><span style="font-size:.9rem;font-weight:700;color:#222;">What happens if I file late?</span><span id="faq-arrow-7" style="font-size:.9rem;color:#888;flex-shrink:0;margin-left:10px;">▼</span></div>
+        <div id="faq-ans-7" style="display:none;padding:14px 20px;font-size:.86rem;color:#555;line-height:1.75;border-top:1px solid #f0f0f0;background:#fff;">Late filing attracts a penalty. For individuals: GHS 500 or 3 times the tax payable. For companies: GHS 500 per month or part thereof. Interest also accrues at 5% above the Bank of Ghana monetary policy rate.</div>
+      </div>
+      <div class="faq-item" data-cat="penalty" style="border:1.5px solid #e0e0e0;border-radius:10px;margin-bottom:12px;overflow:hidden;">
+        <div onclick="toggleFAQ(8)" style="padding:16px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;background:#fafafa;"><span style="font-size:.9rem;font-weight:700;color:#222;">What is the penalty for not registering for tax?</span><span id="faq-arrow-8" style="font-size:.9rem;color:#888;flex-shrink:0;margin-left:10px;">▼</span></div>
+        <div id="faq-ans-8" style="display:none;padding:14px 20px;font-size:.86rem;color:#555;line-height:1.75;border-top:1px solid #f0f0f0;background:#fff;">Failure to register for tax when required attracts a penalty of GHS 5,000 for individuals and GHS 10,000 for companies. Criminal prosecution may also follow for persistent non-compliance.</div>
+      </div>
+      <div class="faq-item" data-cat="penalty" style="border:1.5px solid #e0e0e0;border-radius:10px;margin-bottom:12px;overflow:hidden;">
+        <div onclick="toggleFAQ(9)" style="padding:16px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;background:#fafafa;"><span style="font-size:.9rem;font-weight:700;color:#222;">Is there a penalty waiver programme?</span><span id="faq-arrow-9" style="font-size:.9rem;color:#888;flex-shrink:0;margin-left:10px;">▼</span></div>
+        <div id="faq-ans-9" style="display:none;padding:14px 20px;font-size:.86rem;color:#555;line-height:1.75;border-top:1px solid #f0f0f0;background:#fff;">GRA periodically runs amnesty/waiver programmes where taxpayers can clear arrears with reduced or waived penalties. Check the GRA website or contact your nearest tax office for current programmes.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ═══ PAGE MODALS ═══
+  function openPage(name){ var el=document.getElementById('page-'+name); if(el){el.style.display='block'; el.scrollTop=0;} document.body.style.overflow='hidden'; }
+  function closePage(name){ document.getElementById('page-'+name).style.display='none'; document.body.style.overflow=''; }
+
+  function showDlToast(name){
+    const t=document.createElement('div');
+    t.style.cssText='position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#006B3F;color:#fff;padding:12px 24px;border-radius:8px;font-size:.88rem;font-weight:600;z-index:9999;';
+    t.textContent='✅ Downloading: '+name;
+    document.body.appendChild(t);
+    setTimeout(()=>t.remove(),3000);
+  }
+
+  // ═══ FAQ ═══
+  function toggleFAQ(i){
+    const ans=document.getElementById('faq-ans-'+i);
+    const arrow=document.getElementById('faq-arrow-'+i);
+    const open=ans.style.display==='block';
+    ans.style.display=open?'none':'block';
+    arrow.textContent=open?'▼':'▲';
+  }
+  function filterFAQ(cat){
+    document.querySelectorAll('[id^="faq-btn-"]').forEach(b=>{ b.style.background='#f0f0f0'; b.style.color='#333'; });
+    document.getElementById('faq-btn-'+cat).style.background='#006B3F';
+    document.getElementById('faq-btn-'+cat).style.color='#fff';
+    document.querySelectorAll('.faq-item').forEach(item=>{
+      item.style.display=(cat==='all'||item.dataset.cat===cat)?'block':'none';
+    });
+  }
+
+  function openModal(type) {
+    document.getElementById('modal-' + type).classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(type) {
+    document.getElementById('modal-' + type).classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+  function showComingSoon() {
+    alert('🔧 Backend connecting soon!\n\nThe SOAP web service (server.php + MySQL) will power this login once integrated with XAMPP.');
+  }
+
+  // Taxpayer Portal Login
+  function loginTaxpayer() {
+    const tin = document.getElementById('taxpayer-tin').value.trim();
+    const pass = document.getElementById('taxpayer-pass').value.trim();
+    const err = document.getElementById('taxpayer-err');
+    if (tin === 'G0028564774' && pass === 'password123') {
+      err.style.display = 'none';
+      window.location.href = 'taxpayer_portal.html';
+    } else {
+      err.style.display = 'block';
+      err.textContent = '❌ Invalid TIN or password. Try: G0028564774 / password123';
+    }
+  }
+
+  // GRA Admin Login
+  function loginGRA() {
+    const user = document.getElementById('gra-user').value.trim();
+    const pass = document.getElementById('gra-pass').value.trim();
+    const err = document.getElementById('gra-err');
+    if (user === 'admin' && pass === 'gra2026') {
+      err.style.display = 'none';
+      window.location.href = 'gra_admin.html';
+    } else if (user === 'polyandrews90@gmail.com' && pass === 'password123') {
+      err.style.display = 'none';
+      window.location.href = 'gra_portal.html';
+    } else {
+      err.style.display = 'block';
+      err.textContent = '❌ Invalid credentials. Try: admin / gra2026';
+    }
+  }
+
+  // Scroll top button
+  const scrollBtn = document.getElementById('scrollTop');
+  window.addEventListener('scroll', () => {
+    scrollBtn.classList.toggle('visible', window.scrollY > 400);
+  });
+
+  // Animate service cards on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }, i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.service-card, .update-card').forEach(card => {
+    observer.observe(card);
+  });
+
+
+// ═══════════════════════════════════════════
+// COMPLETE AUTH SYSTEM FOR HOMEPAGE
+// ═══════════════════════════════════════════
+
+// Shared user store (mirrors taxpayer portal)
+const indexUsers = {};
+
+function authOpenLogin(){
+  const el = document.getElementById('authLoginOverlay');
+  if(el){ el.classList.add('open'); document.body.style.overflow='hidden'; }
+}
+function authCloseLogin(){
+  const el = document.getElementById('authLoginOverlay');
+  if(el){ el.classList.remove('open'); document.body.style.overflow=''; }
+}
+
+function authDoLogin(){
+  const tin  = (document.getElementById('authTINInput')||{value:''}).value.trim();
+  const pass = (document.getElementById('authPassInput')||{value:''}).value.trim();
+  const err  = document.getElementById('authLoginError');
+  if(err) err.style.display='none';
+  if(!tin||!pass){
+    if(err){err.textContent='Please enter your TIN and password.';err.style.display='block';}
+    return;
+  }
+  // Accept any valid TIN+password pair, save it
+  if(!indexUsers[tin]){
+    // New user — register on the fly with this credential
+    indexUsers[tin]={pass,name:tin,tin};
+  }
+  if(indexUsers[tin].pass===pass||(tin.length>3&&pass.length>=6)){
+    indexUsers[tin].pass = pass;
+    authCloseLogin();
+    authUpdateUI();
+  } else {
+    if(err){err.textContent='Invalid credentials. Please try again.';err.style.display='block';}
+  }
+}
+
+let authCurrentUser = null;
+
+function authUpdateUI(){
+  const tin = (document.getElementById('authTINInput')||{value:''}).value.trim();
+  if(tin && indexUsers[tin]){
+    authCurrentUser = indexUsers[tin];
+  }
+  const signinBtns = document.querySelectorAll('.auth-signin-btn');
+  const profileBtns = document.querySelectorAll('.auth-profile-btn');
+  if(authCurrentUser){
+    signinBtns.forEach(b=>b.style.display='none');
+    profileBtns.forEach(b=>{
+      b.style.display='flex';
+      const av=b.querySelector('.auth-avatar');
+      const nm=b.querySelector('.auth-profile-name');
+      const initials=(authCurrentUser.name||'U').split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+      if(av) av.textContent=initials;
+      if(nm) nm.textContent=authCurrentUser.name||authCurrentUser.tin;
+    });
+    const dn=document.getElementById('authDropName');
+    const dr=document.getElementById('authDropRole');
+    const dt=document.getElementById('authDropTIN');
+    const dav=document.getElementById('authDropAvatar');
+    const initials=(authCurrentUser.name||'U').split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    if(dn) dn.textContent=authCurrentUser.name||authCurrentUser.tin;
+    if(dr) dr.textContent='Taxpayer';
+    if(dt) dt.textContent='TIN: '+authCurrentUser.tin;
+    if(dav) dav.textContent=initials;
+  } else {
+    signinBtns.forEach(b=>b.style.display='flex');
+    profileBtns.forEach(b=>b.style.display='none');
+  }
+}
+
+function authToggleDropdown(){
+  const dd=document.getElementById('authDropdown');
+  const pb=document.querySelector('.auth-profile-btn');
+  if(!dd) return;
+  dd.classList.toggle('open');
+  if(pb) pb.classList.toggle('open');
+}
+
+function authOpenDashboard(){
+  const dd=document.getElementById('authDropdown');
+  const pb=document.querySelector('.auth-profile-btn');
+  if(dd) dd.classList.remove('open');
+  if(pb) pb.classList.remove('open');
+  window.location.href='taxpayer_portal.html';
+}
+
+function authOpenChangePw(){
+  const dd=document.getElementById('authDropdown');
+  const cpEl=document.getElementById('authChangePwOverlay');
+  if(dd) dd.classList.remove('open');
+  if(cpEl){ cpEl.style.display='flex'; document.body.style.overflow='hidden'; }
+  else alert('Change password feature: Please visit the Taxpayer Portal to change your password.');
+}
+
+function authDoChangePw(){
+  const oldPw = (document.getElementById('authOldPw')||{value:''}).value;
+  const newPw = (document.getElementById('authNewPw')||{value:''}).value;
+  const cfPw  = (document.getElementById('authCfPw') ||{value:''}).value;
+  if(!authCurrentUser){alert('Please sign in first.');return;}
+  if(oldPw !== authCurrentUser.pass){alert('Current password is incorrect.');return;}
+  if(newPw.length<6){alert('New password must be at least 6 characters.');return;}
+  if(newPw !== cfPw){alert('Passwords do not match.');return;}
+  authCurrentUser.pass = newPw;
+  indexUsers[authCurrentUser.tin].pass = newPw;
+  const cpEl=document.getElementById('authChangePwOverlay');
+  if(cpEl) cpEl.style.display='none';
+  document.body.style.overflow='';
+  alert('✅ Password changed successfully!');
+}
+
+function authSignOut(){
+  authCurrentUser=null;
+  const dd=document.getElementById('authDropdown');
+  if(dd) dd.classList.remove('open');
+  authUpdateUI();
+}
+
+function switchInvTab(n){
+  [1,2,3].forEach(i=>{
+    const tab=document.getElementById('invTab'+i);
+    const pane=document.getElementById('invPane'+i);
+    if(tab) tab.classList.toggle('active',i===n);
+    if(pane) pane.style.display=(i===n?'block':'none');
+  });
+}
+
+// Init
+authUpdateUI();
+</script>
+
+<!-- ════════════════════════════════════════════
+     GLOBAL AUTH MODALS (injected into all pages)
+     ════════════════════════════════════════════ -->
+
+<!-- LOGIN MODAL -->
+<div class="auth-modal-overlay" id="authLoginOverlay">
+  <div class="auth-modal">
+    <div class="auth-modal-head">
+      <button class="auth-close-x" onclick="authCloseLogin()">✕</button>
+      <div class="auth-modal-logo">🔐</div>
+      <h2>GRA Secure Login</h2>
+      <p>Ghana Revenue Authority — Taxpayer Portal</p>
+    </div>
+    <div class="auth-modal-body">
+      <div class="auth-error" id="authLoginError">Invalid credentials. Please try again.</div>
+      <div class="auth-field">
+        <label>TIN / Username</label>
+        <input type="text" id="authTINInput" placeholder="e.g. G0028564774 or admin" autocomplete="username"/>
+      </div>
+      <div class="auth-field">
+        <label>Password</label>
+        <input type="password" id="authPassInput" placeholder="Enter your password" autocomplete="current-password"/>
+      </div>
+      <button class="auth-submit-btn" onclick="authDoLogin()">🔐 SIGN IN</button>
+    </div>
+    <div class="auth-modal-foot">🔒 Your session is encrypted and secure</div>
+  </div>
+</div>
+
+<!-- CHANGE PASSWORD MODAL -->
+<div class="auth-modal-overlay" id="authChPwOverlay">
+  <div class="auth-modal chpw-modal">
+    <div class="auth-modal-head">
+      <button class="auth-close-x" onclick="document.getElementById('authChPwOverlay').classList.remove('open')">✕</button>
+      <div class="auth-modal-logo">🔑</div>
+      <h2>Change Password</h2>
+      <p>Update your GRA portal password</p>
+    </div>
+    <div class="auth-modal-body">
+      <div class="chpw-success" id="chpwSuccess">
+        <div class="cs-icon">✅</div>
+        <p>Password changed successfully!</p>
+        <p style="color:#888;font-size:.8rem;margin-top:6px;">Please use your new password next time you sign in.</p>
+      </div>
+      <div id="chpwForm">
+        <div class="auth-error" id="chpwError">Current password is incorrect.</div>
+        <div class="auth-field">
+          <label>Current Password</label>
+          <input type="password" id="chpwCurrent" placeholder="Enter current password"/>
+        </div>
+        <div class="auth-field">
+          <label>New Password</label>
+          <input type="password" id="chpwNew" placeholder="Min. 6 characters"/>
+        </div>
+        <div class="auth-field">
+          <label>Confirm New Password</label>
+          <input type="password" id="chpwConfirm" placeholder="Re-enter new password"/>
+        </div>
+        <button class="auth-submit-btn" style="background:linear-gradient(135deg,#1a2a5e,#2d4a9e);" onclick="authDoChangePw()">🔑 CHANGE PASSWORD</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INVOICE DASHBOARD MODAL -->
+<div class="auth-modal-overlay" id="authInvOverlay">
+  <div class="auth-modal inv-modal">
+    <div class="inv-modal-head">
+      <div>
+        <h2>📑 My Invoice Dashboard</h2>
+        <p id="invModalUser">Loading...</p>
+      </div>
+      <button class="auth-close-x" style="position:static;" onclick="document.getElementById('authInvOverlay').classList.remove('open')">✕</button>
+    </div>
+    <div class="inv-tab-row">
+      <button class="inv-tab active" id="invTab1" onclick="switchInvTab(1)">📋 Overview</button>
+      <button class="inv-tab" id="invTab2" onclick="switchInvTab(2)">📅 Weekly Income Tax</button>
+      <button class="inv-tab" id="invTab3" onclick="switchInvTab(3)">🗂️ All Tax Invoices</button>
+    </div>
+    <div class="inv-body">
+
+      <!-- TAB 1: Overview with two big buttons -->
+      <div id="invPane1">
+        <div class="inv-summary-row">
+          <div class="inv-sum-card"><div class="isn" style="color:#006B3F;">GHS 1,140</div><div class="isl">Total Paid 2026</div></div>
+          <div class="inv-sum-card"><div class="isn" style="color:#C8102E;">GHS 285</div><div class="isl">Outstanding</div></div>
+          <div class="inv-sum-card"><div class="isn">12</div><div class="isl">Weeks Filed</div></div>
+          <div class="inv-sum-card"><div class="isn" style="color:#856404;">3</div><div class="isl">Overdue</div></div>
+        </div>
+        <div class="inv-big-btns">
+          <button class="inv-big-btn green" onclick="switchInvTab(2)">
+            <span class="ib-icon">📅</span>
+            <div>
+              <span class="ib-title">Weekly Income Tax</span>
+              <span class="ib-sub">15 invoices &nbsp;·&nbsp; GHS 285 outstanding</span>
+            </div>
+          </button>
+          <button class="inv-big-btn dark" onclick="switchInvTab(3)">
+            <span class="ib-icon">🗂️</span>
+            <div>
+              <span class="ib-title">All Tax Invoices</span>
+              <span class="ib-sub">PAYE, CIT, VIT, Rental &amp; more</span>
+            </div>
+          </button>
+        </div>
+        <p style="font-size:.8rem;color:#999;text-align:center;margin-top:8px;">Click either button above to view detailed invoices</p>
+      </div>
+
+      <!-- TAB 2: Weekly Income Tax -->
+      <div id="invPane2" style="display:none;">
+        <div class="inv-section-head">
+          <h3>📅 Weekly Income Tax Invoices — 2026</h3>
+          <button class="inv-back-btn" onclick="switchInvTab(1)">← Back</button>
+        </div>
+        <div class="inv-summary-row">
+          <div class="inv-sum-card"><div class="isn" style="color:#006B3F;">12</div><div class="isl">Paid</div></div>
+          <div class="inv-sum-card"><div class="isn" style="color:#856404;">1</div><div class="isl">Pending</div></div>
+          <div class="inv-sum-card"><div class="isn" style="color:#C8102E;">2</div><div class="isl">Overdue</div></div>
+          <div class="inv-sum-card"><div class="isn">GHS 95</div><div class="isl">Per Week</div></div>
+        </div>
+        <table class="inv-tbl">
+          <thead><tr><th>#</th><th>Week Period</th><th>Due Date</th><th>Amount</th><th>Paid On</th><th>Receipt</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><strong>W15</strong></td><td>Apr 7–13, 2026</td><td style="color:#C8102E;font-weight:800;">14 Apr 2026</td><td><strong>GHS 95.00</strong></td><td>—</td><td>—</td><td><span class="inv-badge-due">🔴 OVERDUE</span></td></tr>
+            <tr><td><strong>W14</strong></td><td>Mar 31–Apr 6, 2026</td><td style="color:#C8102E;font-weight:800;">07 Apr 2026</td><td><strong>GHS 95.00</strong></td><td>—</td><td>—</td><td><span class="inv-badge-due">🔴 OVERDUE</span></td></tr>
+            <tr><td><strong>W13</strong></td><td>Mar 24–30, 2026</td><td style="color:#856404;font-weight:800;">31 Mar 2026</td><td><strong>GHS 95.00</strong></td><td>—</td><td>—</td><td><span class="inv-badge-pending">⏳ PENDING</span></td></tr>
+            <tr><td><strong>W12</strong></td><td>Mar 17–23, 2026</td><td>24 Mar 2026</td><td><strong>GHS 95.00</strong></td><td>24 Mar 2026</td><td style="font-size:.76rem;">RGGOV07240001</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>W11</strong></td><td>Mar 10–16, 2026</td><td>17 Mar 2026</td><td><strong>GHS 95.00</strong></td><td>17 Mar 2026</td><td style="font-size:.76rem;">RGGOV07230008</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>W10</strong></td><td>Mar 3–9, 2026</td><td>10 Mar 2026</td><td><strong>GHS 95.00</strong></td><td>10 Mar 2026</td><td style="font-size:.76rem;">RGGOV07200015</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>W9</strong></td><td>Feb 24–Mar 2, 2026</td><td>03 Mar 2026</td><td><strong>GHS 95.00</strong></td><td>03 Mar 2026</td><td style="font-size:.76rem;">RGGOV07180090</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>W8</strong></td><td>Feb 17–23, 2026</td><td>24 Feb 2026</td><td><strong>GHS 95.00</strong></td><td>24 Feb 2026</td><td style="font-size:.76rem;">RGGOV07160045</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>W7</strong></td><td>Feb 10–16, 2026</td><td>17 Feb 2026</td><td><strong>GHS 95.00</strong></td><td>16 Feb 2026</td><td style="font-size:.76rem;">RGGOV07140033</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>W6</strong></td><td>Feb 3–9, 2026</td><td>10 Feb 2026</td><td><strong>GHS 95.00</strong></td><td>09 Feb 2026</td><td style="font-size:.76rem;">RGGOV07120066</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>W5</strong></td><td>Jan 27–Feb 2, 2026</td><td>03 Feb 2026</td><td><strong>GHS 95.00</strong></td><td>02 Feb 2026</td><td style="font-size:.76rem;">RGGOV07100021</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>W4</strong></td><td>Jan 20–26, 2026</td><td>27 Jan 2026</td><td><strong>GHS 95.00</strong></td><td>27 Jan 2026</td><td style="font-size:.76rem;">RGGOV07080077</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>W3</strong></td><td>Jan 13–19, 2026</td><td>20 Jan 2026</td><td><strong>GHS 95.00</strong></td><td>19 Jan 2026</td><td style="font-size:.76rem;">RGGOV07060049</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>W2</strong></td><td>Jan 6–12, 2026</td><td>13 Jan 2026</td><td><strong>GHS 95.00</strong></td><td>13 Jan 2026</td><td style="font-size:.76rem;">RGGOV07040031</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>W1</strong></td><td>Dec 30–Jan 5, 2026</td><td>06 Jan 2026</td><td><strong>GHS 95.00</strong></td><td>06 Jan 2026</td><td style="font-size:.76rem;">RGGOV07020012</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- TAB 3: All Tax Invoices -->
+      <div id="invPane3" style="display:none;">
+        <div class="inv-section-head">
+          <h3>🗂️ All Tax Invoices — 2026</h3>
+          <button class="inv-back-btn" onclick="switchInvTab(1)">← Back</button>
+        </div>
+        <div class="inv-summary-row">
+          <div class="inv-sum-card"><div class="isn" style="color:#006B3F;">GHS 2,280</div><div class="isl">Total Paid</div></div>
+          <div class="inv-sum-card"><div class="isn" style="color:#C8102E;">GHS 475</div><div class="isl">Outstanding</div></div>
+          <div class="inv-sum-card"><div class="isn">18</div><div class="isl">Total Invoices</div></div>
+          <div class="inv-sum-card"><div class="isn" style="color:#856404;">4</div><div class="isl">Pending/Due</div></div>
+        </div>
+        <table class="inv-tbl">
+          <thead><tr><th>Invoice #</th><th>Date</th><th>Tax Type</th><th>Period</th><th>Amount</th><th>Due Date</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><strong>INV-2026-015</strong></td><td>14 Apr 2026</td><td>Weekly IT</td><td>Week 15</td><td><strong>GHS 95.00</strong></td><td style="color:#C8102E;font-weight:800;">14 Apr</td><td><span class="inv-badge-due">🔴 OVERDUE</span></td></tr>
+            <tr><td><strong>INV-2026-014</strong></td><td>07 Apr 2026</td><td>Weekly IT</td><td>Week 14</td><td><strong>GHS 95.00</strong></td><td style="color:#C8102E;font-weight:800;">07 Apr</td><td><span class="inv-badge-due">🔴 OVERDUE</span></td></tr>
+            <tr><td><strong>INV-2026-013</strong></td><td>01 Apr 2026</td><td>PAYE</td><td>Mar 2026</td><td><strong>GHS 190.00</strong></td><td style="color:#856404;font-weight:800;">30 Apr</td><td><span class="inv-badge-pending">⏳ PENDING</span></td></tr>
+            <tr><td><strong>INV-2026-012</strong></td><td>31 Mar 2026</td><td>Weekly IT</td><td>Week 13</td><td><strong>GHS 95.00</strong></td><td style="color:#856404;font-weight:800;">31 Mar</td><td><span class="inv-badge-pending">⏳ PENDING</span></td></tr>
+            <tr><td><strong>INV-2026-011</strong></td><td>24 Mar 2026</td><td>Weekly IT</td><td>Week 12</td><td><strong>GHS 95.00</strong></td><td>24 Mar</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>INV-2026-010</strong></td><td>01 Mar 2026</td><td>PAYE</td><td>Feb 2026</td><td><strong>GHS 190.00</strong></td><td>31 Mar</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>INV-2026-009</strong></td><td>17 Mar 2026</td><td>Weekly IT</td><td>Week 11</td><td><strong>GHS 95.00</strong></td><td>17 Mar</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>INV-2026-008</strong></td><td>10 Mar 2026</td><td>Weekly IT</td><td>Week 10</td><td><strong>GHS 95.00</strong></td><td>10 Mar</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>INV-2026-007</strong></td><td>03 Mar 2026</td><td>Weekly IT</td><td>Week 9</td><td><strong>GHS 95.00</strong></td><td>03 Mar</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>INV-2026-006</strong></td><td>28 Feb 2026</td><td>VIT</td><td>Q1 2026</td><td><strong>GHS 320.00</strong></td><td>28 Feb</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>INV-2026-005</strong></td><td>24 Feb 2026</td><td>Weekly IT</td><td>Week 8</td><td><strong>GHS 95.00</strong></td><td>24 Feb</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>INV-2026-004</strong></td><td>01 Feb 2026</td><td>PAYE</td><td>Jan 2026</td><td><strong>GHS 190.00</strong></td><td>28 Feb</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>INV-2026-003</strong></td><td>17 Feb 2026</td><td>Weekly IT</td><td>Week 7</td><td><strong>GHS 95.00</strong></td><td>17 Feb</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>INV-2026-002</strong></td><td>10 Feb 2026</td><td>Weekly IT</td><td>Week 6</td><td><strong>GHS 95.00</strong></td><td>10 Feb</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>INV-2026-001</strong></td><td>06 Jan 2026</td><td>Rental Tax</td><td>Q4 2025</td><td><strong>GHS 85.00</strong></td><td>06 Jan</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Profile Dropdown -->
+<div class="auth-dropdown" id="authDropdown">
+  <div class="auth-drop-header">
+    <div class="auth-drop-avatar" id="authDropAvatar">U</div>
+    <div class="auth-drop-name" id="authDropName">User Name</div>
+    <div class="auth-drop-role" id="authDropRole">Taxpayer</div>
+    <div class="auth-drop-tin" id="authDropTIN"></div>
+  </div>
+  <div class="auth-drop-body">
+    <button class="auth-drop-item" onclick="authOpenDashboard()">
+      <span class="dicon">📑</span> Go to Dashboard
+    </button>
+    <button class="auth-drop-item" onclick="authOpenChangePw()">
+      <span class="dicon">🔑</span> Change Password
+    </button>
+    <hr class="auth-drop-divider"/>
+    <button class="auth-drop-item danger" onclick="authSignOut()">
+      <span class="dicon">🚪</span> Sign Out
+    </button>
+  </div>
+</div>
+
+<script>
+
+// ════════════════════════════════════════════
+//  GLOBAL AUTH SYSTEM
+// ════════════════════════════════════════════
+const AUTH_USERS = {
+  'G0028564774': {pass:'password123', name:'Kwanwoma District Office', role:'Taxpayer', tin:'G0028564774'},
+  'admin':        {pass:'gra2026',     name:'Administrator',            role:'Admin',    tin:'ADMIN-001'},
+  'officer':      {pass:'officer123',  name:'Tax Officer',              role:'Officer',  tin:'OFF-0042'},
+};
+let authCurrentUser = null;
+
+function authOpenLogin(){
+  document.getElementById('authLoginOverlay').classList.add('open');
+  document.getElementById('authLoginError').style.display='none';
+  setTimeout(()=>{ const t=document.getElementById('authTINInput'); if(t) t.focus(); },200);
+}
+function authCloseLogin(){
+  document.getElementById('authLoginOverlay').classList.remove('open');
+}
+function authDoLogin(){
+  const tin  = (document.getElementById('authTINInput').value||'').trim();
+  const pass = (document.getElementById('authPassInput').value||'').trim();
+  const user = AUTH_USERS[tin];
+  if(user && user.pass === pass){
+    authCurrentUser = {...user};
+    authCloseLogin();
+    authUpdateUI();
+  } else {
+    document.getElementById('authLoginError').style.display='block';
+  }
+}
+// Allow Enter key in password
+document.addEventListener('DOMContentLoaded',()=>{
+  const pi = document.getElementById('authPassInput');
+  if(pi) pi.addEventListener('keydown',e=>{ if(e.key==='Enter') authDoLogin(); });
+  const ti = document.getElementById('authTINInput');
+  if(ti) ti.addEventListener('keydown',e=>{ if(e.key==='Enter'){ const pi2=document.getElementById('authPassInput'); if(pi2) pi2.focus(); }});
+});
+
+function authUpdateUI(){
+  const signinBtns = document.querySelectorAll('.auth-signin-btn');
+  const profileBtns = document.querySelectorAll('.auth-profile-btn');
+  if(authCurrentUser){
+    const initials = authCurrentUser.name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    signinBtns.forEach(b=>b.style.display='none');
+    profileBtns.forEach(b=>{
+      b.style.display='flex';
+      const av = b.querySelector('.auth-avatar');
+      const nm = b.querySelector('.auth-profile-name');
+      if(av) av.textContent=initials;
+      if(nm) nm.textContent=authCurrentUser.name;
+    });
+    // Update dropdown header
+    const dav=document.getElementById('authDropAvatar');
+    const dnm=document.getElementById('authDropName');
+    const drl=document.getElementById('authDropRole');
+    const dtn=document.getElementById('authDropTIN');
+    if(dav) dav.textContent=initials;
+    if(dnm) dnm.textContent=authCurrentUser.name;
+    if(drl) drl.textContent=authCurrentUser.role;
+    if(dtn) dtn.textContent='TIN: '+authCurrentUser.tin;
+    // Update invoice modal user
+    const iu=document.getElementById('invModalUser');
+    if(iu) iu.textContent=authCurrentUser.name+' · '+authCurrentUser.tin;
+  } else {
+    signinBtns.forEach(b=>b.style.display='flex');
+    profileBtns.forEach(b=>b.style.display='none');
+  }
+}
+
+function authToggleDropdown(){
+  const dd=document.getElementById('authDropdown');
+  const pb=document.querySelector('.auth-profile-btn');
+  if(!dd) return;
+  const isOpen=dd.classList.contains('open');
+  dd.classList.toggle('open');
+  if(pb) pb.classList.toggle('open');
+  if(!isOpen){
+    // Position dropdown relative to profile button
+    if(pb){
+      const rect=pb.getBoundingClientRect();
+      dd.style.top=(rect.bottom+6)+'px';
+      dd.style.right=(window.innerWidth-rect.right)+'px';
+    }
+  }
+}
+
+function authOpenDashboard(){
+  document.getElementById('authDropdown').classList.remove('open');
+  document.querySelectorAll('.auth-profile-btn').forEach(b=>b.classList.remove('open'));
+  switchInvTab(1);
+  document.getElementById('authInvOverlay').classList.add('open');
+}
+
+function authOpenChangePw(){
+  document.getElementById('authDropdown').classList.remove('open');
+  document.querySelectorAll('.auth-profile-btn').forEach(b=>b.classList.remove('open'));
+  document.getElementById('chpwForm').style.display='block';
+  document.getElementById('chpwSuccess').style.display='none';
+  document.getElementById('chpwError').style.display='none';
+  document.getElementById('chpwCurrent').value='';
+  document.getElementById('chpwNew').value='';
+  document.getElementById('chpwConfirm').value='';
+  document.getElementById('authChPwOverlay').classList.add('open');
+}
+
+function authDoChangePw(){
+  const cur=document.getElementById('chpwCurrent').value.trim();
+  const nw=document.getElementById('chpwNew').value.trim();
+  const cf=document.getElementById('chpwConfirm').value.trim();
+  if(!authCurrentUser){return;}
+  if(cur !== authCurrentUser.pass){
+    document.getElementById('chpwError').textContent='Current password is incorrect.';
+    document.getElementById('chpwError').style.display='block';
+    return;
+  }
+  if(nw.length<6){
+    document.getElementById('chpwError').textContent='New password must be at least 6 characters.';
+    document.getElementById('chpwError').style.display='block';
+    return;
+  }
+  if(nw !== cf){
+    document.getElementById('chpwError').textContent='Passwords do not match.';
+    document.getElementById('chpwError').style.display='block';
+    return;
+  }
+  authCurrentUser.pass = nw;
+  AUTH_USERS[authCurrentUser.tin] && (AUTH_USERS[authCurrentUser.tin].pass=nw);
+  document.getElementById('chpwForm').style.display='none';
+  document.getElementById('chpwSuccess').style.display='block';
+  setTimeout(()=>document.getElementById('authChPwOverlay').classList.remove('open'),2000);
+}
+
+function authSignOut(){
+  authCurrentUser=null;
+  document.getElementById('authDropdown').classList.remove('open');
+  document.querySelectorAll('.auth-profile-btn').forEach(b=>b.classList.remove('open'));
+  authUpdateUI();
+}
+
+function switchInvTab(n){
+  [1,2,3].forEach(i=>{
+    document.getElementById('invTab'+i).classList.toggle('active',i===n);
+    document.getElementById('invPane'+i).style.display=(i===n)?'block':'none';
+  });
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click',function(e){
+  const dd=document.getElementById('authDropdown');
+  const pb=document.querySelector('.auth-profile-btn');
+  if(dd && dd.classList.contains('open')){
+    if(!dd.contains(e.target) && pb && !pb.contains(e.target)){
+      dd.classList.remove('open');
+      if(pb) pb.classList.remove('open');
+    }
+  }
+});
+
+// Close modals on overlay click
+document.addEventListener('click',function(e){
+  ['authLoginOverlay',
+<!-- CHANGE PASSWORD OVERLAY -->
+<div class="auth-modal-overlay" id="authChangePwOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99999;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#fff;border-radius:16px;max-width:420px;width:100%;padding:32px;box-shadow:0 8px 40px rgba(0,0,0,.25);">
+    <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;margin-bottom:20px;">🔑 Change Password</h3>
+    <div style="margin-bottom:14px;">
+      <label style="display:block;font-size:.82rem;font-weight:800;color:#333;margin-bottom:6px;text-transform:uppercase;">Current Password</label>
+      <input type="password" id="authOldPw" placeholder="Enter current password" style="width:100%;padding:11px 14px;border:2px solid #dde;border-radius:8px;font-size:.93rem;outline:none;"/>
+    </div>
+    <div style="margin-bottom:14px;">
+      <label style="display:block;font-size:.82rem;font-weight:800;color:#333;margin-bottom:6px;text-transform:uppercase;">New Password</label>
+      <input type="password" id="authNewPw" placeholder="Min. 6 characters" style="width:100%;padding:11px 14px;border:2px solid #dde;border-radius:8px;font-size:.93rem;outline:none;"/>
+    </div>
+    <div style="margin-bottom:20px;">
+      <label style="display:block;font-size:.82rem;font-weight:800;color:#333;margin-bottom:6px;text-transform:uppercase;">Confirm New Password</label>
+      <input type="password" id="authCfPw" placeholder="Repeat new password" style="width:100%;padding:11px 14px;border:2px solid #dde;border-radius:8px;font-size:.93rem;outline:none;"/>
+    </div>
+    <div style="display:flex;gap:12px;">
+      <button onclick="authDoChangePw()" style="flex:1;background:linear-gradient(135deg,#006B3F,#00a85a);color:#fff;border:none;padding:13px;border-radius:9px;font-size:.96rem;font-weight:900;cursor:pointer;">UPDATE PASSWORD</button>
+      <button onclick="document.getElementById('authChangePwOverlay').style.display='none';document.body.style.overflow='';" style="flex:1;background:#f4f4f4;color:#333;border:none;padding:13px;border-radius:9px;font-size:.96rem;font-weight:800;cursor:pointer;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+'

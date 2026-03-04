@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GRA – Professional Admin System</title>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{--red:#C8102E;--gold:#FFD100;--green:#006B3F;--dark:#1a1a1a;--muted:#6c757d;--light:#f4f4f4;--white:#fff;--border:#e0e0e0;--navy:#1a2a5e;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:var(--light);color:var(--dark);}
+.flag{height:5px;display:flex;}
+.flag span{flex:1;}
+.flag span:nth-child(1){background:var(--red);}
+.flag span:nth-child(2){background:var(--gold);}
+.flag span:nth-child(3){background:var(--green);}
+.pg{display:none;}.pg.on{display:block;}
+/* LOGIN */
+.lw{min-height:100vh;background:linear-gradient(135deg,#0d3d2e,#1a2a5e 50%,#6b0a0a);display:flex;align-items:center;justify-content:center;padding:20px;}
+.lc{background:var(--white);border-radius:16px;width:100%;max-width:420px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.lh{background:linear-gradient(135deg,var(--green),#004d2d);padding:28px;text-align:center;color:var(--white);}
+.lh img{width:64px;height:64px;border-radius:50%;border:3px solid var(--gold);margin-bottom:12px;}
+.lh h2{font-family:'Merriweather',serif;font-size:1.5rem;font-weight:900;letter-spacing:-.01em;}
+.lh p{font-size:.76rem;opacity:.8;margin-top:4px;}
+.lb{padding:28px;}
+.ltabs{display:flex;border-bottom:2px solid var(--border);margin-bottom:20px;}
+.lt{flex:1;padding:10px;text-align:center;font-size:.8rem;font-weight:700;cursor:pointer;border-bottom:3px solid transparent;color:#999;margin-bottom:-2px;transition:all .2s;}
+.lt.on{color:var(--dark);border-bottom-color:var(--gold);}
+.fg{margin-bottom:14px;}
+.fg label{display:block;font-size:.76rem;font-weight:700;color:#444;margin-bottom:4px;}
+.fg input,.fg select{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:7px;font-family:'Nunito',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;}
+.fg input:focus,.fg select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,107,63,.1);}
+.fg.err input{border-color:var(--red)!important;}
+.fg .emsg{font-size:.7rem;color:var(--red);margin-top:3px;display:none;}
+.fg.err .emsg{display:block;}
+.btn-login{width:100%;padding:15px;background:var(--green);color:var(--white);border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1.05rem;cursor:pointer;transition:background .2s;letter-spacing:.04em;text-transform:uppercase;}
+.btn-login:hover{background:#004d2d;}
+.demo-creds{background:#f9f9f9;border-radius:8px;padding:12px;margin-top:14px;font-size:.72rem;color:#666;line-height:1.8;}
+.demo-creds strong{color:var(--dark);}
+/* LAYOUT */
+.layout{display:flex;min-height:100vh;}
+.sidebar{width:228px;min-width:228px;background:var(--dark);color:var(--white);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;}
+.sb-brand{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:10px;}
+.sb-brand img{width:36px;height:36px;border-radius:50%;border:2px solid var(--gold);}
+.sb-brand h2{font-family:'Merriweather',serif;font-size:.96rem;font-weight:900;line-height:1.2;}
+.sb-brand small{font-size:.6rem;color:#aaa;}
+.sb-user{padding:10px 14px;background:rgba(255,255,255,.06);margin:8px;border-radius:7px;}
+.sbu-name{font-size:.9rem;font-weight:800;}
+.sbu-role{font-size:.66rem;color:#aaa;margin-top:1px;}
+.sbu-badge{display:inline-block;padding:2px 7px;border-radius:4px;font-size:.62rem;font-weight:700;margin-top:4px;}
+.sbu-badge.sa{background:#e8f5ee;color:var(--green);}
+.sbu-badge.to{background:#e8edf4;color:var(--navy);}
+.sbu-badge.de{background:#fff8e0;color:#8a6300;}
+.sbu-badge.au{background:#fdeaea;color:var(--red);}
+.sb-nav{flex:1;padding:6px 0;overflow-y:auto;}
+.sb-sec{font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:#555;padding:9px 16px 3px;}
+.sbl{display:flex;align-items:center;gap:9px;padding:10px 16px;font-size:.86rem;font-weight:700;color:#bbb;cursor:pointer;transition:all .2s;border-left:3px solid transparent;}
+.sbl:hover{background:rgba(255,255,255,.07);color:var(--white);}
+.sbl.on{background:rgba(255,255,255,.1);color:var(--white);border-left-color:var(--gold);}
+.sbl .ic{font-size:.95rem;width:18px;text-align:center;}
+.sbl .bc{margin-left:auto;background:var(--red);color:var(--white);border-radius:9px;padding:1px 6px;font-size:.62rem;font-weight:700;}
+.sb-bot{padding:10px 16px;border-top:1px solid rgba(255,255,255,.1);}
+.sb-logout{display:flex;align-items:center;gap:8px;padding:8px 11px;background:rgba(200,16,46,.15);border-radius:6px;cursor:pointer;font-size:.78rem;color:#ff8899;font-weight:700;transition:background .2s;}
+.sb-logout:hover{background:rgba(200,16,46,.3);}
+.main{margin-left:228px;flex:1;}
+.topbar2{background:var(--white);border-bottom:2px solid var(--border);padding:0 22px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 6px rgba(0,0,0,.06);}
+.topbar2 h1{font-family:'Merriweather',serif;font-size:1.2rem;font-weight:900;letter-spacing:-.01em;}
+.tb2r{display:flex;align-items:center;gap:12px;}
+.nb2{position:relative;background:none;border:none;font-size:1.1rem;cursor:pointer;}
+.nd{position:absolute;top:-1px;right:-1px;width:7px;height:7px;background:var(--red);border-radius:50%;}
+.tb2-user{display:flex;align-items:center;gap:7px;font-size:.8rem;font-weight:700;cursor:pointer;}
+.tb2-av{width:28px;height:28px;border-radius:50%;background:var(--green);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:.76rem;font-weight:800;}
+.cbody{padding:20px 22px;}
+.sec{display:none;}.sec.on{display:block;}
+/* STATS */
+.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:20px;}
+.sc2{background:var(--white);border-radius:9px;padding:16px 18px;box-shadow:0 2px 8px rgba(0,0,0,.07);border-left:4px solid;}
+.sc2:nth-child(1){border-color:var(--green);}
+.sc2:nth-child(2){border-color:var(--gold);}
+.sc2:nth-child(3){border-color:var(--red);}
+.sc2:nth-child(4){border-color:var(--navy);}
+.sc2 .sn{font-family:'Merriweather',serif;font-size:2.2rem;font-weight:900;letter-spacing:-.02em;}
+.sc2 .sl{font-size:.76rem;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;}
+.sc2 .sg{font-size:.7rem;color:var(--green);margin-top:4px;font-weight:700;}
+.panel{background:var(--white);border-radius:9px;padding:16px 18px;box-shadow:0 2px 8px rgba(0,0,0,.07);margin-bottom:14px;}
+.ph{font-size:.82rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:14px;padding-bottom:9px;border-bottom:2px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.ph span{font-weight:600;color:#aaa;text-transform:none;font-size:.7rem;}
+.tbl{width:100%;border-collapse:collapse;}
+.tbl th{font-size:.76rem;font-weight:800;color:#555;padding:9px 12px;text-align:left;background:#f9f9f9;border-bottom:2px solid var(--border);}
+.tbl td{font-size:.84rem;padding:11px 12px;border-bottom:1px solid #f0f0f0;}
+.tbl tr:hover td{background:#fafafa;cursor:pointer;}
+.badge{display:inline-block;padding:3px 10px;border-radius:9px;font-size:.74rem;font-weight:800;letter-spacing:.02em;}
+.badge.a{background:#e8f5ee;color:var(--green);}
+.badge.p{background:#fff8e0;color:#8a6300;}
+.badge.s{background:#fdeaea;color:var(--red);}
+.badge.e{background:#f0e8ff;color:#6600cc);}
+.badge.r{background:#e8f0ff;color:var(--navy);}
+.badge.c{background:#e8f5ee;color:var(--green);}
+.sbar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;}
+.sbar input,.sbar select{padding:8px 11px;border:1.5px solid var(--border);border-radius:6px;font-family:'Nunito',sans-serif;font-size:.8rem;outline:none;}
+.sbar input{flex:1;min-width:140px;}
+.sbar input:focus,.sbar select:focus{border-color:var(--green);}
+.bsm{padding:8px 16px;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:800;cursor:pointer;transition:all .2s;}
+.bg2{background:var(--green);color:var(--white);}.bg2:hover{background:#004d2d;}
+.br2{background:var(--red);color:var(--white);}.br2:hover{background:#a00e25;}
+.bgo2{background:var(--gold);color:var(--dark);}.bgo2:hover{background:#e6c200;}
+.bn2{background:var(--navy);color:var(--white);}
+.bo2{background:var(--white);border:1.5px solid var(--border);color:#555;}.bo2:hover{border-color:var(--dark);color:var(--dark);}
+/* CHARTS */
+.cgrid{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:14px;}
+.cbars2{display:flex;align-items:flex-end;gap:5px;height:100px;margin-top:9px;}
+.cbw2{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;}
+.cb2{width:100%;border-radius:3px 3px 0 0;}
+.cbl2{font-size:.58rem;color:#aaa;text-align:center;}
+.cbv2{font-size:.62rem;font-weight:700;}
+.dl2{display:flex;flex-direction:column;gap:6px;margin-top:8px;}
+.dl2 .di{display:flex;align-items:center;justify-content:space-between;}
+.dl2 .dil{display:flex;align-items:center;gap:6px;font-size:.76rem;}
+.dl2 .dot{width:9px;height:9px;border-radius:50%;}
+.dl2 .dv{font-size:.76rem;font-weight:700;}
+/* COMPLIANCE */
+.comp-bar{height:6px;border-radius:3px;background:#eee;flex:1;min-width:60px;overflow:hidden;display:inline-block;}
+.comp-fill{height:100%;border-radius:3px;transition:width .5s;}
+.comp-fill.hi{background:var(--green);}
+.comp-fill.mi{background:var(--gold);}
+.comp-fill.lo{background:var(--red);}
+.comp-detail{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.cdi{background:#f9f9f9;border-radius:7px;padding:12px;border-left:3px solid var(--border);}
+.cdi.ok{border-color:var(--green);}
+.cdi.warn{border-color:var(--gold);}
+.cdi.bad{border-color:var(--red);}
+.cdi .cdil{font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);}
+.cdi .cdiv{font-size:.9rem;font-weight:800;margin-top:3px;}
+/* PENALTY */
+.pbox{background:linear-gradient(135deg,#6b0a0a,var(--red));color:var(--white);border-radius:9px;padding:16px 20px;margin-top:12px;}
+.pbox .pl{font-size:.66rem;text-transform:uppercase;letter-spacing:.1em;opacity:.7;margin-bottom:3px;}
+.pbox .pa{font-family:'Merriweather',serif;font-size:1.7rem;font-weight:900;}
+/* MODAL */
+.mbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;align-items:center;justify-content:center;padding:20px;}
+.mbg.on{display:flex!important;}
+.mbox{background:var(--white);border-radius:12px;width:100%;max-width:620px;max-height:86vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25);}
+.mh{background:linear-gradient(135deg,var(--green),#004d2d);color:var(--white);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-radius:12px 12px 0 0;position:sticky;top:0;}
+.mh h3{font-family:'Merriweather',serif;font-size:.92rem;font-weight:900;}
+.mc{padding:20px;}
+.mx{background:none;border:none;color:var(--white);font-size:1.2rem;cursor:pointer;opacity:.8;}
+.mx:hover{opacity:1;}
+/* TIN VERIFY */
+.vw{max-width:520px;margin:0 auto;}
+.vbox{background:var(--white);border-radius:12px;padding:26px;box-shadow:0 4px 20px rgba(0,0,0,.08);text-align:center;}
+.vbox h2{font-family:'Merriweather',serif;font-size:1.15rem;font-weight:900;margin-bottom:5px;}
+.vbox p{font-size:.82rem;color:var(--muted);margin-bottom:20px;}
+.vrow{display:flex;gap:9px;margin-bottom:18px;}
+.vrow input{flex:1;padding:12px 13px;border:2px solid var(--border);border-radius:7px;font-family:'Nunito',sans-serif;font-size:.92rem;outline:none;transition:border-color .2s;}
+.vrow input:focus{border-color:var(--green);}
+.vrow button{padding:12px 20px;background:var(--green);color:var(--white);border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.88rem;cursor:pointer;}
+.vres{display:none;border-radius:9px;padding:18px;text-align:left;}
+.vres.ok{background:#e8f5ee;border:2px solid var(--green);}
+.vres.fail{background:#fdeaea;border:2px solid var(--red);}
+/* NOTIF PANEL */
+.np{position:fixed;top:52px;right:0;width:320px;height:calc(100vh - 52px);background:var(--white);box-shadow:-4px 0 20px rgba(0,0,0,.12);z-index:200;transform:translateX(100%);transition:transform .3s;overflow-y:auto;}
+.np.on{transform:translateX(0);}
+.np h3{padding:14px 16px;font-size:.82rem;font-weight:800;border-bottom:2px solid var(--border);}
+.ni{padding:11px 16px;border-bottom:1px solid #f5f5f5;display:flex;gap:11px;align-items:flex-start;}
+.ni.unread{background:#fffbe6;}
+.ni .nic{font-size:1.1rem;flex-shrink:0;}
+.ni .nit{font-size:.76rem;line-height:1.5;}
+.ni .nit strong{display:block;font-weight:700;margin-bottom:1px;}
+.ni .nim{font-size:.66rem;color:#aaa;margin-top:2px;}
+/* SOAP */
+.sowrap{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.sopanel{background:var(--white);border-radius:9px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.07);}
+.sosel{width:100%;padding:8px 11px;border:1.5px solid var(--border);border-radius:6px;font-family:'Nunito',sans-serif;font-size:.82rem;outline:none;margin-bottom:9px;}
+.sosel:focus{border-color:var(--green);}
+.socode{width:100%;min-height:190px;padding:11px;border:1.5px solid var(--border);border-radius:6px;font-family:monospace;font-size:.74rem;outline:none;resize:vertical;background:#1e1e2e;color:#a6e3a1;line-height:1.6;}
+.sobtn{width:100%;padding:9px;background:var(--green);color:var(--white);border:none;border-radius:6px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.84rem;cursor:pointer;margin-top:8px;}
+.sores{background:#1e1e2e;color:#89b4fa;border-radius:6px;padding:11px;min-height:190px;font-family:monospace;font-size:.72rem;line-height:1.6;white-space:pre-wrap;margin-top:9px;overflow-y:auto;}
+/* CASE */
+.ccrd{background:var(--white);border:1.5px solid var(--border);border-radius:8px;padding:13px 16px;margin-bottom:9px;cursor:pointer;transition:all .2s;}
+.ccrd:hover{border-color:var(--gold);box-shadow:0 4px 14px rgba(0,0,0,.08);}
+.ccrd-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;}
+.cc-ref{font-size:.72rem;font-weight:800;color:var(--muted);}
+.cc-title{font-size:.86rem;font-weight:700;margin-bottom:2px;}
+.cc-meta{font-size:.72rem;color:#aaa;}
+/* CLEARANCE */
+.clr-status{display:flex;align-items:center;gap:12px;padding:14px;border-radius:9px;margin-bottom:12px;}
+.clr-status.ok2{background:#e8f5ee;border:2px solid var(--green);}
+.clr-status.no{background:#fdeaea;border:2px solid var(--red);}
+/* REPORTS */
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:14px;}
+.rcrd{background:var(--white);border-radius:9px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.07);cursor:pointer;transition:all .2s;text-align:center;}
+.rcrd:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(0,0,0,.1);}
+.rcrd .ri{font-size:2.4rem;margin-bottom:10px;}
+.rcrd h4{font-size:.96rem;font-weight:900;font-family:'Merriweather',serif;}
+.rcrd p{font-size:.78rem;color:var(--muted);margin-top:5px;line-height:1.5;}
+/* TOAST */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--dark);color:var(--white);padding:10px 20px;border-radius:7px;font-size:.82rem;font-weight:600;z-index:9999;display:none;white-space:nowrap;}
+
+/* ── BOLD VISUAL ENHANCEMENTS ── */
+h1,h2,h3,h4,h5{letter-spacing:-.01em;}
+strong{font-weight:800;}
+table thead th{font-size:.8rem!important;font-weight:800!important;color:#333!important;text-transform:uppercase;letter-spacing:.06em;}
+table tbody td{font-size:.86rem!important;line-height:1.5;}
+.badge{font-size:.76rem!important;font-weight:800!important;padding:4px 11px!important;}
+input,select,textarea{font-size:.94rem!important;}
+label{font-size:.84rem!important;font-weight:800!important;color:#222!important;}
+button{font-weight:800!important;}
+
+
+/* ════════════════════════════════════════════
+   GLOBAL AUTH SYSTEM — Sign In / Profile
+   ════════════════════════════════════════════ */
+.auth-signin-btn{
+  display:flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,#006B3F,#008f53);
+  color:#fff;border:none;border-radius:8px;
+  padding:10px 20px;font-family:'Nunito',sans-serif;
+  font-size:.88rem;font-weight:800;cursor:pointer;
+  letter-spacing:.03em;text-transform:uppercase;
+  box-shadow:0 3px 10px rgba(0,107,63,.35);
+  transition:transform .15s,box-shadow .15s;
+  white-space:nowrap;
+}
+.auth-signin-btn:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(0,107,63,.45);}
+
+/* Profile avatar button */
+.auth-profile-btn{
+  display:none;align-items:center;gap:10px;
+  background:transparent;border:2px solid rgba(0,107,63,.25);
+  border-radius:40px;padding:6px 14px 6px 6px;
+  cursor:pointer;transition:all .2s;
+  font-family:'Nunito',sans-serif;
+  position:relative;
+}
+.auth-profile-btn:hover{background:rgba(0,107,63,.06);border-color:var(--green,#006B3F);}
+.auth-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,#006B3F,#FFD100);
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:.95rem;flex-shrink:0;
+}
+.auth-profile-name{font-size:.84rem;font-weight:800;color:#1a1a1a;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.auth-chevron{font-size:.7rem;color:#666;transition:transform .2s;}
+.auth-profile-btn.open .auth-chevron{transform:rotate(180deg);}
+
+/* ── Profile Dropdown ── */
+.auth-dropdown{
+  display:none;position:fixed;right:20px;top:70px;
+  width:280px;background:#fff;border-radius:14px;
+  box-shadow:0 8px 40px rgba(0,0,0,.16),0 2px 10px rgba(0,0,0,.08);
+  z-index:99999;overflow:hidden;
+  animation:authDropIn .2s ease;
+}
+.auth-dropdown.open{display:block;}
+@keyframes authDropIn{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+.auth-drop-header{
+  background:linear-gradient(135deg,#006B3F 0%,#004d2d 100%);
+  padding:20px;color:#fff;
+}
+.auth-drop-avatar{
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,#FFD100,#f0c000);
+  color:#1a1a1a;display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:1.3rem;margin:0 auto 10px;
+  box-shadow:0 3px 10px rgba(0,0,0,.2);
+}
+.auth-drop-name{font-family:'Merriweather',serif;font-size:1rem;font-weight:900;text-align:center;letter-spacing:-.01em;}
+.auth-drop-role{font-size:.75rem;color:rgba(255,255,255,.75);text-align:center;margin-top:3px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;}
+.auth-drop-tin{font-size:.78rem;color:rgba(255,255,255,.65);text-align:center;margin-top:6px;}
+.auth-drop-body{padding:12px;}
+.auth-drop-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 14px;border-radius:9px;cursor:pointer;
+  font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:700;
+  color:#333;transition:background .15s;margin-bottom:4px;
+  border:none;background:transparent;width:100%;text-align:left;
+}
+.auth-drop-item:hover{background:#f0faf5;}
+.auth-drop-item .dicon{font-size:1.2rem;width:28px;text-align:center;}
+.auth-drop-item.danger{color:var(--red,#C8102E);}
+.auth-drop-item.danger:hover{background:#fdeaea;}
+.auth-drop-divider{border:none;border-top:1px solid #f0f0f0;margin:6px 0;}
+
+/* ── Login Modal ── */
+.auth-modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.55);z-index:99998;
+  align-items:center;justify-content:center;padding:20px;
+  backdrop-filter:blur(4px);
+}
+.auth-modal-overlay.open{display:flex;}
+.auth-modal{
+  background:#fff;border-radius:16px;width:100%;max-width:440px;
+  overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.25);
+  animation:authModalIn .25s ease;
+}
+@keyframes authModalIn{from{opacity:0;transform:scale(.94);}to{opacity:1;transform:scale(1);}}
+.auth-modal-head{
+  background:linear-gradient(135deg,#006B3F 0%,#004d2d 100%);
+  padding:28px;text-align:center;color:#fff;
+}
+.auth-modal-logo{font-size:2.5rem;margin-bottom:6px;}
+.auth-modal-head h2{font-family:'Merriweather',serif;font-size:1.4rem;font-weight:900;letter-spacing:-.01em;}
+.auth-modal-head p{font-size:.82rem;color:rgba(255,255,255,.75);margin-top:4px;font-weight:600;}
+.auth-modal-body{padding:28px;}
+.auth-field{margin-bottom:18px;}
+.auth-field label{display:block;font-size:.82rem;font-weight:800;color:#333;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;}
+.auth-field input{
+  width:100%;padding:13px 16px;border:2px solid #e0e0e0;
+  border-radius:9px;font-family:'Nunito',sans-serif;
+  font-size:.95rem;outline:none;transition:border-color .2s;
+  background:#fafafa;
+}
+.auth-field input:focus{border-color:#006B3F;background:#fff;}
+.auth-error{background:#fdeaea;border:1px solid #f5c6cb;color:#C8102E;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-size:.84rem;font-weight:700;display:none;text-align:center;}
+.auth-submit-btn{
+  width:100%;padding:15px;background:linear-gradient(135deg,#006B3F,#008f53);
+  color:#fff;border:none;border-radius:10px;
+  font-family:'Nunito',sans-serif;font-size:1rem;font-weight:900;
+  cursor:pointer;letter-spacing:.04em;text-transform:uppercase;
+  box-shadow:0 4px 14px rgba(0,107,63,.35);
+  transition:transform .15s,box-shadow .15s;
+}
+.auth-submit-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,107,63,.45);}
+.auth-modal-foot{text-align:center;padding:0 28px 24px;font-size:.8rem;color:#888;}
+.auth-close-x{position:absolute;top:14px;right:18px;background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:50%;width:30px;height:30px;font-size:1.1rem;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.auth-close-x:hover{background:rgba(255,255,255,.35);}
+.auth-modal-head{position:relative;}
+
+/* ── Change Password Modal ── */
+.chpw-modal{max-width:420px;}
+.chpw-modal .auth-modal-head{background:linear-gradient(135deg,#1a2a5e,#2d4a9e);}
+.chpw-success{display:none;text-align:center;padding:10px 0;}
+.chpw-success .cs-icon{font-size:3rem;margin-bottom:10px;}
+.chpw-success p{font-size:.9rem;color:#006B3F;font-weight:700;}
+
+/* ── Invoice Dashboard Modal ── */
+.inv-modal{max-width:860px;width:95vw;}
+.inv-modal-head{background:linear-gradient(135deg,#1a1a1a,#2d2d2d);padding:22px 28px;display:flex;align-items:center;justify-content:space-between;position:relative;}
+.inv-modal-head h2{font-family:'Merriweather',serif;font-size:1.2rem;font-weight:900;color:#fff;letter-spacing:-.01em;}
+.inv-modal-head p{font-size:.78rem;color:rgba(255,255,255,.6);margin-top:3px;font-weight:600;}
+.inv-tab-row{display:flex;gap:0;border-bottom:2px solid #e8e8e8;padding:0 24px;background:#fafafa;}
+.inv-tab{
+  padding:14px 24px;font-family:'Nunito',sans-serif;font-size:.9rem;
+  font-weight:800;border:none;background:transparent;cursor:pointer;
+  color:#888;border-bottom:3px solid transparent;margin-bottom:-2px;
+  transition:color .2s,border-color .2s;letter-spacing:.02em;
+}
+.inv-tab.active{color:#006B3F;border-bottom-color:#006B3F;}
+.inv-body{padding:20px 24px;max-height:60vh;overflow-y:auto;}
+.inv-big-btns{display:flex;gap:16px;margin-bottom:24px;flex-wrap:wrap;}
+.inv-big-btn{
+  flex:1;min-width:200px;border:none;border-radius:12px;
+  padding:22px 20px;cursor:pointer;text-align:left;
+  font-family:'Nunito',sans-serif;transition:transform .15s,box-shadow .15s;
+  display:flex;align-items:center;gap:14px;
+}
+.inv-big-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.15);}
+.inv-big-btn.green{background:linear-gradient(135deg,#006B3F,#008f53);color:#fff;}
+.inv-big-btn.dark{background:linear-gradient(135deg,#1a1a1a,#2d2d2d);color:#fff;}
+.inv-big-btn .ib-icon{font-size:2rem;flex-shrink:0;}
+.inv-big-btn .ib-title{font-size:1rem;font-weight:900;display:block;letter-spacing:-.01em;}
+.inv-big-btn .ib-sub{font-size:.76rem;opacity:.75;display:block;margin-top:2px;font-weight:600;}
+.inv-table-section{display:none;}
+.inv-table-section.show{display:block;}
+.inv-section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.inv-section-head h3{font-family:'Merriweather',serif;font-size:1rem;font-weight:900;letter-spacing:-.01em;}
+.inv-back-btn{background:none;border:1px solid #ddd;border-radius:6px;padding:6px 14px;font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;color:#555;}
+.inv-tbl{width:100%;border-collapse:collapse;}
+.inv-tbl th{background:#f8f9fa;padding:10px 14px;text-align:left;font-size:.76rem;font-weight:900;color:#444;text-transform:uppercase;letter-spacing:.07em;border-bottom:2px solid #e8e8e8;}
+.inv-tbl td{padding:12px 14px;border-bottom:1px solid #f0f0f0;font-size:.84rem;font-weight:600;}
+.inv-tbl tr:hover td{background:#f9fdf9;}
+.inv-badge-paid{background:#d4f5e5;color:#006B3F;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:900;}
+.inv-badge-due{background:#fdeaea;color:#C8102E;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:900;}
+.inv-badge-pending{background:#fff3cd;color:#856404;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:900;}
+.inv-summary-row{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+.inv-sum-card{flex:1;min-width:110px;background:#f8f9fa;border-radius:10px;padding:14px;text-align:center;border:1px solid #e8e8e8;}
+.inv-sum-card .isn{font-family:'Merriweather',serif;font-size:1.4rem;font-weight:900;color:#1a1a1a;}
+.inv-sum-card .isl{font-size:.7rem;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.07em;margin-top:3px;}
+
+.topbar2 .auth-signin-btn,.topbar2 .auth-profile-btn{margin-left:8px;height:36px;padding:6px 14px;font-size:.8rem;}
+
+/* ══ ADMIN DASHBOARD VISUAL UPGRADE ══ */
+
+/* LOGIN */
+.lh{text-align:center;padding:28px 28px 20px!important;}
+.lh img{width:72px!important;height:72px!important;margin-bottom:14px!important;}
+.lh h2{font-size:1.6rem!important;font-weight:900!important;font-family:'Merriweather',serif!important;}
+.lh p{font-size:.88rem!important;color:#666!important;margin-top:4px!important;}
+.lfield label{font-size:.86rem!important;font-weight:800!important;color:#333!important;}
+.lfield input,.lfield select{font-size:.96rem!important;padding:13px 14px!important;border:2px solid #ddd!important;border-radius:8px!important;}
+.btn-login{font-size:1.05rem!important;font-weight:900!important;padding:15px!important;letter-spacing:.06em!important;text-transform:uppercase!important;border-radius:9px!important;}
+
+/* SIDEBAR */
+.sidebar2{width:230px!important;min-width:230px!important;}
+.sb-brand h2{font-size:1.05rem!important;font-weight:900!important;line-height:1.2!important;}
+.sb-brand span{font-size:.74rem!important;font-weight:700!important;}
+.sbl{font-size:.88rem!important;font-weight:700!important;padding:11px 18px!important;border-radius:8px!important;margin-bottom:2px!important;}
+.sbl:hover,.sbl.active{background:rgba(255,255,255,.15)!important;}
+.sbl .sbl-icon{font-size:1.1rem!important;margin-right:8px!important;}
+.sbu-name{font-size:.92rem!important;font-weight:900!important;}
+.sbu-role{font-size:.74rem!important;font-weight:700!important;}
+
+/* TOP BAR */
+.topbar2{height:60px!important;padding:0 24px!important;box-shadow:0 3px 12px rgba(0,0,0,.12)!important;}
+.topbar2 h1{font-size:1.25rem!important;font-weight:900!important;letter-spacing:-.01em!important;}
+.tb2r button{font-size:.84rem!important;font-weight:800!important;padding:9px 18px!important;border-radius:7px!important;}
+
+/* STAT CARDS */
+.sc2{border-radius:14px!important;padding:22px 20px!important;border:none!important;box-shadow:0 3px 16px rgba(0,0,0,.1)!important;transition:transform .2s!important;}
+.sc2:hover{transform:translateY(-4px)!important;box-shadow:0 8px 28px rgba(0,0,0,.15)!important;}
+.sc2 .si{font-size:2.4rem!important;margin-bottom:10px!important;}
+.sc2 .sn{font-size:2.4rem!important;font-weight:900!important;font-family:'Merriweather',serif!important;line-height:1!important;letter-spacing:-.03em!important;}
+.sc2 .sl{font-size:.78rem!important;font-weight:800!important;text-transform:uppercase!important;letter-spacing:.1em!important;margin-top:6px!important;}
+.sc2 .sd{font-size:.78rem!important;font-weight:600!important;margin-top:4px!important;}
+
+/* PANEL HEADERS */
+.ph{font-size:.84rem!important;font-weight:900!important;text-transform:uppercase!important;letter-spacing:.1em!important;padding-bottom:10px!important;margin-bottom:16px!important;border-bottom:2px solid #eee!important;}
+
+/* TABLES */
+.tbl th{font-size:.8rem!important;font-weight:900!important;color:#333!important;text-transform:uppercase!important;letter-spacing:.07em!important;padding:11px 14px!important;background:#f8f9fa!important;}
+.tbl td{font-size:.88rem!important;padding:12px 14px!important;font-weight:600!important;}
+.tbl tr:hover td{background:#f9fdf9!important;}
+
+/* BADGES */
+.badge{font-size:.76rem!important;font-weight:900!important;padding:4px 12px!important;border-radius:20px!important;letter-spacing:.04em!important;}
+
+/* BUTTONS */
+.bsm{font-size:.84rem!important;font-weight:800!important;padding:9px 18px!important;border-radius:7px!important;letter-spacing:.02em!important;}
+.bpr{font-size:.84rem!important;font-weight:800!important;padding:9px 16px!important;border-radius:7px!important;}
+
+/* REPORT CARDS */
+.rcrd{border-radius:12px!important;padding:22px 18px!important;transition:transform .2s,box-shadow .2s!important;border:2px solid #eee!important;}
+.rcrd:hover{transform:translateY(-4px)!important;box-shadow:0 10px 28px rgba(0,0,0,.1)!important;}
+.rcrd .ri{font-size:2.6rem!important;margin-bottom:12px!important;}
+.rcrd h4{font-size:1rem!important;font-weight:900!important;font-family:'Merriweather',serif!important;}
+.rcrd p{font-size:.8rem!important;line-height:1.55!important;margin-top:5px!important;}
+
+/* SEARCH / FILTER INPUTS */
+.srch{font-size:.9rem!important;padding:11px 14px!important;border:2px solid #ddd!important;border-radius:8px!important;}
+.fil-select{font-size:.88rem!important;padding:10px 12px!important;border:2px solid #ddd!important;border-radius:8px!important;}
+
+/* COMPLIANCE SCORE */
+.comp-score{font-size:1.6rem!important;font-weight:900!important;font-family:'Merriweather',serif!important;}
+.comp-label{font-size:.78rem!important;font-weight:800!important;text-transform:uppercase!important;letter-spacing:.08em!important;}
+
+/* MODAL */
+.modal-head h2{font-size:1.35rem!important;font-weight:900!important;font-family:'Merriweather',serif!important;}
+.modal-field-label{font-size:.82rem!important;font-weight:800!important;color:#555!important;text-transform:uppercase!important;letter-spacing:.06em!important;}
+.modal-field-value{font-size:.96rem!important;font-weight:700!important;color:#1a1a1a!important;}
+
+/* SOAP CONSOLE */
+.soap-section h3{font-size:1.1rem!important;font-weight:900!important;}
+.soap-label{font-size:.84rem!important;font-weight:800!important;}
+textarea{font-size:.88rem!important;}
+
+/* CHART LABELS */
+.chart-legend{font-size:.82rem!important;font-weight:700!important;}
+
+
+
+
+/* ══ ADMIN DASHBOARD BOLD UPGRADE ══ */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Oswald:wght@600;700&display=swap');
+
+:root{--red:#CF0A0A;--gold:#FFD700;--green:#006B3F;--dark:#0A0A0A;}
+body{font-size:16px;line-height:1.7;}
+h1,h2,h3,h4{letter-spacing:-.02em;}
+strong{font-weight:800;}
+
+/* LOGIN */
+.lh h2{font-size:1.8rem!important;font-weight:900!important;font-family:'Merriweather',serif!important;letter-spacing:-.02em!important;}
+.lh p{font-size:.96rem!important;}
+.lfield label{font-size:.9rem!important;font-weight:800!important;color:#222!important;}
+.lfield input{font-size:1rem!important;padding:13px 15px!important;}
+.btn-login{font-size:1.05rem!important;font-weight:900!important;padding:15px!important;border-radius:9px!important;text-transform:uppercase!important;letter-spacing:.05em!important;}
+
+/* TOPBAR */
+.topbar2{height:64px!important;padding:0 24px!important;}
+.topbar2 h1{font-size:1.35rem!important;font-weight:900!important;font-family:'Merriweather',serif!important;letter-spacing:-.02em!important;}
+.tb2r .tbtn{font-size:.86rem!important;font-weight:800!important;padding:9px 18px!important;}
+
+/* SIDEBAR */
+.sb-brand h2{font-size:1.05rem!important;font-weight:900!important;font-family:'Merriweather',serif!important;line-height:1.25!important;}
+.sbu-name{font-size:.96rem!important;font-weight:900!important;}
+.sbu-role{font-size:.78rem!important;font-weight:700!important;text-transform:uppercase!important;letter-spacing:.06em!important;}
+.sbl{font-size:.9rem!important;font-weight:700!important;padding:12px 18px!important;}
+.sbl .sbi{font-size:1.1rem!important;}
+.sbg-title{font-size:.74rem!important;font-weight:900!important;letter-spacing:.12em!important;text-transform:uppercase!important;}
+
+/* STAT CARDS */
+.sc2 .sn{font-size:2.4rem!important;font-weight:900!important;font-family:'Merriweather',serif!important;letter-spacing:-.03em!important;}
+.sc2 .sl{font-size:.8rem!important;font-weight:800!important;letter-spacing:.09em!important;text-transform:uppercase!important;}
+.sc2 .si{font-size:1.6rem!important;}
+.sc2{border-radius:14px!important;padding:22px!important;}
+
+/* PANEL HEADINGS */
+.ph{font-size:.88rem!important;font-weight:900!important;font-family:'Oswald',sans-serif!important;letter-spacing:.1em!important;text-transform:uppercase!important;}
+
+/* TABLES */
+.tbl th{font-size:.82rem!important;font-weight:900!important;color:#222!important;padding:12px 14px!important;text-transform:uppercase!important;letter-spacing:.06em!important;}
+.tbl td{font-size:.88rem!important;padding:13px 14px!important;}
+
+/* BADGES */
+.badge{font-size:.78rem!important;font-weight:900!important;padding:4px 12px!important;border-radius:20px!important;text-transform:uppercase!important;letter-spacing:.04em!important;}
+
+/* BUTTONS */
+.bsm{font-size:.86rem!important;font-weight:800!important;padding:9px 18px!important;border-radius:8px!important;}
+
+/* REPORT CARDS */
+.rcrd{border-radius:14px!important;padding:24px!important;}
+.rcrd .ri{font-size:2.6rem!important;margin-bottom:12px!important;}
+.rcrd h4{font-size:1rem!important;font-weight:900!important;font-family:'Merriweather',serif!important;}
+.rcrd p{font-size:.82rem!important;line-height:1.6!important;}
+
+/* PANE HEADINGS */
+.pane h3{font-size:1.2rem!important;font-weight:900!important;font-family:'Merriweather',serif!important;}
+
+/* SEARCH */
+.search-input{font-size:.92rem!important;padding:11px 16px!important;}
+
+/* NOTIFICATIONS */
+.notif-title{font-size:.92rem!important;font-weight:800!important;}
+.notif-item{font-size:.88rem!important;padding:14px!important;}
+
+/* SOAP CONSOLE */
+.soap-fn{font-size:.9rem!important;font-weight:800!important;padding:12px 18px!important;}
+
+/* FLAG */
+.flag2{height:8px!important;}
+
+</style>
+</head>
+<body>
+<div class="flag"><span></span><span></span><span></span></div>
+
+<!-- ══ LOGIN PAGE ══ -->
+<div id="pg-login" class="pg on">
+<div class="lw">
+  <div class="lc">
+    <div class="lh">
+      <img id="login-logo" src="" alt="GRA"/>
+      <h2>GRA Admin System</h2>
+      <p>Ghana Revenue Authority – Staff Portal</p>
+    </div>
+    <div class="lb">
+      <div class="ltabs">
+        <div class="lt on" onclick="switchLoginTab('staff')">Staff Login</div>
+        <div class="lt" onclick="switchLoginTab('officer')">Tax Officer</div>
+      </div>
+      <div id="login-staff">
+        <div class="fg">
+          <label>Username / Staff ID</label>
+          <input type="text" id="l-user" placeholder="e.g. admin or GRA-0012"/>
+        </div>
+        <div class="fg">
+          <label>Password</label>
+          <input type="password" id="l-pass" placeholder="Enter password"/>
+        </div>
+        <div class="fg">
+          <label>Role</label>
+          <select id="l-role">
+            <option value="sa">Super Admin</option>
+            <option value="to">Tax Officer</option>
+            <option value="de">Data Entry Clerk</option>
+            <option value="au">Auditor</option>
+          </select>
+        </div>
+        <button class="btn-login" onclick="doLogin()">🔐 Sign In</button>
+      </div>
+      <div class="demo-creds">
+        <strong>Demo Credentials:</strong><br/>
+        Username: <strong>admin</strong> &nbsp;|&nbsp; Password: <strong>gra2026</strong><br/>
+        Or any username + password (min 4 chars)
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══ MAIN SYSTEM ══ -->
+<div id="pg-main" class="pg">
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sb-brand">
+      <img id="sb-logo" src="" alt="GRA"/>
+      <div><h2>GRA Admin</h2><small>Staff Portal</small></div>
+    </div>
+    <div class="sb-user">
+      <div class="sbu-name" id="sb-username">Admin User</div>
+      <div class="sbu-role" id="sb-userrole">Super Admin</div>
+      <div class="sbu-badge sa" id="sb-badge">SA</div>
+    </div>
+    <div class="sb-nav">
+      <div class="sb-sec">Main</div>
+      <div class="sbl on" onclick="showSec('dashboard')" id="sl-dashboard"><span class="ic">📊</span> Dashboard</div>
+      <div class="sbl" onclick="showSec('taxpayers')" id="sl-taxpayers"><span class="ic">👥</span> Taxpayers</div>
+      <div class="sbl" onclick="showSec('vehicles')" id="sl-vehicles"><span class="ic">🚗</span> Vehicles</div>
+      <div class="sb-sec">Tax Services</div>
+      <div class="sbl" onclick="showSec('compliance')" id="sl-compliance"><span class="ic">📋</span> Compliance Tracking</div>
+      <div class="sbl" onclick="showSec('payments')" id="sl-payments"><span class="ic">💰</span> Payment & Arrears</div>
+      <div class="sbl" onclick="showSec('clearance')" id="sl-clearance"><span class="ic">📄</span> Tax Clearance</div>
+      <div class="sbl" onclick="showSec('cases')" id="sl-cases"><span class="ic">📁</span> Case Management <span class="bc">3</span></div>
+      <div class="sb-sec">Tools</div>
+      <div class="sbl" onclick="showSec('verify')" id="sl-verify"><span class="ic">🔍</span> TIN Verification</div>
+      <div class="sbl" onclick="showSec('reports')" id="sl-reports"><span class="ic">📈</span> Reports & Analytics</div>
+      <div class="sbl" onclick="showSec('notifications')" id="sl-notifications"><span class="ic">🔔</span> Notifications <span class="bc" id="notif-count">5</span></div>
+      <div class="sbl" onclick="showSec('soap')" id="sl-soap"><span class="ic">🌐</span> SOAP Console</div>
+      <div class="sb-sec">Navigation</div>
+      <div class="sbl" onclick="window.location.href='index.html'"><span class="ic">🏠</span> Homepage</div>
+      <div class="sbl" onclick="window.location.href='register.html'"><span class="ic">📋</span> Registration</div>
+      <div class="sbl" onclick="window.location.href='taxpayer_portal.html'"><span class="ic">👤</span> Taxpayer Portal</div>
+      <div class="sbl" onclick="window.location.href='gra_portal.html'"><span class="ic">🏛</span> GRA Portal</div>
+    </div>
+    <div class="sb-bot">
+      <div class="sb-logout" onclick="doLogout()">🚪 Sign Out</div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+    <div class="topbar2">
+      <h1 id="page-title">📊 Dashboard</h1>
+      <div class="tb2r">
+      <button class="auth-profile-btn" onclick="authToggleDropdown()">
+        <div class="auth-avatar">U</div>
+        <span class="auth-profile-name">User</span>
+        <span class="auth-chevron">▾</span>
+      </button>
+        <button class="nb2" onclick="toggleNotif()">🔔<div class="nd"></div></button>
+        <div class="tb2-user" onclick="toastMsg('Profile settings coming soon!')">
+          <div class="tb2-av" id="tb2-av">A</div>
+          <span id="tb2-name">Admin</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cbody">
+
+      <!-- ── DASHBOARD ── -->
+      <div id="sec-dashboard" class="sec on">
+        <div class="sgrid">
+          <div class="sc2"><div class="sn" id="d-taxpayers">247</div><div class="sl">Total Taxpayers</div><div class="sg">↑ +12 this month</div></div>
+          <div class="sc2"><div class="sn" id="d-vehicles">89</div><div class="sl">Vehicles Registered</div><div class="sg">↑ +5 this week</div></div>
+          <div class="sc2"><div class="sn" id="d-compliance">73%</div><div class="sl">Compliance Rate</div><div class="sg">↑ +3% vs last month</div></div>
+          <div class="sc2"><div class="sn" id="d-revenue">GHS 142K</div><div class="sl">Revenue This Month</div><div class="sg">↑ +18% vs last month</div></div>
+        </div>
+        <div class="cgrid">
+          <div class="panel">
+            <div class="ph">Monthly Revenue Trend (2026) <span>GHS thousands</span></div>
+            <div class="cbars2" id="rev-chart"></div>
+          </div>
+          <div class="panel">
+            <div class="ph">Tax Type Distribution</div>
+            <div class="dl2" id="tax-dist"></div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div class="panel">
+            <div class="ph">Recent Registrations <span onclick="showSec('taxpayers')" style="cursor:pointer;color:var(--green);">View all →</span></div>
+            <table class="tbl"><thead><tr><th>TIN</th><th>Name</th><th>Type</th><th>Date</th><th>Status</th></tr></thead>
+            <tbody id="recent-tp"></tbody></table>
+          </div>
+          <div class="panel">
+            <div class="ph">Overdue Filings <span style="color:var(--red);" id="overdue-count"></span></div>
+            <table class="tbl"><thead><tr><th>TIN</th><th>Name</th><th>Type</th><th>Overdue Since</th></tr></thead>
+            <tbody id="overdue-tbl"></tbody></table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAXPAYERS ── -->
+      <div id="sec-taxpayers" class="sec">
+        <div class="panel">
+          <div class="ph">All Registered Taxpayers <span id="tp-count-lbl"></span></div>
+          <div class="sbar">
+            <input type="text" placeholder="Search TIN, name, region..." oninput="filterTbl('tp',this.value)" id="tp-search"/>
+            <select onchange="filterTbl('tp',document.getElementById('tp-search').value)">
+              <option value="">All Regions</option>
+              <option>Greater Accra</option><option>Ashanti</option><option>Western</option><option>Eastern</option><option>Central</option>
+            </select>
+            <select id="tp-status-filter" onchange="filterTbl('tp',document.getElementById('tp-search').value)">
+              <option value="">All Status</option><option value="a">Active</option><option value="p">Pending</option><option value="s">Suspended</option>
+            </select>
+            <button class="bsm bg2" onclick="toastMsg('📊 Exporting taxpayers to CSV...')">⬇ CSV</button>
+            <button class="bsm br2" onclick="toastMsg('📄 Exporting to PDF...')">⬇ PDF</button>
+          </div>
+          <table class="tbl">
+            <thead><tr><th>TIN</th><th>Full Name</th><th>Type</th><th>Region</th><th>Tax Office</th><th>Tax Types</th><th>Compliance</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody id="tp-tbl"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── VEHICLES ── -->
+      <div id="sec-vehicles" class="sec">
+        <div class="panel">
+          <div class="ph">All Registered Vehicles <span id="vh-count-lbl"></span></div>
+          <div class="sbar">
+            <input type="text" placeholder="Search plate, owner, category..." oninput="filterTbl('vh',this.value)"/>
+            <button class="bsm bg2" onclick="toastMsg('📊 Exporting to CSV...')">⬇ CSV</button>
+          </div>
+          <table class="tbl">
+            <thead><tr><th>Plate No.</th><th>Make & Model</th><th>Category</th><th>Owner</th><th>TIN</th><th>Tax Office</th><th>VIT/Qtr</th><th>Last Paid</th><th>Status</th></tr></thead>
+            <tbody id="vh-tbl"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── COMPLIANCE TRACKING ── -->
+      <div id="sec-compliance" class="sec">
+        <div class="sgrid">
+          <div class="sc2"><div class="sn">73%</div><div class="sl">Overall Compliance</div><div class="sg">↑ improving</div></div>
+          <div class="sc2"><div class="sn" style="color:var(--green);">181</div><div class="sl">Fully Compliant</div><div class="sg">73% of taxpayers</div></div>
+          <div class="sc2"><div class="sn" style="color:var(--gold);">42</div><div class="sl">Partially Compliant</div><div class="sg">17% of taxpayers</div></div>
+          <div class="sc2"><div class="sn" style="color:var(--red);">24</div><div class="sl">Non-Compliant</div><div class="sg">10% of taxpayers</div></div>
+        </div>
+        <div class="panel">
+          <div class="ph">Taxpayer Compliance Scores <span>Click a taxpayer to see details</span></div>
+          <div class="sbar">
+            <input type="text" placeholder="Search taxpayer..." oninput="filterComp(this.value)"/>
+            <select onchange="">
+              <option>All</option><option>Compliant</option><option>Partial</option><option>Non-Compliant</option>
+            </select>
+          </div>
+          <table class="tbl">
+            <thead><tr><th>TIN</th><th>Name</th><th>Score</th><th>Returns Filed</th><th>Outstanding</th><th>Penalty</th><th>Last Filing</th><th>Action</th></tr></thead>
+            <tbody id="comp-tbl"></tbody>
+          </table>
+        </div>
+        <div class="panel">
+          <div class="ph">Penalty Calculator</div>
+          <div class="cgrid">
+            <div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div class="fg"><label>Tax Type</label>
+                  <select id="pen-type">
+                    <option>PAYE</option><option>VAT</option><option>Income Tax</option><option>Withholding Tax</option>
+                  </select>
+                </div>
+                <div class="fg"><label>Months Overdue</label><input type="number" id="pen-months" placeholder="e.g. 3" min="1" oninput="calcPenalty()"/></div>
+                <div class="fg"><label>Tax Amount (GHS)</label><input type="number" id="pen-amount" placeholder="e.g. 5000" oninput="calcPenalty()"/></div>
+                <div class="fg"><label>Taxpayer Type</label>
+                  <select id="pen-tptype" onchange="calcPenalty()">
+                    <option value="individual">Individual</option><option value="company">Company</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="pbox" id="pen-box" style="display:none;">
+              <div class="pl">Total Penalty Amount</div>
+              <div class="pa" id="pen-result">GHS 0.00</div>
+              <div style="font-size:.74rem;opacity:.75;margin-top:6px;" id="pen-breakdown"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PAYMENT & ARREARS ── -->
+      <div id="sec-payments" class="sec">
+        <div class="sgrid">
+          <div class="sc2"><div class="sn">GHS 142K</div><div class="sl">Collected This Month</div><div class="sg">↑ on track</div></div>
+          <div class="sc2"><div class="sn" style="color:var(--red);">GHS 38K</div><div class="sl">Total Arrears</div><div class="sg">↓ reducing</div></div>
+          <div class="sc2"><div class="sn">12</div><div class="sl">Active Payment Plans</div><div class="sg">installment agreements</div></div>
+          <div class="sc2"><div class="sn" style="color:var(--gold);">GHS 9.2K</div><div class="sl">Overdue 90+ Days</div><div class="sg">⚠ needs action</div></div>
+        </div>
+        <div class="panel">
+          <div class="ph">Payment History <span>All transactions</span></div>
+          <div class="sbar">
+            <input type="text" placeholder="Search TIN, name, reference..." oninput="filterTbl('pay',this.value)"/>
+            <select><option>All Tax Types</option><option>PAYE</option><option>VAT</option><option>WHT</option><option>VIT</option></select>
+            <select><option>All Status</option><option>Paid</option><option>Pending</option><option>Overdue</option></select>
+            <button class="bsm bg2" onclick="toastMsg('📊 Exporting payments...')">⬇ Export</button>
+          </div>
+          <table class="tbl">
+            <thead><tr><th>Reference</th><th>TIN</th><th>Taxpayer</th><th>Tax Type</th><th>Period</th><th>Amount</th><th>Date</th><th>Status</th></tr></thead>
+            <tbody id="pay-tbl"></tbody>
+          </table>
+        </div>
+        <div class="panel">
+          <div class="ph">Debt Aging Report <span>Outstanding arrears by age</span></div>
+          <table class="tbl">
+            <thead><tr><th>TIN</th><th>Taxpayer</th><th>30 Days</th><th>60 Days</th><th>90 Days</th><th>90+ Days</th><th>Total</th><th>Action</th></tr></thead>
+            <tbody id="aging-tbl"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── TAX CLEARANCE ── -->
+      <div id="sec-clearance" class="sec">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div class="panel">
+            <div class="ph">Apply / Check Tax Clearance</div>
+            <div class="fg"><label>Enter TIN to Check</label>
+              <div style="display:flex;gap:8px;">
+                <input type="text" id="clr-tin" placeholder="e.g. G0028564774" style="flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:'Nunito',sans-serif;font-size:.88rem;outline:none;"/>
+                <button class="bsm bg2" onclick="checkClearance()">Check</button>
+              </div>
+            </div>
+            <div id="clr-result" style="display:none;margin-top:12px;"></div>
+          </div>
+          <div class="panel">
+            <div class="ph">Clearance Statistics</div>
+            <div class="dl2">
+              <div class="di"><div class="dil"><div class="dot" style="background:var(--green)"></div>Certificates Issued (2026)</div><div class="dv">47</div></div>
+              <div class="di"><div class="dil"><div class="dot" style="background:var(--gold)"></div>Pending Review</div><div class="dv">8</div></div>
+              <div class="di"><div class="dil"><div class="dot" style="background:var(--red)"></div>Rejected</div><div class="dv">3</div></div>
+              <div class="di"><div class="dil"><div class="dot" style="background:#3399ff"></div>Expired</div><div class="dv">12</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="ph">Clearance Applications <span>Review and approve</span></div>
+          <table class="tbl">
+            <thead><tr><th>Ref No.</th><th>TIN</th><th>Taxpayer</th><th>Applied</th><th>Purpose</th><th>Compliance</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody id="clr-tbl"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── CASE MANAGEMENT ── -->
+      <div id="sec-cases" class="sec">
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:14px;">
+          <div class="panel">
+            <div class="ph">Open Cases <span><button class="bsm bg2" onclick="openNewCase()">+ New Case</button></span></div>
+            <div class="sbar">
+              <input type="text" placeholder="Search case ref, taxpayer..." oninput="filterCases(this.value)"/>
+              <select><option>All Types</option><option>Objection</option><option>Dispute</option><option>Appeal</option><option>Refund</option></select>
+            </div>
+            <div id="cases-list"></div>
+          </div>
+          <div class="panel">
+            <div class="ph">Case Summary</div>
+            <div class="dl2">
+              <div class="di"><div class="dil"><div class="dot" style="background:var(--red)"></div>Open</div><div class="dv">8</div></div>
+              <div class="di"><div class="dil"><div class="dot" style="background:var(--gold)"></div>Under Review</div><div class="dv">5</div></div>
+              <div class="di"><div class="dil"><div class="dot" style="background:var(--navy)"></div>Pending Taxpayer</div><div class="dv">3</div></div>
+              <div class="di"><div class="dil"><div class="dot" style="background:var(--green)"></div>Resolved</div><div class="dv">24</div></div>
+            </div>
+            <div style="margin-top:14px;padding-top:12px;border-top:2px solid var(--border);">
+              <div class="ph" style="margin-bottom:8px;">Average Resolution Time</div>
+              <div style="font-family:'Merriweather',serif;font-size:1.6rem;font-weight:900;color:var(--navy);">14 days</div>
+              <div style="font-size:.72rem;color:var(--muted);margin-top:3px;">Target: 21 days</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TIN VERIFICATION ── -->
+      <div id="sec-verify" class="sec">
+        <div class="vw">
+          <div class="vbox">
+            <h2>🔍 TIN Verification Portal</h2>
+            <p>Enter a TIN or Ghana Card number to verify a taxpayer's registration status in the GRA system.</p>
+            <div class="vrow">
+              <input type="text" id="v-tin" placeholder="Enter TIN e.g. G0028564774" onkeydown="if(event.key==='Enter')doVerify()"/>
+              <button onclick="doVerify()">Verify</button>
+            </div>
+            <div id="v-result" class="vres"></div>
+          </div>
+          <div class="panel" style="margin-top:14px;">
+            <div class="ph">Recent Verifications <span>Today</span></div>
+            <table class="tbl">
+              <thead><tr><th>TIN Queried</th><th>Result</th><th>Officer</th><th>Time</th></tr></thead>
+              <tbody id="verify-log"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── REPORTS ── -->
+      <div id="sec-reports" class="sec">
+        <div class="rgrid">
+          <div class="rcrd" onclick="genReport('revenue')"><div class="ri">💰</div><h4>Revenue Report</h4><p>Monthly & annual tax collections by type</p></div>
+          <div class="rcrd" onclick="genReport('compliance')"><div class="ri">📋</div><h4>Compliance Report</h4><p>Filing rates by region and tax type</p></div>
+          <div class="rcrd" onclick="genReport('registration')"><div class="ri">👥</div><h4>Registration Report</h4><p>New taxpayer and vehicle registrations</p></div>
+          <div class="rcrd" onclick="genReport('arrears')"><div class="ri">⚠️</div><h4>Arrears Report</h4><p>Outstanding debts and aging analysis</p></div>
+          <div class="rcrd" onclick="genReport('vit')"><div class="ri">🚗</div><h4>VIT Report</h4><p>Vehicle income tax collections by category</p></div>
+          <div class="rcrd" onclick="genReport('audit')"><div class="ri">🔍</div><h4>Audit Trail Report</h4><p>System activity log and user actions</p></div>
+        </div>
+        <div class="panel" id="report-output" style="display:none;">
+          <div class="ph" id="report-title">Report <span><button class="bsm bg2" onclick="toastMsg('📊 Downloading report...')">⬇ Download</button> <button class="bsm bo2" onclick="document.getElementById('report-output').style.display='none'">✕ Close</button></span></div>
+          <div id="report-content"></div>
+        </div>
+      </div>
+
+      <!-- ── NOTIFICATIONS ── -->
+      <div id="sec-notifications" class="sec">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div class="panel">
+            <div class="ph">System Notifications <span><button class="bsm bo2" onclick="toastMsg('All notifications marked as read!')">Mark all read</button></span></div>
+            <div id="notif-list"></div>
+          </div>
+          <div class="panel">
+            <div class="ph">Upcoming Deadlines</div>
+            <div id="deadline-list"></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="ph">Send Notification to Taxpayer</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div class="fg"><label>Taxpayer TIN</label><input type="text" id="notif-tin" placeholder="e.g. G0028564774"/></div>
+            <div class="fg"><label>Notification Type</label>
+              <select id="notif-type">
+                <option>Filing Reminder</option><option>Payment Due</option><option>Overdue Warning</option>
+                <option>Certificate Ready</option><option>General Announcement</option>
+              </select>
+            </div>
+            <div class="fg" style="grid-column:1/-1;"><label>Message</label>
+              <textarea id="notif-msg" style="width:100%;padding:10px;border:1.5px solid var(--border);border-radius:6px;font-family:'Nunito',sans-serif;font-size:.86rem;outline:none;resize:vertical;min-height:80px;" placeholder="Enter your message..."></textarea>
+            </div>
+            <div style="grid-column:1/-1;display:flex;gap:10px;">
+              <button class="bsm bg2" onclick="sendNotif()">📱 Send SMS</button>
+              <button class="bsm bn2" onclick="sendNotif()">📧 Send Email</button>
+              <button class="bsm bgo2" onclick="sendNotif()">🔔 In-System Alert</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SOAP CONSOLE ── -->
+      <div id="sec-soap" class="sec">
+        <div class="panel" style="margin-bottom:14px;">
+          <div class="ph">🌐 GRA SOAP Web Service Test Console <span>Connected to: localhost/gra-soap/server.php</span></div>
+          <p style="font-size:.8rem;color:var(--muted);margin-bottom:14px;">Test SOAP requests to the GRA web service. Select a function, fill in parameters, and send to see the XML response.</p>
+        </div>
+        <div class="sowrap">
+          <div class="sopanel">
+            <div class="ph" style="font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px;padding-bottom:7px;border-bottom:2px solid var(--border);">📤 Request</div>
+            <label style="font-size:.76rem;font-weight:700;color:#444;display:block;margin-bottom:5px;">SOAP Function</label>
+            <select class="sosel" id="soap-fn" onchange="loadSOAPTemplate()">
+              <option value="GetTaxpayer">GetTaxpayer – Fetch taxpayer by TIN</option>
+              <option value="VerifyTIN">VerifyTIN – Check if TIN is valid</option>
+              <option value="RegisterTaxpayer">RegisterTaxpayer – Create new taxpayer</option>
+              <option value="GetPaymentHistory">GetPaymentHistory – List payments</option>
+              <option value="GetVehicleInfo">GetVehicleInfo – Fetch vehicle by plate</option>
+              <option value="CalculatePenalty">CalculatePenalty – Compute penalties</option>
+              <option value="IssueClearance">IssueClearance – Generate clearance cert</option>
+            </select>
+            <label style="font-size:.76rem;font-weight:700;color:#444;display:block;margin-bottom:5px;">XML Request Body</label>
+            <textarea class="socode" id="soap-req"></textarea>
+            <button class="sobtn" onclick="sendSOAP()">▶ Send SOAP Request</button>
+          </div>
+          <div class="sopanel">
+            <div class="ph" style="font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px;padding-bottom:7px;border-bottom:2px solid var(--border);">📥 Response</div>
+            <label style="font-size:.76rem;font-weight:700;color:#444;display:block;margin-bottom:5px;">XML Response</label>
+            <div class="sores" id="soap-res">// Response will appear here after sending request...</div>
+            <div style="margin-top:10px;display:flex;gap:8px;">
+              <button class="bsm bo2" onclick="document.getElementById('soap-res').textContent='// Response will appear here...'">Clear</button>
+              <button class="bsm bg2" onclick="toastMsg('Response copied!')">Copy</button>
+            </div>
+          </div>
+        </div>
+        <div class="panel" style="margin-top:14px;">
+          <div class="ph">WSDL Endpoint Info</div>
+          <table class="tbl">
+            <thead><tr><th>Function</th><th>Description</th><th>Parameters</th><th>Returns</th></tr></thead>
+            <tbody>
+              <tr><td>GetTaxpayer</td><td>Fetch taxpayer record by TIN</td><td>tin (string)</td><td>TaxpayerObject</td></tr>
+              <tr><td>VerifyTIN</td><td>Validate a TIN exists</td><td>tin (string)</td><td>boolean + name</td></tr>
+              <tr><td>RegisterTaxpayer</td><td>Create new taxpayer record</td><td>TaxpayerData object</td><td>newTIN (string)</td></tr>
+              <tr><td>GetPaymentHistory</td><td>List all payments for TIN</td><td>tin, fromDate, toDate</td><td>PaymentArray</td></tr>
+              <tr><td>GetVehicleInfo</td><td>Fetch vehicle by plate number</td><td>plateNumber (string)</td><td>VehicleObject</td></tr>
+              <tr><td>CalculatePenalty</td><td>Compute penalty for late filing</td><td>tin, taxType, months</td><td>penaltyAmount</td></tr>
+              <tr><td>IssueClearance</td><td>Generate tax clearance certificate</td><td>tin, purpose</td><td>ClearanceCert</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- end cbody -->
+  </div><!-- end main -->
+</div><!-- end layout -->
+</div><!-- end pg-main -->
+
+<!-- NOTIFICATION SIDE PANEL -->
+<div class="np" id="notif-panel">
+  <h3>🔔 Notifications</h3>
+  <div id="np-list"></div>
+</div>
+
+<!-- TAXPAYER DETAIL MODAL -->
+<div class="mbg" id="tp-modal">
+  <div class="mbox">
+    <div class="mh"><h3 id="modal-tp-title">Taxpayer Details</h3><button class="mx" onclick="closeMod('tp-modal')">✕</button></div>
+    <div class="mc" id="modal-tp-body"></div>
+  </div>
+</div>
+
+<!-- CASE MODAL -->
+<div class="mbg" id="case-modal">
+  <div class="mbox">
+    <div class="mh" style="background:linear-gradient(135deg,var(--navy),#0d2046);"><h3 id="modal-case-title">Case Details</h3><button class="mx" onclick="closeMod('case-modal')">✕</button></div>
+    <div class="mc" id="modal-case-body"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const LOGO='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';
+const USERS={admin:{pass:'gra2026',role:'sa',name:'Administrator'},officer:{pass:'gra2026',role:'to',name:'Tax Officer'},clerk:{pass:'gra2026',role:'de',name:'Data Clerk'},auditor:{pass:'gra2026',role:'au',name:'Auditor'}};
+const ROLE_LABELS={sa:'Super Admin',to:'Tax Officer',de:'Data Entry Clerk',au:'Auditor'};
+const TAXPAYERS=[
+  {tin:'G0028564774',name:'NHIS-BOSOMTWE KWANWOMA',type:'Organisation',region:'Ashanti',office:'Obuasi TSC',taxes:'PAYE,VAT,CIT',date:'2024-01-15',status:'a',comp:92,outstanding:0,lastFiling:'2026-02-15'},
+  {tin:'G0019874521',name:'Kwame Asante',type:'Individual',region:'Greater Accra',office:'Accra Central TSC',taxes:'PIT,WHT',date:'2024-03-22',status:'a',comp:78,outstanding:2,lastFiling:'2026-01-10'},
+  {tin:'G0031256780',name:'Abena Mensah Enterprises',type:'Organisation',region:'Ashanti',office:'Kumasi TSC',taxes:'CIT,PAYE,VAT',date:'2024-06-10',status:'a',comp:95,outstanding:0,lastFiling:'2026-02-20'},
+  {tin:'G0044521963',name:'Kofi Boateng',type:'Individual',region:'Western',office:'Takoradi TSC',taxes:'PAYE',date:'2024-08-05',status:'p',comp:45,outstanding:3,lastFiling:'2025-10-05'},
+  {tin:'G0052178430',name:'Adwoa Frimpong & Sons',type:'Partnership',region:'Eastern',office:'Ho TSC',taxes:'PIT,VAT',date:'2025-01-18',status:'a',comp:60,outstanding:1,lastFiling:'2025-12-18'},
+  {tin:'G0061234567',name:'Mensah Transport Ltd',type:'Organisation',region:'Greater Accra',office:'Tema TSC',taxes:'CIT,PAYE,VIT',date:'2025-03-01',status:'a',comp:88,outstanding:0,lastFiling:'2026-02-01'},
+  {tin:'G0070987654',name:'Efua Darko',type:'Individual',region:'Central',office:'Cape Coast TSC',taxes:'PIT',date:'2025-06-20',status:'s',comp:22,outstanding:5,lastFiling:'2025-07-20'},
+  {tin:'G0082345678',name:'Accra Trading Co.',type:'Organisation',region:'Greater Accra',office:'Accra Central TSC',taxes:'VAT,PAYE,WHT',date:'2025-09-10',status:'a',comp:71,outstanding:1,lastFiling:'2026-01-28'},
+];
+const VEHICLES=[
+  {plate:'BA186-23',make:'Toyota',model:'Vitz',cat:'A2-Taxi',owner:'LILIAN AMO',tin:'G0019874521',office:'Asokwa TSC',vit:'12.00',lastPaid:'QTR202601',status:'a'},
+  {plate:'GR1234-22',make:'Honda',model:'Civic',cat:'A1-Private Car',owner:'KWAME ASANTE',tin:'G0019874521',office:'Accra Central TSC',vit:'12.00',lastPaid:'QTR202601',status:'a'},
+  {plate:'AS5678-21',make:'Toyota',model:'Corolla',cat:'A2-Taxi',owner:'ABENA MENSAH',tin:'G0031256780',office:'Asokwa TSC',vit:'12.00',lastPaid:'QTR202601',status:'a'},
+  {plate:'KS9901-23',make:'Toyota',model:'HiAce',cat:'A3-Mini-bus',owner:'MENSAH TRANSPORT',tin:'G0061234567',office:'Kumasi TSC',vit:'25.00',lastPaid:'QTR202601',status:'a'},
+  {plate:'TK4421-24',make:'Ford',model:'Ranger',cat:'A6-Pick-up',owner:'KOFI BOATENG',tin:'G0044521963',office:'Takoradi TSC',vit:'20.00',lastPaid:'QTR202504',status:'p'},
+];
+const PAYMENTS=[
+  {ref:'RGGOV07162588209',tin:'G0028564774',name:'NHIS-BOSOMTWE',type:'PAYE',period:'Oct 2025',amount:'83.73',date:'2025-12-31',status:'a'},
+  {ref:'RGGOV07147542042',tin:'G0031256780',name:'Abena Mensah',type:'VAT',period:'Aug 2025',amount:'63.60',date:'2025-12-30',status:'a'},
+  {ref:'RGGOV07120056781',tin:'G0019874521',name:'Kwame Asante',type:'PAYE',period:'Aug 2025',amount:'95.50',date:'2025-10-05',status:'a'},
+  {ref:'RGGOV07110087234',tin:'G0052178430',name:'Adwoa Frimpong',type:'PIT',period:'Jul 2025',amount:'220.00',date:'2025-09-15',status:'p'},
+  {ref:'RGGOV07098765432',tin:'G0070987654',name:'Efua Darko',type:'PIT',period:'Jun 2025',amount:'145.00',date:'2025-09-01',status:'s'},
+];
+const CASES=[
+  {ref:'CASE-2026-001',tin:'G0070987654',name:'Efua Darko',type:'Objection',subject:'Disputed Income Assessment 2025',date:'2026-01-15',status:'open',officer:'Ama Owusu',priority:'high'},
+  {ref:'CASE-2026-002',tin:'G0044521963',name:'Kofi Boateng',type:'Appeal',subject:'Late Filing Penalty Reduction',date:'2026-01-22',status:'review',officer:'Kwesi Asante',priority:'medium'},
+  {ref:'CASE-2025-018',tin:'G0052178430',name:'Adwoa Frimpong',type:'Refund',subject:'VAT Refund Claim Q3 2025',date:'2025-12-10',status:'pending',officer:'Abena Ama',priority:'low'},
+  {ref:'CASE-2026-003',tin:'G0019874521',name:'Kwame Asante',type:'Dispute',subject:'Withholding Tax Rate Dispute',date:'2026-02-01',status:'open',officer:'Unassigned',priority:'medium'},
+];
+const CLEARANCE=[
+  {ref:'CLR-2026-001',tin:'G0028564774',name:'NHIS-BOSOMTWE KWANWOMA',applied:'2026-02-10',purpose:'Bank Loan Application',comp:92,status:'a'},
+  {ref:'CLR-2026-002',tin:'G0031256780',name:'Abena Mensah Enterprises',applied:'2026-02-15',purpose:'Government Contract',comp:95,status:'a'},
+  {ref:'CLR-2026-003',tin:'G0044521963',name:'Kofi Boateng',applied:'2026-02-20',purpose:'Visa Application',comp:45,status:'p'},
+  {ref:'CLR-2025-044',tin:'G0070987654',name:'Efua Darko',applied:'2025-12-05',purpose:'Business License',comp:22,status:'s'},
+];
+const NOTIFICATIONS=[
+  {icon:'',title:'PAYE Filing Overdue',msg:'3 taxpayers have PAYE returns overdue for January 2026.',time:'2 hours ago',unread:true},
+  {icon:'',title:'New Clearance Request',msg:'Clearance application from Abena Mensah Enterprises pending.',time:'4 hours ago',unread:true},
+  {icon:'',title:'Vehicle Tax Due',msg:'12 vehicles have VIT due for Q1 2026.',time:'Yesterday',unread:true},
+  {icon:'',title:'Registration Done',msg:'New taxpayer TIN G0091234567 registered successfully.',time:'Yesterday',unread:false},
+  {icon:'',title:'System Maintenance',msg:'Scheduled maintenance on Saturday 8 March 2026.',time:'2 days ago',unread:false},
+];
+const DEADLINES=[
+  {icon:'',label:'PAYE Filing Deadline',date:'15 March 2026',days:12,color:'var(--gold)'},
+  {icon:'',label:'VAT Returns Due',date:'21 March 2026',days:18,color:'var(--green)'},
+  {icon:'',label:'VIT Q1 2026 Due',date:'31 March 2026',days:28,color:'var(--navy)'},
+  {icon:'',label:'Annual PIT Returns',date:'30 April 2026',days:58,color:'var(--green)'},
+];
+const VLOG=[{tin:'G0028564774',result:'Found',officer:'Admin',time:'09:14 AM'},{tin:'G0000000001',result:'Not Found',officer:'Admin',time:'09:02 AM'}];
+
+function switchLoginTab(t){document.querySelectorAll('.lt').forEach((x,i)=>x.classList.toggle('on',i===(t==='staff'?0:1)));}
+function doLogin(){
+  const u=document.getElementById('l-user').value.trim().toLowerCase();
+  const p=document.getElementById('l-pass').value;
+  const r=document.getElementById('l-role').value;
+  if(u.length<2||p.length<3){toastMsg('Please enter valid credentials.');return;}
+  const ud=USERS[u]||{role:r,name:u.charAt(0).toUpperCase()+u.slice(1)};
+  const role=ud.role;const name=ud.name;
+  document.getElementById('sb-username').textContent=name;
+  document.getElementById('sb-userrole').textContent=ROLE_LABELS[role]||'Staff';
+  const b=document.getElementById('sb-badge');b.textContent=role.toUpperCase();b.className='sbu-badge '+role;
+  document.getElementById('tb2-name').textContent=name.split(' ')[0];
+  document.getElementById('tb2-av').textContent=name[0].toUpperCase();
+  document.getElementById('pg-login').classList.remove('on');
+  document.getElementById('pg-main').classList.add('on');
+  initSys();
+  toastMsg('Welcome, '+name+'!');
+}
+function doLogout(){
+  document.getElementById('pg-main').classList.remove('on');
+  document.getElementById('pg-login').classList.add('on');
+}
+function showSec(id){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.sbl').forEach(s=>s.classList.remove('on'));
+  document.getElementById('sec-'+id).classList.add('on');
+  const sl=document.getElementById('sl-'+id);if(sl)sl.classList.add('on');
+  const titles={dashboard:'Dashboard',taxpayers:'Taxpayers',vehicles:'Vehicles',compliance:'Compliance Tracking',payments:'Payment & Arrears',clearance:'Tax Clearance',cases:'Case Management',verify:'TIN Verification',reports:'Reports & Analytics',notifications:'Notifications',soap:'SOAP Console'};
+  document.getElementById('page-title').textContent=titles[id]||id;
+}
+function initSys(){
+  const L='data:image/jpeg;base64,'+LOGO;
+  document.getElementById('sb-logo').src=L;
+  renderDash();renderTpTbl();renderVhTbl();renderCompTbl();renderPayTbl();renderAgeTbl();renderClrTbl();renderCases();renderNotifs();renderVLog();loadSOAPTpl();
+}
+function renderDash(){
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const vals=[42,55,38,67,71,84,92,76,108,95,118,142];
+  const mx=Math.max(...vals);
+  document.getElementById('rev-chart').innerHTML=months.map((m,i)=>'<div class="cbw2"><div class="cbv2">'+vals[i]+'</div><div class="cb2" style="height:'+Math.round((vals[i]/mx)*92)+'px;background:'+(i===11?'var(--gold)':'var(--green)')+'"></div><div class="cbl2">'+m+'</div></div>').join('');
+  const dist=[{l:'PAYE',v:68,c:'var(--green)'},{l:'VAT',v:45,c:'var(--red)'},{l:'Income Tax',v:38,c:'var(--navy)'},{l:'WHT',v:22,c:'var(--gold)'},{l:'VIT',v:15,c:'#9c27b0'}];
+  document.getElementById('tax-dist').innerHTML=dist.map(d=>'<div class="di"><div class="dil"><div class="dot" style="background:'+d.c+'"></div>'+d.l+'</div><div class="dv">GHS '+d.v+'K</div></div>').join('');
+  document.getElementById('recent-tp').innerHTML=TAXPAYERS.slice(0,5).map(t=>'<tr onclick="openTPMod('+escJ(t)+')"><td>'+t.tin+'</td><td>'+t.name.substring(0,20)+'</td><td>'+t.type+'</td><td>'+t.date+'</td><td><span class="badge '+t.status+'">'+(t.status==='a'?'Active':t.status==='p'?'Pending':'Suspended')+'</span></td></tr>').join('');
+  const ov=TAXPAYERS.filter(t=>t.outstanding>0);
+  document.getElementById('overdue-count').textContent=ov.length+' overdue';
+  document.getElementById('overdue-tbl').innerHTML=ov.map(t=>'<tr><td>'+t.tin+'</td><td>'+t.name.substring(0,18)+'</td><td style="color:var(--red);font-weight:700;">'+t.outstanding+' missing</td><td>'+t.lastFiling+'</td></tr>').join('');
+}
+function escJ(obj){return JSON.stringify(obj).replace(/"/g,'&quot;');}
+function compCls(p){return p>=80?'hi':p>=50?'mi':'lo';}
+function renderTpTbl(data){
+  const d=data||TAXPAYERS;
+  document.getElementById('tp-count-lbl').textContent=d.length+' taxpayers';
+  document.getElementById('tp-tbl').innerHTML=d.map(t=>'<tr onclick="openTPMod('+escJ(t)+')"><td><strong>'+t.tin+'</strong></td><td>'+t.name+'</td><td>'+t.type+'</td><td>'+t.region+'</td><td>'+t.office+'</td><td style="font-size:.72rem;">'+t.taxes+'</td><td><div style="display:flex;align-items:center;gap:5px;"><div class="comp-bar" style="display:inline-block;width:46px;"><div class="comp-fill '+compCls(t.comp)+'" style="width:'+t.comp+'%"></div></div><span style="font-size:.7rem;font-weight:700;">'+t.comp+'%</span></div></td><td><span class="badge '+t.status+'">'+(t.status==='a'?'Active':t.status==='p'?'Pending':'Suspended')+'</span></td><td><button class="bsm bo2" style="font-size:.64rem;padding:3px 7px;" onclick="event.stopPropagation();openTPMod('+escJ(t)+')">View</button></td></tr>').join('');
+}
+function filterTbl(type,q){
+  const l=(q||'').toLowerCase();
+  if(type==='tp')renderTpTbl(TAXPAYERS.filter(t=>Object.values(t).join(' ').toLowerCase().includes(l)));
+  else if(type==='vh')renderVhTbl(VEHICLES.filter(v=>Object.values(v).join(' ').toLowerCase().includes(l)));
+  else if(type==='pay')renderPayTbl(PAYMENTS.filter(p=>Object.values(p).join(' ').toLowerCase().includes(l)));
+}
+function renderVhTbl(data){
+  const d=data||VEHICLES;
+  document.getElementById('vh-count-lbl').textContent=d.length+' vehicles';
+  document.getElementById('vh-tbl').innerHTML=d.map(v=>'<tr><td><strong>'+v.plate+'</strong></td><td>'+v.make+' '+v.model+'</td><td>'+v.cat+'</td><td>'+v.owner+'</td><td>'+v.tin+'</td><td>'+v.office+'</td><td>GHS '+v.vit+'</td><td>'+v.lastPaid+'</td><td><span class="badge '+(v.status==='a'?'a':'p')+'">'+(v.status==='a'?'Active':'Pending')+'</span></td></tr>').join('');
+}
+function renderCompTbl(data){
+  const d=data||TAXPAYERS;
+  document.getElementById('comp-tbl').innerHTML=d.map(t=>'<tr onclick="openTPMod('+escJ(t)+')"><td>'+t.tin+'</td><td>'+t.name.substring(0,20)+'</td><td><div style="display:flex;align-items:center;gap:5px;"><div class="comp-bar" style="display:inline-block;width:56px;"><div class="comp-fill '+compCls(t.comp)+'" style="width:'+t.comp+'%"></div></div><strong>'+t.comp+'%</strong></div></td><td style="color:var(--green);font-weight:700;">'+(12-t.outstanding)+'/12</td><td style="color:'+(t.outstanding>0?'var(--red)':'var(--green)')+';font-weight:700;">'+t.outstanding+' missing</td><td style="color:var(--red);font-weight:700;">'+(t.outstanding>0?'GHS '+(t.outstanding*500).toFixed(2):'')+'</td><td>'+t.lastFiling+'</td><td><button class="bsm bg2" style="font-size:.64rem;padding:3px 7px;" onclick="event.stopPropagation();toastMsg(\'Reminder sent!\')">Remind</button></td></tr>').join('');
+}
+function filterComp(q){renderCompTbl(TAXPAYERS.filter(t=>t.name.toLowerCase().includes(q.toLowerCase())||t.tin.includes(q)));}
+function calcPenalty(){
+  const m=parseInt(document.getElementById('pen-months').value)||0;
+  const a=parseFloat(document.getElementById('pen-amount').value)||0;
+  const isC=document.getElementById('pen-tptype').value==='company';
+  if(m>0&&a>0){
+    const interest=a*0.05*(m/12);
+    const monthly=500*m;
+    const total=Math.max(monthly,a*3)+interest;
+    document.getElementById('pen-box').style.display='block';
+    document.getElementById('pen-result').textContent='GHS '+total.toFixed(2);
+    document.getElementById('pen-breakdown').textContent='Base: GHS '+monthly.toFixed(2)+' | Interest: GHS '+interest.toFixed(2);
+  }
+}
+function renderPayTbl(data){
+  const d=data||PAYMENTS;
+  document.getElementById('pay-tbl').innerHTML=d.map(p=>'<tr><td style="font-size:.72rem;">'+p.ref+'</td><td>'+p.tin+'</td><td>'+p.name+'</td><td>'+p.type+'</td><td>'+p.period+'</td><td>GHS '+p.amount+'</td><td>'+p.date+'</td><td><span class="badge '+p.status+'">'+(p.status==='a'?'Paid':p.status==='p'?'Pending':'Overdue')+'</span></td></tr>').join('');
+}
+function renderAgeTbl(){
+  const d=TAXPAYERS.filter(t=>t.outstanding>0);
+  document.getElementById('aging-tbl').innerHTML=d.map(t=>'<tr><td>'+t.tin+'</td><td>'+t.name.substring(0,18)+'</td><td style="color:var(--gold)">'+(t.outstanding>=1?'GHS '+(Math.floor(Math.random()*400+200)):'')+'</td><td style="color:orange">'+(t.outstanding>=2?'GHS '+(Math.floor(Math.random()*600+300)):'')+'</td><td style="color:var(--red)">'+(t.outstanding>=3?'GHS '+(Math.floor(Math.random()*800+500)):'')+'</td><td style="color:#8a0e0e;font-weight:800">'+(t.outstanding>=4?'GHS '+(Math.floor(Math.random()*1500+800)):'')+'</td><td style="font-weight:800">GHS '+(t.outstanding*650)+'</td><td><button class="bsm br2" style="font-size:.64rem;padding:3px 7px;" onclick="toastMsg(\'Demand notice sent!\')">Notice</button></td></tr>').join('');
+}
+function renderClrTbl(){
+  document.getElementById('clr-tbl').innerHTML=CLEARANCE.map(c=>'<tr><td>'+c.ref+'</td><td>'+c.tin+'</td><td>'+c.name.substring(0,20)+'</td><td>'+c.applied+'</td><td>'+c.purpose+'</td><td><div style="display:flex;align-items:center;gap:5px;"><div class="comp-bar" style="display:inline-block;width:40px;"><div class="comp-fill '+compCls(c.comp)+'" style="width:'+c.comp+'%"></div></div><strong>'+c.comp+'%</strong></div></td><td><span class="badge '+c.status+'">'+(c.status==='a'?'Approved':c.status==='p'?'Pending':'Rejected')+'</span></td><td>'+(c.status==='p'?'<button class="bsm bg2" style="font-size:.62rem;padding:2px 6px;" onclick="toastMsg(\'Approved!\')">Approve</button>':'')+'</td></tr>').join('');
+}
+function checkClearance(){
+  const tin=document.getElementById('clr-tin').value.trim();
+  const tp=TAXPAYERS.find(t=>t.tin===tin);
+  const el=document.getElementById('clr-result');
+  el.style.display='block';
+  if(!tp){el.innerHTML='<div style="background:#fdeaea;border:2px solid var(--red);border-radius:8px;padding:12px;font-size:.82rem;color:#8a0e0e;font-weight:700;">TIN not found.</div>';return;}
+  const ok=tp.comp>=60&&tp.outstanding===0;
+  el.innerHTML='<div style="background:'+(ok?'#e8f5ee':'#fdeaea')+';border:2px solid '+(ok?'var(--green)':'var(--red)')+';border-radius:9px;padding:14px;"><div style="font-size:.9rem;font-weight:800;color:'+(ok?'var(--green)':'var(--red)');+';">'+(ok?'ELIGIBLE':'NOT ELIGIBLE')+' for Tax Clearance</div><div style="font-size:.8rem;margin-top:6px;"><strong>'+tp.name+'</strong> | Compliance: '+tp.comp+'% | Outstanding: '+tp.outstanding+'</div>'+(ok?'<button class="bsm bg2" style="margin-top:10px;width:100%;" onclick="toastMsg(\'Certificate generated!\')">Generate Certificate</button>':'<p style="font-size:.74rem;color:var(--red);margin-top:8px;">Clear outstanding returns first.</p>')+'</div>';
+}
+function renderCases(data){
+  const d=data||CASES;
+  const col={open:'var(--red)',review:'var(--gold)',pending:'var(--navy)',resolved:'var(--green)'};
+  const lbl={open:'Open',review:'Under Review',pending:'Pending',resolved:'Resolved'};
+  document.getElementById('cases-list').innerHTML=d.map(c=>'<div class="ccrd" onclick="openCaseMod('+escJ(c)+')"><div class="ccrd-top"><span class="cc-ref">'+c.ref+'</span><span class="badge" style="background:'+col[c.status]+'22;color:'+col[c.status]+';">'+lbl[c.status]+'</span></div><div class="cc-title">'+c.subject+'</div><div class="cc-meta">'+c.name+' | '+c.type+' | '+c.officer+' | '+c.date+'</div></div>').join('');
+}
+function filterCases(q){renderCases(CASES.filter(c=>Object.values(c).join(' ').toLowerCase().includes(q.toLowerCase())));}
+function openNewCase(){
+  document.getElementById('modal-case-title').textContent='New Case';
+  document.getElementById('modal-case-body').innerHTML='<div class="fg"><label>Taxpayer TIN</label><input type="text" placeholder="e.g. G0028564774" style="width:100%;padding:10px;border:1.5px solid var(--border);border-radius:6px;font-family:Nunito,sans-serif;font-size:.86rem;outline:none;"/></div><div class="fg"><label>Case Type</label><select style="width:100%;padding:10px;border:1.5px solid var(--border);border-radius:6px;font-family:Nunito,sans-serif;font-size:.86rem;outline:none;"><option>Objection</option><option>Dispute</option><option>Appeal</option><option>Refund</option></select></div><div class="fg"><label>Subject</label><input type="text" placeholder="Brief description" style="width:100%;padding:10px;border:1.5px solid var(--border);border-radius:6px;font-family:Nunito,sans-serif;font-size:.86rem;outline:none;"/></div><div class="fg"><label>Details</label><textarea style="width:100%;padding:10px;border:1.5px solid var(--border);border-radius:6px;font-family:Nunito,sans-serif;font-size:.82rem;outline:none;min-height:80px;resize:vertical;" placeholder="Full case details..."></textarea></div><button class="bsm bg2" style="width:100%;padding:10px;" onclick="closeMod(\'case-modal\');toastMsg(\'Case created!\')">Create Case</button>';
+  document.getElementById('case-modal').classList.add('on');
+}
+function openCaseMod(c){
+  const col={open:'var(--red)',review:'var(--gold)',pending:'var(--navy)',resolved:'var(--green)'};
+  const lbl={open:'Open',review:'Under Review',pending:'Pending',resolved:'Resolved'};
+  document.getElementById('modal-case-title').textContent=c.ref;
+  document.getElementById('modal-case-body').innerHTML='<div style="background:#f9f9f9;border-radius:8px;padding:12px;margin-bottom:12px;"><div style="font-size:.96rem;font-weight:800;">'+c.subject+'</div><div style="font-size:.76rem;color:#888;margin-top:3px;">'+c.type+' | Filed: '+c.date+'</div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px;"><div style="background:#f9f9f9;border-radius:7px;padding:10px;"><div style="font-size:.62rem;color:#888;text-transform:uppercase;">Taxpayer</div><div style="font-weight:700;font-size:.82rem;margin-top:2px;">'+c.name+'</div></div><div style="background:#f9f9f9;border-radius:7px;padding:10px;"><div style="font-size:.62rem;color:#888;text-transform:uppercase;">Status</div><div style="font-weight:700;color:'+col[c.status]+';font-size:.82rem;margin-top:2px;">'+lbl[c.status]+'</div></div><div style="background:#f9f9f9;border-radius:7px;padding:10px;"><div style="font-size:.62rem;color:#888;text-transform:uppercase;">Officer</div><div style="font-weight:700;font-size:.82rem;margin-top:2px;">'+c.officer+'</div></div><div style="background:#f9f9f9;border-radius:7px;padding:10px;"><div style="font-size:.62rem;color:#888;text-transform:uppercase;">Priority</div><div style="font-weight:700;font-size:.82rem;margin-top:2px;text-transform:capitalize;">'+c.priority+'</div></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;"><button class="bsm bg2" onclick="closeMod(\'case-modal\');toastMsg(\'Case resolved!\')">Mark Resolved</button><button class="bsm bn2" onclick="toastMsg(\'Taxpayer notified!\')">Notify</button><button class="bsm bo2" onclick="closeMod(\'case-modal\')">Close</button></div>';
+  document.getElementById('case-modal').classList.add('on');
+}
+function doVerify(){
+  const tin=document.getElementById('v-tin').value.trim();
+  const el=document.getElementById('v-result');
+  const tp=TAXPAYERS.find(t=>t.tin===tin);
+  el.style.display='block';
+  if(tp){
+    el.className='vres ok';
+    el.innerHTML='<div style="font-weight:800;color:var(--green);margin-bottom:10px;">TIN VERIFIED</div><table style="width:100%;font-size:.8rem;border-collapse:collapse;"><tr><td style="color:#888;padding:3px 0;width:40%">TIN</td><td style="font-weight:700;">'+tp.tin+'</td></tr><tr><td style="color:#888;padding:3px 0">Name</td><td style="font-weight:700;">'+tp.name+'</td></tr><tr><td style="color:#888;padding:3px 0">Type</td><td style="font-weight:700;">'+tp.type+'</td></tr><tr><td style="color:#888;padding:3px 0">Tax Office</td><td style="font-weight:700;">'+tp.office+'</td></tr><tr><td style="color:#888;padding:3px 0">Status</td><td style="font-weight:700;color:'+(tp.status==='a'?'var(--green)':'var(--red)')+';">'+(tp.status==='a'?'ACTIVE':'SUSPENDED')+'</td></tr><tr><td style="color:#888;padding:3px 0">Compliance</td><td style="font-weight:700;">'+tp.comp+'%</td></tr></table>';
+    VLOG.unshift({tin,result:'Found',officer:'Admin',time:new Date().toLocaleTimeString()});
+  } else {
+    el.className='vres fail';
+    el.innerHTML='<div style="font-weight:800;color:var(--red);">TIN NOT FOUND</div><p style="font-size:.78rem;color:#555;margin-top:6px;">This TIN is not registered in the GRA system.</p>';
+    VLOG.unshift({tin,result:'Not Found',officer:'Admin',time:new Date().toLocaleTimeString()});
+  }
+  renderVLog();
+}
+function renderVLog(){
+  document.getElementById('verify-log').innerHTML=VLOG.slice(0,8).map(v=>'<tr><td>'+v.tin+'</td><td><span class="badge '+(v.result==='Found'?'a':'s')+'">'+v.result+'</span></td><td>'+v.officer+'</td><td>'+v.time+'</td></tr>').join('');
+}
+function renderNotifs(){
+  const icons=['','','','',''];
+  document.getElementById('notif-count').textContent=NOTIFICATIONS.filter(n=>n.unread).length;
+  document.getElementById('notif-list').innerHTML=NOTIFICATIONS.map((n,i)=>'<div style="padding:11px;border-bottom:1px solid #f5f5f5;display:flex;gap:9px;background:'+(n.unread?'#fffbe6':'transparent')+';"><span style="font-size:1rem;">'+icons[i]+'</span><div><div style="font-size:.8rem;font-weight:700;">'+n.title+'</div><div style="font-size:.74rem;color:#555;margin-top:2px;line-height:1.5;">'+n.msg+'</div><div style="font-size:.66rem;color:#aaa;margin-top:3px;">'+n.time+'</div></div></div>').join('');
+  document.getElementById('deadline-list').innerHTML=DEADLINES.map(d=>'<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f5f5f5;"><div><div style="font-size:.8rem;font-weight:700;">'+d.label+'</div><div style="font-size:.68rem;color:#888;">'+d.date+'</div></div><span style="background:'+d.color+'22;color:'+d.color+';border-radius:5px;padding:2px 8px;font-size:.68rem;font-weight:700;">'+d.days+' days</span></div>').join('');
+  document.getElementById('np-list').innerHTML=NOTIFICATIONS.map((n,i)=>'<div class="ni '+(n.unread?'unread':'')+'"><span class="nic">'+icons[i]+'</span><div class="nit"><strong>'+n.title+'</strong>'+n.msg+'<div class="nim">'+n.time+'</div></div></div>').join('');
+}
+function toggleNotif(){document.getElementById('notif-panel').classList.toggle('on');}
+function sendNotif(){
+  const tin=document.getElementById('notif-tin').value;
+  const type=document.getElementById('notif-type').value;
+  if(!tin){toastMsg('Please enter a TIN.');return;}
+  toastMsg(type+' sent to '+tin+'!');
+}
+const SOAP_TMPL={
+  GetTaxpayer:'<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:gra="http://gra.gov.gh/soap">\n  <soapenv:Body>\n    <gra:GetTaxpayer>\n      <gra:tin>G0028564774</gra:tin>\n    </gra:GetTaxpayer>\n  </soapenv:Body>\n</soapenv:Envelope>',
+  VerifyTIN:'<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:gra="http://gra.gov.gh/soap">\n  <soapenv:Body>\n    <gra:VerifyTIN>\n      <gra:tin>G0028564774</gra:tin>\n    </gra:VerifyTIN>\n  </soapenv:Body>\n</soapenv:Envelope>',
+  RegisterTaxpayer:'<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:gra="http://gra.gov.gh/soap">\n  <soapenv:Body>\n    <gra:RegisterTaxpayer>\n      <gra:firstName>Kwame</gra:firstName>\n      <gra:lastName>Asante</gra:lastName>\n      <gra:ghanaCard>GHA-123456789-0</gra:ghanaCard>\n      <gra:taxOffice>Accra Central TSC</gra:taxOffice>\n    </gra:RegisterTaxpayer>\n  </soapenv:Body>\n</soapenv:Envelope>',
+  GetPaymentHistory:'<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:gra="http://gra.gov.gh/soap">\n  <soapenv:Body>\n    <gra:GetPaymentHistory>\n      <gra:tin>G0028564774</gra:tin>\n      <gra:fromDate>2025-01-01</gra:fromDate>\n      <gra:toDate>2026-03-03</gra:toDate>\n    </gra:GetPaymentHistory>\n  </soapenv:Body>\n</soapenv:Envelope>',
+  GetVehicleInfo:'<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:gra="http://gra.gov.gh/soap">\n  <soapenv:Body>\n    <gra:GetVehicleInfo>\n      <gra:plateNumber>BA186-23</gra:plateNumber>\n    </gra:GetVehicleInfo>\n  </soapenv:Body>\n</soapenv:Envelope>',
+  CalculatePenalty:'<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:gra="http://gra.gov.gh/soap">\n  <soapenv:Body>\n    <gra:CalculatePenalty>\n      <gra:tin>G0044521963</gra:tin>\n      <gra:taxType>PAYE</gra:taxType>\n      <gra:monthsOverdue>3</gra:monthsOverdue>\n    </gra:CalculatePenalty>\n  </soapenv:Body>\n</soapenv:Envelope>',
+  IssueClearance:'<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:gra="http://gra.gov.gh/soap">\n  <soapenv:Body>\n    <gra:IssueClearance>\n      <gra:tin>G0028564774</gra:tin>\n      <gra:purpose>Bank Loan</gra:purpose>\n    </gra:IssueClearance>\n  </soapenv:Body>\n</soapenv:Envelope>'
+};
+const SOAP_RES={
+  GetTaxpayer:'<GetTaxpayerResponse>\n  <tin>G0028564774</tin>\n  <name>NHIS-BOSOMTWE KWANWOMA</name>\n  <type>Organisation</type>\n  <region>Ashanti</region>\n  <taxOffice>Obuasi TSC</taxOffice>\n  <taxTypes>PAYE,VAT,CIT</taxTypes>\n  <status>ACTIVE</status>\n  <compliance>92</compliance>\n</GetTaxpayerResponse>',
+  VerifyTIN:'<VerifyTINResponse>\n  <valid>true</valid>\n  <name>NHIS-BOSOMTWE KWANWOMA</name>\n  <status>ACTIVE</status>\n</VerifyTINResponse>',
+  RegisterTaxpayer:'<RegisterTaxpayerResponse>\n  <success>true</success>\n  <newTIN>G0091234567</newTIN>\n  <message>Taxpayer registered successfully</message>\n</RegisterTaxpayerResponse>',
+  GetPaymentHistory:'<GetPaymentHistoryResponse>\n  <payment>\n    <ref>RGGOV07162588209</ref>\n    <type>PAYE</type>\n    <amount>83.73</amount>\n    <status>PAID</status>\n  </payment>\n</GetPaymentHistoryResponse>',
+  GetVehicleInfo:'<GetVehicleInfoResponse>\n  <plate>BA186-23</plate>\n  <make>Toyota</make>\n  <model>Vitz</model>\n  <owner>LILIAN AMO</owner>\n  <vitPerQuarter>12.00</vitPerQuarter>\n  <status>ACTIVE</status>\n</GetVehicleInfoResponse>',
+  CalculatePenalty:'<CalculatePenaltyResponse>\n  <basePenalty>1500.00</basePenalty>\n  <interest>62.50</interest>\n  <totalPenalty>1562.50</totalPenalty>\n</CalculatePenaltyResponse>',
+  IssueClearance:'<IssueClearanceResponse>\n  <issued>true</issued>\n  <certNumber>CLR-2026-048</certNumber>\n  <expiry>2026-09-03</expiry>\n</IssueClearanceResponse>'
+};
+function loadSOAPTpl(){const f=document.getElementById('soap-fn').value;document.getElementById('soap-req').value=SOAP_TMPL[f]||'';}
+function sendSOAP(){
+  const f=document.getElementById('soap-fn').value;const r=document.getElementById('soap-res');
+  r.textContent='Sending...';
+  setTimeout(()=>{r.textContent=SOAP_RES[f]||'Error: Unknown function';toastMsg('SOAP response received!');},700);
+}
+function genReport(type){
+  const titles={revenue:'Revenue Report 2026',compliance:'Compliance Report 2026',registration:'Registration Report 2026',arrears:'Arrears Report 2026',vit:'VIT Report 2026',audit:'Audit Trail 2026'};
+  const content={
+    revenue:'<table class="tbl"><thead><tr><th>Tax Type</th><th>Jan</th><th>Feb</th><th>YTD</th><th>% Target</th></tr></thead><tbody><tr><td>PAYE</td><td>GHS 42,000</td><td>GHS 38,500</td><td>GHS 80,500</td><td style="color:var(--green);font-weight:700;">84%</td></tr><tr><td>VAT</td><td>GHS 28,000</td><td>GHS 31,200</td><td>GHS 59,200</td><td style="color:var(--green);font-weight:700;">77%</td></tr><tr><td>Income Tax</td><td>GHS 15,400</td><td>GHS 18,200</td><td>GHS 33,600</td><td style="color:var(--gold);font-weight:700;">62%</td></tr><tr><td>VIT</td><td>GHS 2,400</td><td>GHS 2,400</td><td>GHS 4,800</td><td style="color:var(--green);font-weight:700;">100%</td></tr></tbody></table>',
+    compliance:'<table class="tbl"><thead><tr><th>Region</th><th>Taxpayers</th><th>Compliant</th><th>Rate</th></tr></thead><tbody><tr><td>Greater Accra</td><td>89</td><td>71</td><td style="color:var(--green);font-weight:700;">80%</td></tr><tr><td>Ashanti</td><td>67</td><td>54</td><td style="color:var(--green);font-weight:700;">81%</td></tr><tr><td>Western</td><td>42</td><td>28</td><td style="color:var(--gold);font-weight:700;">67%</td></tr><tr><td>Eastern</td><td>31</td><td>18</td><td style="color:var(--red);font-weight:700;">58%</td></tr></tbody></table>',
+    registration:'<table class="tbl"><thead><tr><th>Month</th><th>Individuals</th><th>Organisations</th><th>Vehicles</th><th>Total</th></tr></thead><tbody><tr><td>January 2026</td><td>12</td><td>5</td><td>8</td><td>25</td></tr><tr><td>February 2026</td><td>9</td><td>7</td><td>6</td><td>22</td></tr></tbody></table>',
+    arrears:'<table class="tbl"><thead><tr><th>TIN</th><th>Name</th><th>Arrears</th><th>Overdue Since</th></tr></thead><tbody>'+TAXPAYERS.filter(t=>t.outstanding>0).map(t=>'<tr><td>'+t.tin+'</td><td>'+t.name+'</td><td style="color:var(--red);font-weight:700;">GHS '+(t.outstanding*650)+'</td><td>'+t.lastFiling+'</td></tr>').join('')+'</tbody></table>',
+    vit:'<table class="tbl"><thead><tr><th>Category</th><th>Vehicles</th><th>Rate/Qtr</th><th>Q1 Expected</th></tr></thead><tbody><tr><td>A2-Taxi</td><td>2</td><td>GHS 12</td><td>GHS 24</td></tr><tr><td>A3-Mini-bus</td><td>1</td><td>GHS 25</td><td>GHS 25</td></tr><tr><td>A5-Heavy Truck</td><td>1</td><td>GHS 48</td><td>GHS 48</td></tr></tbody></table>',
+    audit:'<table class="tbl"><thead><tr><th>Time</th><th>User</th><th>Action</th><th>Record</th></tr></thead><tbody><tr><td>09:14 AM</td><td>Admin</td><td>TIN Verified</td><td>G0028564774</td></tr><tr><td>08:50 AM</td><td>Tax Officer</td><td>Compliance Check</td><td>G0031256780</td></tr><tr><td>08:30 AM</td><td>Admin</td><td>Login</td><td>admin</td></tr></tbody></table>'
+  };
+  document.getElementById('report-title').textContent=titles[type]||type;
+  document.getElementById('report-content').innerHTML=content[type]||'Loading...';
+  document.getElementById('report-output').style.display='block';
+  toastMsg('Report generated!');
+}
+function openTPMod(t){
+  document.getElementById('modal-tp-title').textContent=t.tin+' – '+t.name;
+  document.getElementById('modal-tp-body').innerHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px;"><div style="background:#f9f9f9;border-radius:7px;padding:10px;"><div style="font-size:.62rem;color:#888;text-transform:uppercase;">TIN</div><div style="font-weight:800;font-size:.9rem;margin-top:2px;">'+t.tin+'</div></div><div style="background:#f9f9f9;border-radius:7px;padding:10px;"><div style="font-size:.62rem;color:#888;text-transform:uppercase;">Status</div><div style="font-weight:800;font-size:.9rem;margin-top:2px;color:'+(t.status==='a'?'var(--green)':t.status==='p'?'var(--gold)':'var(--red)')+';">'+(t.status==='a'?'ACTIVE':t.status==='p'?'PENDING':'SUSPENDED')+'</div></div><div style="background:#f9f9f9;border-radius:7px;padding:10px;"><div style="font-size:.62rem;color:#888;text-transform:uppercase;">Type</div><div style="font-weight:700;font-size:.82rem;margin-top:2px;">'+t.type+'</div></div><div style="background:#f9f9f9;border-radius:7px;padding:10px;"><div style="font-size:.62rem;color:#888;text-transform:uppercase;">Region</div><div style="font-weight:700;font-size:.82rem;margin-top:2px;">'+t.region+'</div></div><div style="background:#f9f9f9;border-radius:7px;padding:10px;"><div style="font-size:.62rem;color:#888;text-transform:uppercase;">Tax Office</div><div style="font-weight:700;font-size:.82rem;margin-top:2px;">'+t.office+'</div></div><div style="background:#f9f9f9;border-radius:7px;padding:10px;"><div style="font-size:.62rem;color:#888;text-transform:uppercase;">Registered</div><div style="font-weight:700;font-size:.82rem;margin-top:2px;">'+t.date+'</div></div></div><div style="background:#f9f9f9;border-radius:7px;padding:10px;margin-bottom:12px;"><div style="font-size:.62rem;color:#888;text-transform:uppercase;margin-bottom:5px;">Compliance Score</div><div style="display:flex;align-items:center;gap:9px;"><div style="flex:1;height:9px;background:#eee;border-radius:5px;overflow:hidden;"><div class="comp-fill '+compCls(t.comp)+'" style="width:'+t.comp+'%;height:100%;"></div></div><span style="font-weight:800;">'+t.comp+'%</span></div><div style="font-size:.72rem;color:'+(t.outstanding>0?'var(--red)':'var(--green)')+';margin-top:4px;">'+(t.outstanding>0?t.outstanding+' outstanding returns':'All returns filed')+'</div></div><div style="display:flex;gap:7px;flex-wrap:wrap;"><button class="bsm bg2" onclick="toastMsg(\'Clearance check done!\');closeMod(\'tp-modal\')">Check Clearance</button><button class="bsm bn2" onclick="toastMsg(\'Reminder sent!\');closeMod(\'tp-modal\')">Send Reminder</button><button class="bsm br2" onclick="toastMsg(\'Account suspended!\')">Suspend</button><button class="bsm bo2" onclick="closeMod(\'tp-modal\')">Close</button></div>';
+  document.getElementById('tp-modal').classList.add('on');
+}
+function closeMod(id){document.getElementById(id).classList.remove('on');}
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.mbg').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('on');}));
+  document.getElementById('login-logo').src='data:image/jpeg;base64,'+LOGO;
+});
+function toastMsg(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.style.display='block';
+  clearTimeout(window._tt);
+  window._tt=setTimeout(()=>t.style.display='none',3000);
+}
+</script>
+
+<!-- ════════════════════════════════════════════
+     GLOBAL AUTH MODALS (injected into all pages)
+     ════════════════════════════════════════════ -->
+
+<!-- LOGIN MODAL -->
+<div class="auth-modal-overlay" id="authLoginOverlay">
+  <div class="auth-modal">
+    <div class="auth-modal-head">
+      <button class="auth-close-x" onclick="authCloseLogin()">✕</button>
+      <div class="auth-modal-logo">🔐</div>
+      <h2>GRA Secure Login</h2>
+      <p>Ghana Revenue Authority — Taxpayer Portal</p>
+    </div>
+    <div class="auth-modal-body">
+      <div class="auth-error" id="authLoginError">Invalid credentials. Please try again.</div>
+      <div class="auth-field">
+        <label>TIN / Username</label>
+        <input type="text" id="authTINInput" placeholder="e.g. G0028564774 or admin" autocomplete="username"/>
+      </div>
+      <div class="auth-field">
+        <label>Password</label>
+        <input type="password" id="authPassInput" placeholder="Enter your password" autocomplete="current-password"/>
+      </div>
+      <button class="auth-submit-btn" onclick="authDoLogin()">🔐 SIGN IN</button>
+    </div>
+    <div class="auth-modal-foot">🔒 Your session is encrypted and secure</div>
+  </div>
+</div>
+
+<!-- CHANGE PASSWORD MODAL -->
+<div class="auth-modal-overlay" id="authChPwOverlay">
+  <div class="auth-modal chpw-modal">
+    <div class="auth-modal-head">
+      <button class="auth-close-x" onclick="document.getElementById('authChPwOverlay').classList.remove('open')">✕</button>
+      <div class="auth-modal-logo">🔑</div>
+      <h2>Change Password</h2>
+      <p>Update your GRA portal password</p>
+    </div>
+    <div class="auth-modal-body">
+      <div class="chpw-success" id="chpwSuccess">
+        <div class="cs-icon">✅</div>
+        <p>Password changed successfully!</p>
+        <p style="color:#888;font-size:.8rem;margin-top:6px;">Please use your new password next time you sign in.</p>
+      </div>
+      <div id="chpwForm">
+        <div class="auth-error" id="chpwError">Current password is incorrect.</div>
+        <div class="auth-field">
+          <label>Current Password</label>
+          <input type="password" id="chpwCurrent" placeholder="Enter current password"/>
+        </div>
+        <div class="auth-field">
+          <label>New Password</label>
+          <input type="password" id="chpwNew" placeholder="Min. 6 characters"/>
+        </div>
+        <div class="auth-field">
+          <label>Confirm New Password</label>
+          <input type="password" id="chpwConfirm" placeholder="Re-enter new password"/>
+        </div>
+        <button class="auth-submit-btn" style="background:linear-gradient(135deg,#1a2a5e,#2d4a9e);" onclick="authDoChangePw()">🔑 CHANGE PASSWORD</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INVOICE DASHBOARD MODAL -->
+<div class="auth-modal-overlay" id="authInvOverlay">
+  <div class="auth-modal inv-modal">
+    <div class="inv-modal-head">
+      <div>
+        <h2>📑 My Invoice Dashboard</h2>
+        <p id="invModalUser">Loading...</p>
+      </div>
+      <button class="auth-close-x" style="position:static;" onclick="document.getElementById('authInvOverlay').classList.remove('open')">✕</button>
+    </div>
+    <div class="inv-tab-row">
+      <button class="inv-tab active" id="invTab1" onclick="switchInvTab(1)">📋 Overview</button>
+      <button class="inv-tab" id="invTab2" onclick="switchInvTab(2)">📅 Weekly Income Tax</button>
+      <button class="inv-tab" id="invTab3" onclick="switchInvTab(3)">🗂️ All Tax Invoices</button>
+    </div>
+    <div class="inv-body">
+
+      <!-- TAB 1: Overview with two big buttons -->
+      <div id="invPane1">
+        <div class="inv-summary-row">
+          <div class="inv-sum-card"><div class="isn" style="color:#006B3F;">GHS 1,140</div><div class="isl">Total Paid 2026</div></div>
+          <div class="inv-sum-card"><div class="isn" style="color:#C8102E;">GHS 285</div><div class="isl">Outstanding</div></div>
+          <div class="inv-sum-card"><div class="isn">12</div><div class="isl">Weeks Filed</div></div>
+          <div class="inv-sum-card"><div class="isn" style="color:#856404;">3</div><div class="isl">Overdue</div></div>
+        </div>
+        <div class="inv-big-btns">
+          <button class="inv-big-btn green" onclick="switchInvTab(2)">
+            <span class="ib-icon">📅</span>
+            <div>
+              <span class="ib-title">Weekly Income Tax</span>
+              <span class="ib-sub">15 invoices &nbsp;·&nbsp; GHS 285 outstanding</span>
+            </div>
+          </button>
+          <button class="inv-big-btn dark" onclick="switchInvTab(3)">
+            <span class="ib-icon">🗂️</span>
+            <div>
+              <span class="ib-title">All Tax Invoices</span>
+              <span class="ib-sub">PAYE, CIT, VIT, Rental &amp; more</span>
+            </div>
+          </button>
+        </div>
+        <p style="font-size:.8rem;color:#999;text-align:center;margin-top:8px;">Click either button above to view detailed invoices</p>
+      </div>
+
+      <!-- TAB 2: Weekly Income Tax -->
+      <div id="invPane2" style="display:none;">
+        <div class="inv-section-head">
+          <h3>📅 Weekly Income Tax Invoices — 2026</h3>
+          <button class="inv-back-btn" onclick="switchInvTab(1)">← Back</button>
+        </div>
+        <div class="inv-summary-row">
+          <div class="inv-sum-card"><div class="isn" style="color:#006B3F;">12</div><div class="isl">Paid</div></div>
+          <div class="inv-sum-card"><div class="isn" style="color:#856404;">1</div><div class="isl">Pending</div></div>
+          <div class="inv-sum-card"><div class="isn" style="color:#C8102E;">2</div><div class="isl">Overdue</div></div>
+          <div class="inv-sum-card"><div class="isn">GHS 95</div><div class="isl">Per Week</div></div>
+        </div>
+        <table class="inv-tbl">
+          <thead><tr><th>#</th><th>Week Period</th><th>Due Date</th><th>Amount</th><th>Paid On</th><th>Receipt</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><strong>W15</strong></td><td>Apr 7–13, 2026</td><td style="color:#C8102E;font-weight:800;">14 Apr 2026</td><td><strong>GHS 95.00</strong></td><td>—</td><td>—</td><td><span class="inv-badge-due">🔴 OVERDUE</span></td></tr>
+            <tr><td><strong>W14</strong></td><td>Mar 31–Apr 6, 2026</td><td style="color:#C8102E;font-weight:800;">07 Apr 2026</td><td><strong>GHS 95.00</strong></td><td>—</td><td>—</td><td><span class="inv-badge-due">🔴 OVERDUE</span></td></tr>
+            <tr><td><strong>W13</strong></td><td>Mar 24–30, 2026</td><td style="color:#856404;font-weight:800;">31 Mar 2026</td><td><strong>GHS 95.00</strong></td><td>—</td><td>—</td><td><span class="inv-badge-pending">⏳ PENDING</span></td></tr>
+            <tr><td><strong>W12</strong></td><td>Mar 17–23, 2026</td><td>24 Mar 2026</td><td><strong>GHS 95.00</strong></td><td>24 Mar 2026</td><td style="font-size:.76rem;">RGGOV07240001</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>W11</strong></td><td>Mar 10–16, 2026</td><td>17 Mar 2026</td><td><strong>GHS 95.00</strong></td><td>17 Mar 2026</td><td style="font-size:.76rem;">RGGOV07230008</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>W10</strong></td><td>Mar 3–9, 2026</td><td>10 Mar 2026</td><td><strong>GHS 95.00</strong></td><td>10 Mar 2026</td><td style="font-size:.76rem;">RGGOV07200015</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>W9</strong></td><td>Feb 24–Mar 2, 2026</td><td>03 Mar 2026</td><td><strong>GHS 95.00</strong></td><td>03 Mar 2026</td><td style="font-size:.76rem;">RGGOV07180090</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>W8</strong></td><td>Feb 17–23, 2026</td><td>24 Feb 2026</td><td><strong>GHS 95.00</strong></td><td>24 Feb 2026</td><td style="font-size:.76rem;">RGGOV07160045</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>W7</strong></td><td>Feb 10–16, 2026</td><td>17 Feb 2026</td><td><strong>GHS 95.00</strong></td><td>16 Feb 2026</td><td style="font-size:.76rem;">RGGOV07140033</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>W6</strong></td><td>Feb 3–9, 2026</td><td>10 Feb 2026</td><td><strong>GHS 95.00</strong></td><td>09 Feb 2026</td><td style="font-size:.76rem;">RGGOV07120066</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>W5</strong></td><td>Jan 27–Feb 2, 2026</td><td>03 Feb 2026</td><td><strong>GHS 95.00</strong></td><td>02 Feb 2026</td><td style="font-size:.76rem;">RGGOV07100021</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>W4</strong></td><td>Jan 20–26, 2026</td><td>27 Jan 2026</td><td><strong>GHS 95.00</strong></td><td>27 Jan 2026</td><td style="font-size:.76rem;">RGGOV07080077</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>W3</strong></td><td>Jan 13–19, 2026</td><td>20 Jan 2026</td><td><strong>GHS 95.00</strong></td><td>19 Jan 2026</td><td style="font-size:.76rem;">RGGOV07060049</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>W2</strong></td><td>Jan 6–12, 2026</td><td>13 Jan 2026</td><td><strong>GHS 95.00</strong></td><td>13 Jan 2026</td><td style="font-size:.76rem;">RGGOV07040031</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>W1</strong></td><td>Dec 30–Jan 5, 2026</td><td>06 Jan 2026</td><td><strong>GHS 95.00</strong></td><td>06 Jan 2026</td><td style="font-size:.76rem;">RGGOV07020012</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- TAB 3: All Tax Invoices -->
+      <div id="invPane3" style="display:none;">
+        <div class="inv-section-head">
+          <h3>🗂️ All Tax Invoices — 2026</h3>
+          <button class="inv-back-btn" onclick="switchInvTab(1)">← Back</button>
+        </div>
+        <div class="inv-summary-row">
+          <div class="inv-sum-card"><div class="isn" style="color:#006B3F;">GHS 2,280</div><div class="isl">Total Paid</div></div>
+          <div class="inv-sum-card"><div class="isn" style="color:#C8102E;">GHS 475</div><div class="isl">Outstanding</div></div>
+          <div class="inv-sum-card"><div class="isn">18</div><div class="isl">Total Invoices</div></div>
+          <div class="inv-sum-card"><div class="isn" style="color:#856404;">4</div><div class="isl">Pending/Due</div></div>
+        </div>
+        <table class="inv-tbl">
+          <thead><tr><th>Invoice #</th><th>Date</th><th>Tax Type</th><th>Period</th><th>Amount</th><th>Due Date</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><strong>INV-2026-015</strong></td><td>14 Apr 2026</td><td>Weekly IT</td><td>Week 15</td><td><strong>GHS 95.00</strong></td><td style="color:#C8102E;font-weight:800;">14 Apr</td><td><span class="inv-badge-due">🔴 OVERDUE</span></td></tr>
+            <tr><td><strong>INV-2026-014</strong></td><td>07 Apr 2026</td><td>Weekly IT</td><td>Week 14</td><td><strong>GHS 95.00</strong></td><td style="color:#C8102E;font-weight:800;">07 Apr</td><td><span class="inv-badge-due">🔴 OVERDUE</span></td></tr>
+            <tr><td><strong>INV-2026-013</strong></td><td>01 Apr 2026</td><td>PAYE</td><td>Mar 2026</td><td><strong>GHS 190.00</strong></td><td style="color:#856404;font-weight:800;">30 Apr</td><td><span class="inv-badge-pending">⏳ PENDING</span></td></tr>
+            <tr><td><strong>INV-2026-012</strong></td><td>31 Mar 2026</td><td>Weekly IT</td><td>Week 13</td><td><strong>GHS 95.00</strong></td><td style="color:#856404;font-weight:800;">31 Mar</td><td><span class="inv-badge-pending">⏳ PENDING</span></td></tr>
+            <tr><td><strong>INV-2026-011</strong></td><td>24 Mar 2026</td><td>Weekly IT</td><td>Week 12</td><td><strong>GHS 95.00</strong></td><td>24 Mar</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>INV-2026-010</strong></td><td>01 Mar 2026</td><td>PAYE</td><td>Feb 2026</td><td><strong>GHS 190.00</strong></td><td>31 Mar</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>INV-2026-009</strong></td><td>17 Mar 2026</td><td>Weekly IT</td><td>Week 11</td><td><strong>GHS 95.00</strong></td><td>17 Mar</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>INV-2026-008</strong></td><td>10 Mar 2026</td><td>Weekly IT</td><td>Week 10</td><td><strong>GHS 95.00</strong></td><td>10 Mar</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>INV-2026-007</strong></td><td>03 Mar 2026</td><td>Weekly IT</td><td>Week 9</td><td><strong>GHS 95.00</strong></td><td>03 Mar</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>INV-2026-006</strong></td><td>28 Feb 2026</td><td>VIT</td><td>Q1 2026</td><td><strong>GHS 320.00</strong></td><td>28 Feb</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>INV-2026-005</strong></td><td>24 Feb 2026</td><td>Weekly IT</td><td>Week 8</td><td><strong>GHS 95.00</strong></td><td>24 Feb</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>INV-2026-004</strong></td><td>01 Feb 2026</td><td>PAYE</td><td>Jan 2026</td><td><strong>GHS 190.00</strong></td><td>28 Feb</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>INV-2026-003</strong></td><td>17 Feb 2026</td><td>Weekly IT</td><td>Week 7</td><td><strong>GHS 95.00</strong></td><td>17 Feb</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>INV-2026-002</strong></td><td>10 Feb 2026</td><td>Weekly IT</td><td>Week 6</td><td><strong>GHS 95.00</strong></td><td>10 Feb</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+            <tr><td><strong>INV-2026-001</strong></td><td>06 Jan 2026</td><td>Rental Tax</td><td>Q4 2025</td><td><strong>GHS 85.00</strong></td><td>06 Jan</td><td><span class="inv-badge-paid">✅ PAID</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Profile Dropdown -->
+<div class="auth-dropdown" id="authDropdown">
+  <div class="auth-drop-header">
+    <div class="auth-drop-avatar" id="authDropAvatar">U</div>
+    <div class="auth-drop-name" id="authDropName">User Name</div>
+    <div class="auth-drop-role" id="authDropRole">Taxpayer</div>
+    <div class="auth-drop-tin" id="authDropTIN"></div>
+  </div>
+  <div class="auth-drop-body">
+    <button class="auth-drop-item" onclick="authOpenDashboard()">
+      <span class="dicon">📑</span> Go to Dashboard
+    </button>
+    <button class="auth-drop-item" onclick="authOpenChangePw()">
+      <span class="dicon">🔑</span> Change Password
+    </button>
+    <hr class="auth-drop-divider"/>
+    <button class="auth-drop-item danger" onclick="authSignOut()">
+      <span class="dicon">🚪</span> Sign Out
+    </button>
+  </div>
+</div>
+
+<script>
+
+// ════════════════════════════════════════════
+//  GLOBAL AUTH SYSTEM
+// ════════════════════════════════════════════
+const AUTH_USERS = {
+  'G0028564774': {pass:'password123', name:'Kwanwoma District Office', role:'Taxpayer', tin:'G0028564774'},
+  'admin':        {pass:'gra2026',     name:'Administrator',            role:'Admin',    tin:'ADMIN-001'},
+  'officer':      {pass:'officer123',  name:'Tax Officer',              role:'Officer',  tin:'OFF-0042'},
+};
+let authCurrentUser = null;
+
+function authOpenLogin(){
+  document.getElementById('authLoginOverlay').classList.add('open');
+  document.getElementById('authLoginError').style.display='none';
+  setTimeout(()=>{ const t=document.getElementById('authTINInput'); if(t) t.focus(); },200);
+}
+function authCloseLogin(){
+  document.getElementById('authLoginOverlay').classList.remove('open');
+}
+function authDoLogin(){
+  const tin  = (document.getElementById('authTINInput').value||'').trim();
+  const pass = (document.getElementById('authPassInput').value||'').trim();
+  const user = AUTH_USERS[tin];
+  if(user && user.pass === pass){
+    authCurrentUser = {...user};
+    authCloseLogin();
+    authUpdateUI();
+  } else {
+    document.getElementById('authLoginError').style.display='block';
+  }
+}
+// Allow Enter key in password
+document.addEventListener('DOMContentLoaded',()=>{
+  const pi = document.getElementById('authPassInput');
+  if(pi) pi.addEventListener('keydown',e=>{ if(e.key==='Enter') authDoLogin(); });
+  const ti = document.getElementById('authTINInput');
+  if(ti) ti.addEventListener('keydown',e=>{ if(e.key==='Enter'){ const pi2=document.getElementById('authPassInput'); if(pi2) pi2.focus(); }});
+});
+
+function authUpdateUI(){
+  const signinBtns = document.querySelectorAll('.auth-signin-btn');
+  const profileBtns = document.querySelectorAll('.auth-profile-btn');
+  if(authCurrentUser){
+    const initials = authCurrentUser.name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    signinBtns.forEach(b=>b.style.display='none');
+    profileBtns.forEach(b=>{
+      b.style.display='flex';
+      const av = b.querySelector('.auth-avatar');
+      const nm = b.querySelector('.auth-profile-name');
+      if(av) av.textContent=initials;
+      if(nm) nm.textContent=authCurrentUser.name;
+    });
+    // Update dropdown header
+    const dav=document.getElementById('authDropAvatar');
+    const dnm=document.getElementById('authDropName');
+    const drl=document.getElementById('authDropRole');
+    const dtn=document.getElementById('authDropTIN');
+    if(dav) dav.textContent=initials;
+    if(dnm) dnm.textContent=authCurrentUser.name;
+    if(drl) drl.textContent=authCurrentUser.role;
+    if(dtn) dtn.textContent='TIN: '+authCurrentUser.tin;
+    // Update invoice modal user
+    const iu=document.getElementById('invModalUser');
+    if(iu) iu.textContent=authCurrentUser.name+' · '+authCurrentUser.tin;
+  } else {
+    signinBtns.forEach(b=>b.style.display='flex');
+    profileBtns.forEach(b=>b.style.display='none');
+  }
+}
+
+function authToggleDropdown(){
+  const dd=document.getElementById('authDropdown');
+  const pb=document.querySelector('.auth-profile-btn');
+  if(!dd) return;
+  const isOpen=dd.classList.contains('open');
+  dd.classList.toggle('open');
+  if(pb) pb.classList.toggle('open');
+  if(!isOpen){
+    // Position dropdown relative to profile button
+    if(pb){
+      const rect=pb.getBoundingClientRect();
+      dd.style.top=(rect.bottom+6)+'px';
+      dd.style.right=(window.innerWidth-rect.right)+'px';
+    }
+  }
+}
+
+function authOpenDashboard(){
+  document.getElementById('authDropdown').classList.remove('open');
+  document.querySelectorAll('.auth-profile-btn').forEach(b=>b.classList.remove('open'));
+  switchInvTab(1);
+  document.getElementById('authInvOverlay').classList.add('open');
+}
+
+function authOpenChangePw(){
+  document.getElementById('authDropdown').classList.remove('open');
+  document.querySelectorAll('.auth-profile-btn').forEach(b=>b.classList.remove('open'));
+  document.getElementById('chpwForm').style.display='block';
+  document.getElementById('chpwSuccess').style.display='none';
+  document.getElementById('chpwError').style.display='none';
+  document.getElementById('chpwCurrent').value='';
+  document.getElementById('chpwNew').value='';
+  document.getElementById('chpwConfirm').value='';
+  document.getElementById('authChPwOverlay').classList.add('open');
+}
+
+function authDoChangePw(){
+  const cur=document.getElementById('chpwCurrent').value.trim();
+  const nw=document.getElementById('chpwNew').value.trim();
+  const cf=document.getElementById('chpwConfirm').value.trim();
+  if(!authCurrentUser){return;}
+  if(cur !== authCurrentUser.pass){
+    document.getElementById('chpwError').textContent='Current password is incorrect.';
+    document.getElementById('chpwError').style.display='block';
+    return;
+  }
+  if(nw.length<6){
+    document.getElementById('chpwError').textContent='New password must be at least 6 characters.';
+    document.getElementById('chpwError').style.display='block';
+    return;
+  }
+  if(nw !== cf){
+    document.getElementById('chpwError').textContent='Passwords do not match.';
+    document.getElementById('chpwError').style.display='block';
+    return;
+  }
+  authCurrentUser.pass = nw;
+  AUTH_USERS[authCurrentUser.tin] && (AUTH_USERS[authCurrentUser.tin].pass=nw);
+  document.getElementById('chpwForm').style.display='none';
+  document.getElementById('chpwSuccess').style.display='block';
+  setTimeout(()=>document.getElementById('authChPwOverlay').classList.remove('open'),2000);
+}
+
+function authSignOut(){
+  authCurrentUser=null;
+  document.getElementById('authDropdown').classList.remove('open');
+  document.querySelectorAll('.auth-profile-btn').forEach(b=>b.classList.remove('open'));
+  authUpdateUI();
+}
+
+function switchInvTab(n){
+  [1,2,3].forEach(i=>{
+    document.getElementById('invTab'+i).classList.toggle('active',i===n);
+    document.getElementById('invPane'+i).style.display=(i===n)?'block':'none';
+  });
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click',function(e){
+  const dd=document.getElementById('authDropdown');
+  const pb=document.querySelector('.auth-profile-btn');
+  if(dd && dd.classList.contains('open')){
+    if(!dd.contains(e.target) && pb && !pb.contains(e.target)){
+      dd.classList.remove('open');
+      if(pb) pb.classList.remove('open');
+    }
+  }
+});
+
+// Close modals on overlay click
+document.addEventListener('click',function(e){
+  ['authLoginOverlay','authChPwOverlay','authInvOverlay'].forEach(id=>{
+    const overlay=document.getElementById(id);
+    if(overlay && e.target===overlay){
+      overlay.classList.remove('open');
+    }
+  });
+});
+
+authUpdateUI();
+
+
+// ─── ADDITIONAL AUTH FUNCTIONS ───
+function authSignOut(){
+  authCurrentUser = null;
+  const dd = document.getElementById('authDropdown');
+  if(dd) dd.classList.remove('open');
+  authUpdateUI();
+}
+
+function authDoChangePw(){
+  const oldPw = (document.getElementById('authOldPw')||{value:''}).value;
+  const newPw = (document.getElementById('authNewPw')||{value:''}).value;
+  const cfPw  = (document.getElementById('authCfPw') ||{value:''}).value;
+  if(!authCurrentUser){toastMsg('Please sign in first.','err');return;}
+  if(!oldPw||!newPw){toastMsg('Please fill all password fields.','err');return;}
+  if(newPw.length<6){toastMsg('Password must be at least 6 characters.','err');return;}
+  if(newPw!==cfPw){toastMsg('Passwords do not match.','err');return;}
+  authCurrentUser.pass = newPw;
+  const cpEl = document.getElementById('authChangePwOverlay');
+  if(cpEl) cpEl.classList.remove('open');
+  document.body.style.overflow='';
+  toastMsg('✅ Password updated successfully!','ok');
+}
+
+function switchInvTab(n){
+  [1,2,3].forEach(i=>{
+    const tab=document.getElementById('invTab'+i);
+    const pane=document.getElementById('invPane'+i);
+    if(tab) tab.classList.toggle('active',i===n);
+    if(pane) pane.style.display=(i===n?'block':'none');
+  });
+}
+</script>
+
+<!-- CHANGE PASSWORD OVERLAY -->
+<div id="authChangePwOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99999;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#fff;border-radius:16px;max-width:420px;width:100%;padding:32px;box-shadow:0 8px 40px rgba(0,0,0,.25);">
+    <h3 style="font-size:1.3rem;font-weight:900;margin-bottom:20px;">🔑 Change Password</h3>
+    <div style="margin-bottom:14px;">
+      <label style="display:block;font-size:.82rem;font-weight:800;margin-bottom:6px;">Current Password</label>
+      <input type="password" id="authOldPw" placeholder="Current password" style="width:100%;padding:11px 14px;border:2px solid #dde;border-radius:8px;font-size:.93rem;"/>
+    </div>
+    <div style="margin-bottom:14px;">
+      <label style="display:block;font-size:.82rem;font-weight:800;margin-bottom:6px;">New Password</label>
+      <input type="password" id="authNewPw" placeholder="Min. 6 characters" style="width:100%;padding:11px 14px;border:2px solid #dde;border-radius:8px;font-size:.93rem;"/>
+    </div>
+    <div style="margin-bottom:20px;">
+      <label style="display:block;font-size:.82rem;font-weight:800;margin-bottom:6px;">Confirm New Password</label>
+      <input type="password" id="authCfPw" placeholder="Repeat password" style="width:100%;padding:11px 14px;border:2px solid #dde;border-radius:8px;font-size:.93rem;"/>
+    </div>
+    <div style="display:flex;gap:12px;">
+      <button onclick="authDoChangePw()" style="flex:1;background:#006B3F;color:#fff;border:none;padding:13px;border-radius:9px;font-size:.96rem;font-weight:900;cursor:pointer;">UPDATE PASSWORD</button>
+      <button onclick="document.getElementById('authChangePwOverlay').style.display='none';" style="flex:1;background:#f4f4f4;color:#333;border:none;padding:13px;border-radius:9px;font-size:.96rem;font-weight:800;cursor:pointer;">Cancel</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
